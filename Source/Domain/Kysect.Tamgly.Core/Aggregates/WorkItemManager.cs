@@ -5,13 +5,13 @@ namespace Kysect.Tamgly.Core.Aggregates;
 
 public class WorkItemManager
 {
-    private readonly List<WorkItem> _items;
+    private readonly ICollection<WorkItem> _items;
 
     public WorkItemManager() : this(new List<WorkItem>())
     {
     }
 
-    public WorkItemManager(List<WorkItem> items)
+    public WorkItemManager(ICollection<WorkItem> items)
     {
         _items = items;
     }
@@ -29,7 +29,7 @@ public class WorkItemManager
         }
     }
 
-    public IReadOnlyCollection<WorkItem> GetWorkItems()
+    public ICollection<WorkItem> GetWorkItems()
     {
         return _items;
     }
