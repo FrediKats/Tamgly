@@ -7,4 +7,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Domain\Kysect.Tamgly.Core\Kysect.Tamgly.Core.csproj" />
+  </ItemGroup>
+
 </Project>
