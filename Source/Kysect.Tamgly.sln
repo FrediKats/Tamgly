@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32317.152
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{CE4614DB-4B17-4C67-AD83-0471A938D010}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{0D00B58B-6399-4927-BC9A-72C2BCA896B1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{E2E36D6C-738D-4009-BBB9-2FCB72D5E1E0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{42975F6E-BE97-4B81-93BE-153C75F492C4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{977E854A-2CC1-4275-A0D6-9E2155E7D8C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kysect.Tamgly.Core", "Domain\Kysect.Tamgly.Core\Kysect.Tamgly.Core.csproj", "{58A7DAF2-32FF-4F35-BA97-51CDE0E29834}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kysect.Tamgly.ConsoleClient", "Presentation\Kysect.Tamgly.ConsoleClient\Kysect.Tamgly.ConsoleClient.csproj", "{96935047-7D65-45CD-AFE7-D639E793790F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kysect.Tamgly.Tests", "Tests\Kysect.Tamgly.Tests\Kysect.Tamgly.Tests.csproj", "{3E9211C7-9DA3-4655-97B6-992AA97636F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kysect.Tamgly.DataAccess", "Infrastructure\Kysect.Tamgly.DataAccess\Kysect.Tamgly.DataAccess.csproj", "{C96F496B-ED9B-438E-9059-184CE14F6ECB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integrations", "Integrations", "{8AEF43F6-7711-404B-8DED-4E3F6D9EDC0F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{58A7DAF2-32FF-4F35-BA97-51CDE0E29834}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58A7DAF2-32FF-4F35-BA97-51CDE0E29834}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58A7DAF2-32FF-4F35-BA97-51CDE0E29834}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58A7DAF2-32FF-4F35-BA97-51CDE0E29834}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96935047-7D65-45CD-AFE7-D639E793790F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96935047-7D65-45CD-AFE7-D639E793790F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96935047-7D65-45CD-AFE7-D639E793790F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96935047-7D65-45CD-AFE7-D639E793790F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E9211C7-9DA3-4655-97B6-992AA97636F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E9211C7-9DA3-4655-97B6-992AA97636F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E9211C7-9DA3-4655-97B6-992AA97636F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E9211C7-9DA3-4655-97B6-992AA97636F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C96F496B-ED9B-438E-9059-184CE14F6ECB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C96F496B-ED9B-438E-9059-184CE14F6ECB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C96F496B-ED9B-438E-9059-184CE14F6ECB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C96F496B-ED9B-438E-9059-184CE14F6ECB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{58A7DAF2-32FF-4F35-BA97-51CDE0E29834} = {CE4614DB-4B17-4C67-AD83-0471A938D010}
+		{96935047-7D65-45CD-AFE7-D639E793790F} = {0D00B58B-6399-4927-BC9A-72C2BCA896B1}
+		{3E9211C7-9DA3-4655-97B6-992AA97636F7} = {42975F6E-BE97-4B81-93BE-153C75F492C4}
+		{C96F496B-ED9B-438E-9059-184CE14F6ECB} = {E2E36D6C-738D-4009-BBB9-2FCB72D5E1E0}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {048117B9-3C62-4AB4-8EFE-2DA7EEE31D03}
+	EndGlobalSection
+EndGlobal
