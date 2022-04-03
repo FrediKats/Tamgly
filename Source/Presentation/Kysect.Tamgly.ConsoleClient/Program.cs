@@ -2,6 +2,7 @@
 
 using Kysect.Tamgly.Core.Aggregates;
 using Kysect.Tamgly.Core.Entities;
+using Kysect.Tamgly.Core.ValueObjects;
 
 var workItemManager = new WorkItemManager();
 var workItem = WorkItem.Create("Support projects");
@@ -17,3 +18,7 @@ DateTime workItemDeadline = DateTime.Today.AddDays(10);
 workItem.Deadline = workItemDeadline;
 DailyBacklog dailyBacklog = backlogManager.GetDailyBacklog(workItemDeadline);
 Console.WriteLine($"Daily backlog WI count: {dailyBacklog.Items.Count}");
+
+WeeklyBacklog weeklyBacklog = backlogManager.GetWeeklyBacklog(workItemDeadline);
+Console.WriteLine($"Weekly backlog WI count: {weeklyBacklog.Items.Count}");
+return;
