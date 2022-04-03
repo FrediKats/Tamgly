@@ -62,7 +62,6 @@ public class WorkItemManager
         ArgumentNullException.ThrowIfNull(item);
         ArgumentNullException.ThrowIfNull(project);
 
-
         Project oldProject = GetProject(item);
         oldProject.RemoveItem(item);
         project.AddItem(item);
