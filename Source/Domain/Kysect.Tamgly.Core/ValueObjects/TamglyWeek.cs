@@ -1,6 +1,6 @@
 ﻿namespace Kysect.Tamgly.Core.ValueObjects;
 
-public struct TamglyWeek
+public readonly struct TamglyWeek
 {
     public int WeekNumber { get; }
     public DateTime Start => TamglyTime.ZeroDay.AddDays(7 * WeekNumber);
