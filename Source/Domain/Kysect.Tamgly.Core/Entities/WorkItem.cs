@@ -12,7 +12,7 @@ public class WorkItem : IEquatable<WorkItem>
     public DateTime CreationTime { get; }
     public virtual ICollection<WorkItemTrackInterval> Intervals { get; }
 
-    public static WorkItem Create(string title, string? description)
+    public static WorkItem Create(string title, string? description = null)
     {
         return new WorkItem(Guid.NewGuid(), title, description, WorkItemState.Open, DateTime.Now, new List<WorkItemTrackInterval>());
     }
@@ -43,6 +43,8 @@ public class WorkItem : IEquatable<WorkItem>
 
     public void AddInterval(WorkItemTrackInterval interval)
     {
+        ArgumentNullException.ThrowIfNull(interval);
+
         Intervals.Add(interval);
     }
 
