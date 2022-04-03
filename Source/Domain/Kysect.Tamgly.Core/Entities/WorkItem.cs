@@ -52,18 +52,19 @@ public class WorkItem : IEquatable<WorkItem>
 
     public TimeSpan? GetIntervalSum()
     {
-        IEnumerable<TimeSpan> timeSpans = Intervals
-            .Select(i => i.GetDuration())
-            .Where(d => d is not null)
-            .Select(d => d.Value);
-
         TimeSpan? result = null;
-        foreach (TimeSpan intervalPeriod in timeSpans)
+
+        foreach (WorkItemTrackInterval interval in Intervals)
         {
+            TimeSpan? duration = interval.GetDuration();
+            if (duration is null)
+                continue;
+
             if (result is null)
-                result = intervalPeriod;
+                result = duration.Value;
             else
-                result = result.Value.Add(intervalPeriod);
+                result = result.Value.Add(duration.Value);
+
         }
 
         return result;
