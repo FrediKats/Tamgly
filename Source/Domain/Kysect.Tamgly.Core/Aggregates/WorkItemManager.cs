@@ -1,4 +1,4 @@
-using Kysect.Tamgly.Core.Entities;
+﻿using Kysect.Tamgly.Core.Entities;
 using Kysect.Tamgly.Core.Tools;
 
 namespace Kysect.Tamgly.Core.Aggregates;
@@ -85,7 +85,7 @@ public class WorkItemManager
         return FindProject(workItem) ?? throw new TamglyException($"Work item was not matched with any project. Id: {workItem.Id}");
     }
 
-    //TODO: for future optimizations
+    //TODO: WI32 for future optimizations
     private Project? FindProject(WorkItem workItem)
     {
         return _projects.SingleOrDefault(p => p.Items.Contains(workItem));
