@@ -12,13 +12,14 @@ public class WorkItem : IEquatable<WorkItem>
     public DateTime CreationTime { get; }
     public virtual ICollection<WorkItemTrackInterval> Intervals { get; }
     public TimeSpan? Estimate { get; private set; }
+    public DateTime? Deadline { get; set; }
 
-    public static WorkItem Create(string title, string? description = null)
+    public static WorkItem Create(string title, string? description = null, DateTime? deadline = null)
     {
-        return new WorkItem(Guid.NewGuid(), title, description, WorkItemState.Open, DateTime.Now, new List<WorkItemTrackInterval>(), estimate: null);
+        return new WorkItem(Guid.NewGuid(), title, description, WorkItemState.Open, DateTime.Now, new List<WorkItemTrackInterval>(), estimate: null, deadline: deadline);
     }
 
-    public WorkItem(Guid id, string title, string? description, WorkItemState state, DateTime creationTime, ICollection<WorkItemTrackInterval> intervals, TimeSpan? estimate)
+    public WorkItem(Guid id, string title, string? description, WorkItemState state, DateTime creationTime, ICollection<WorkItemTrackInterval> intervals, TimeSpan? estimate, DateTime? deadline)
     {
         Id = id;
         Title = title;
@@ -27,6 +28,7 @@ public class WorkItem : IEquatable<WorkItem>
         CreationTime = creationTime;
         Intervals = intervals;
         Estimate = estimate;
+        Deadline = deadline;
     }
 
     public void UpdateInfo(string title, string? description = null)

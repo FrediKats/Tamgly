@@ -10,5 +10,10 @@ workItemManager.AddWorkItem(workItem);
 var project = Project.Create("Tamgly");
 workItemManager.AddProject(project);
 workItemManager.ChangeProject(workItem, project);
-
 Console.WriteLine($"Project WI count: {project.Items.Count}");
+
+var backlogManager = new BacklogManager(workItemManager);
+DateTime workItemDeadline = DateTime.Today.AddDays(10);
+workItem.Deadline = workItemDeadline;
+DailyBacklog dailyBacklog = backlogManager.GetDailyBacklog(workItemDeadline);
+Console.WriteLine($"Daily backlog WI count: {dailyBacklog.Items.Count}");

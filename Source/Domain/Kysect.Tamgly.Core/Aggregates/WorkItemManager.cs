@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.SymbolStore;
-using Kysect.Tamgly.Core.Entities;
+﻿using Kysect.Tamgly.Core.Entities;
 using Kysect.Tamgly.Core.Tools;
 
 namespace Kysect.Tamgly.Core.Aggregates;
