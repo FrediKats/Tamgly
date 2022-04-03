@@ -50,7 +50,7 @@ public class WorkItemManager
         if (project.Id == _defaultProject.Id)
             throw new TamglyException("Cannot remove default project.");
 
-        if (_projects.Remove(project))
+        if (!_projects.Remove(project))
             throw new TamglyException($"Project was not found. Id: {project.Id}");
         
         foreach (WorkItem projectItem in project.Items)
