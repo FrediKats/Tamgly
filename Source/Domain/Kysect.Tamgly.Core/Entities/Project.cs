@@ -22,11 +22,15 @@ public class Project : IEquatable<Project>
 
     public void AddItem(WorkItem item)
     {
+        ArgumentNullException.ThrowIfNull(item);
+
         Items.Add(item);
     }
 
     public void RemoveItem(WorkItem item)
     {
+        ArgumentNullException.ThrowIfNull(item);
+
         if (!Items.Remove(item))
             throw new TamglyException($"Work item with id {item.Id} was not found.");
     }

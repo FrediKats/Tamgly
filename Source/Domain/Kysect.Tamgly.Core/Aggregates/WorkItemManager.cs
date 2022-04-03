@@ -1,4 +1,4 @@
-﻿using Kysect.Tamgly.Core.Entities;
+using Kysect.Tamgly.Core.Entities;
 using Kysect.Tamgly.Core.Tools;
 
 namespace Kysect.Tamgly.Core.Aggregates;
@@ -14,6 +14,8 @@ public class WorkItemManager
 
     public WorkItemManager(ICollection<Project> projects)
     {
+        ArgumentNullException.ThrowIfNull(projects);
+
         _projects = projects;
         _defaultProject = new Project(Guid.Empty, "Default project", new List<WorkItem>());
         _projects.Add(_defaultProject);
@@ -21,22 +23,30 @@ public class WorkItemManager
 
     public void AddWorkItem(WorkItem item)
     {
+        ArgumentNullException.ThrowIfNull(item);
+
         _defaultProject.AddItem(item);
     }
 
     public void RemoveWorkItem(WorkItem item)
     {
+        ArgumentNullException.ThrowIfNull(item);
+
         Project project = GetProject(item);
         project.RemoveItem(item);
     }
 
     public void AddProject(Project project)
     {
+        ArgumentNullException.ThrowIfNull(project);
+
         _projects.Add(project);
     }
 
     public void RemoveProject(Project project)
     {
+        ArgumentNullException.ThrowIfNull(project);
+
         if (project.Id == _defaultProject.Id)
             throw new TamglyException("Cannot remove default project.");
 
@@ -49,6 +59,10 @@ public class WorkItemManager
 
     public void ChangeProject(WorkItem item, Project project)
     {
+        ArgumentNullException.ThrowIfNull(item);
+        ArgumentNullException.ThrowIfNull(project);
+
+
         Project oldProject = GetProject(item);
         oldProject.RemoveItem(item);
         project.AddItem(item);

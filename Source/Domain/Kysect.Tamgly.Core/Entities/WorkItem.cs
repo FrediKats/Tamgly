@@ -43,6 +43,8 @@ public class WorkItem : IEquatable<WorkItem>
 
     public void AddInterval(WorkItemTrackInterval interval)
     {
+        ArgumentNullException.ThrowIfNull(interval);
+
         Intervals.Add(interval);
     }
 
