@@ -12,24 +12,25 @@ public class BacklogManager
         _itemManager = itemManager;
     }
 
-    public DailyBacklog GetDailyBacklog(DateTime time)
+    public WorkItemBacklog GetDailyBacklog(DateTime time)
     {
-        List<WorkItem> workItems = _itemManager
-            .GetWorkItems()
-            .Where(i => i.Deadline == time)
-            .ToList();
-
-        return new DailyBacklog(time, workItems);
+        var workItemDeadline = WorkItemDeadline.Create(WorkItemDeadline.Type.Day, time);
+        return CreateBacklog(workItemDeadline);
     }
 
-    public WeeklyBacklog GetWeeklyBacklog(DateTime time)
+    public WorkItemBacklog GetWeeklyBacklog(DateTime time)
     {
-        TamglyWeek tamglyWeek = TamglyWeek.FromDate(time);
+        var workItemDeadline = WorkItemDeadline.Create(WorkItemDeadline.Type.Week, time);
+        return CreateBacklog(workItemDeadline);
+    }
+
+    private WorkItemBacklog CreateBacklog(WorkItemDeadline deadline)
+    {
         List<WorkItem> workItems = _itemManager
             .GetWorkItems()
-            .Where(i => i.Deadline is not null && tamglyWeek.Contains(i.Deadline.Value))
+            .Where(i => i.Deadline.MatchedWith(deadline))
             .ToList();
 
-        return new WeeklyBacklog(tamglyWeek, workItems);
+        return new WorkItemBacklog(deadline, workItems);
     }
 }

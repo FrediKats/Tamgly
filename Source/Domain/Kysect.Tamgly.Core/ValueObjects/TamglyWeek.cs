@@ -2,22 +2,18 @@
 
 public struct TamglyWeek
 {
-    private static readonly DateTime ZeroDay = new DateTime(2021, 12, 27);
+    public int WeekNumber { get; }
+    public DateTime Start => TamglyTime.ZeroDay.AddDays(7 * WeekNumber);
+    public DateTime End => TamglyTime.ZeroDay.AddDays(7 * (WeekNumber +1)).AddTicks(-1);
 
-    private readonly int _weekNum;
-
-    public DateTime Start => ZeroDay.AddDays(7 * _weekNum);
-    public DateTime End => ZeroDay.AddDays(7 * (_weekNum +1)).AddTicks(-1);
-
-    public TamglyWeek(int weekNum)
+    public TamglyWeek(int weekNumber)
     {
-        _weekNum = weekNum;
+        WeekNumber = weekNumber;
     }
 
     public static TamglyWeek FromDate(DateTime dateTime)
     {
-        TimeSpan intervalFromZeroDay = dateTime.Subtract(ZeroDay);
-        var weekCount = (int)(intervalFromZeroDay.TotalDays / 7);
+        var weekCount = TamglyTime.ZeroDay.DaysTo(dateTime) / 7;
         return new TamglyWeek(weekCount);
     }
 
