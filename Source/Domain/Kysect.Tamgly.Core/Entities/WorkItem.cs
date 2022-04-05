@@ -50,7 +50,7 @@ public class WorkItem : IEquatable<WorkItem>
         Intervals.Add(interval);
     }
 
-    public TimeSpan? GetIntervalSum()
+    public TimeSpan? TryGetIntervalSum()
     {
         TimeSpan? result = null;
 
@@ -72,7 +72,7 @@ public class WorkItem : IEquatable<WorkItem>
 
     public double? TryGetEstimateMatchPercent()
     {
-        TimeSpan? intervalSum = GetIntervalSum();
+        TimeSpan? intervalSum = TryGetIntervalSum();
         if (Estimate is null || intervalSum is null)
             return null;
 
