@@ -10,6 +10,8 @@ public class Project : IEquatable<Project>
 
     public static Project Create(string title)
     {
+        ArgumentNullException.ThrowIfNull(title);
+
         return new Project(Guid.NewGuid(), title, new List<WorkItem>());
     }
 
