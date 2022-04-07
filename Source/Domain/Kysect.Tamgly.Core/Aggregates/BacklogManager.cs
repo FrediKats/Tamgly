@@ -11,13 +11,13 @@ public class BacklogManager
         _itemManager = itemManager;
     }
 
-    public DailyBacklog GetDailyBacklog(DateTime time)
+    public DailyBacklog GetDailyBacklog(DateOnly date)
     {
         List<WorkItem> workItems = _itemManager
             .GetWorkItems()
-            .Where(i => i.Deadline == time)
+            .Where(i => i.Deadline == date)
             .ToList();
 
-        return new DailyBacklog(time, workItems);
+        return new DailyBacklog(date, workItems);
     }
 }
