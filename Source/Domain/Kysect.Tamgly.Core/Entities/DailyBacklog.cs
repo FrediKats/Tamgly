@@ -10,10 +10,11 @@ public class DailyBacklog
     public DailyBacklog(DateOnly deadline, ICollection<WorkItem> items)
     {
         ArgumentNullException.ThrowIfNull(items);
-        Items = items;
-        Deadline = deadline;
 
         if (items.Any(i => i.Deadline is null || i.Deadline.Value != Deadline))
             throw new TamglyException("Try to create daily backlog with wrong deadline");
+
+        Items = items;
+        Deadline = deadline;
     }
 }
