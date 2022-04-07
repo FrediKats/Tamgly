@@ -6,7 +6,7 @@ public static class TamglyTime
 
     public static int DaysTo(this DateOnly first, DateOnly second)
     {
-        TimeSpan intervalFromZeroDay = second.ToDateTime(TimeOnly.MinValue).Subtract(first.ToDateTime(TimeOnly.MinValue));
-        return (int)intervalFromZeroDay.TotalDays;
+        TimeSpan interval = second.ToDateTime(TimeOnly.MinValue).Subtract(first.ToDateTime(TimeOnly.MinValue));
+        return (int)interval.TotalDays;
     }
 }

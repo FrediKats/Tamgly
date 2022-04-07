@@ -9,11 +9,15 @@ public class WeeklyWorkItemBacklog
 
     public WeeklyWorkItemBacklog(WorkItemBacklog currentWeek)
     {
+        ArgumentNullException.ThrowIfNull(currentWeek);
+
         CurrentWeek = currentWeek;
     }
 
     public static WeeklyWorkItemBacklog Create(IReadOnlyCollection<WorkItem> workItems, DateOnly time)
     {
+        ArgumentNullException.ThrowIfNull(workItems);
+
         WorkItemBacklog weeklyBacklog = WorkItemBacklog.Create(WorkItemDeadline.Create(WorkItemDeadlineType.Week, time), workItems);
         return new WeeklyWorkItemBacklog(weeklyBacklog);
     }
