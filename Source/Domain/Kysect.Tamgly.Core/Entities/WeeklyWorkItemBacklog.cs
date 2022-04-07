@@ -1,5 +1,4 @@
-﻿using Kysect.Tamgly.Core.Aggregates;
-using Kysect.Tamgly.Core.ValueObjects;
+﻿using Kysect.Tamgly.Core.ValueObjects;
 
 namespace Kysect.Tamgly.Core.Entities;
 

@@ -1,12 +1,10 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using Kysect.Tamgly.Core.Aggregates;
+﻿using Kysect.Tamgly.Core.Aggregates;
 using Kysect.Tamgly.Core.Entities;
 using Kysect.Tamgly.Core.Tools;
 using Kysect.Tamgly.Core.ValueObjects;
 
 var workItemManager = new WorkItemManager();
-var workItemBuilder = new WorkItemBuilder((string)"Support projects");
+var workItemBuilder = new WorkItemBuilder("Support projects");
 WorkItem workItem = workItemBuilder.Build();
 workItemManager.AddWorkItem(workItem);
 
@@ -23,4 +21,5 @@ Console.WriteLine($"Daily backlog WI count: {workItemBacklog.CurrentDay.Items.Co
 
 WeeklyWorkItemBacklog weeklyBacklog = backlogManager.GetWeeklyBacklog(workItemDeadline);
 Console.WriteLine($"Weekly backlog WI count: {weeklyBacklog.CurrentWeek.Items.Count}");
-return;
+
+Console.Read();
