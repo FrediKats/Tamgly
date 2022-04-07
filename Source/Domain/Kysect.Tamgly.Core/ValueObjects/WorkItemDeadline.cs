@@ -15,7 +15,7 @@ public readonly struct WorkItemDeadline : IEquatable<WorkItemDeadline>
 
     public static WorkItemDeadline NoDeadline { get; } = new WorkItemDeadline(Type.NoDeadline, null);
 
-    public static WorkItemDeadline Create(Type type, DateTime dateTime)
+    public static WorkItemDeadline Create(Type type, DateOnly dateTime)
     {
         switch (type)
         {
@@ -40,7 +40,7 @@ public readonly struct WorkItemDeadline : IEquatable<WorkItemDeadline>
         _value = value;
     }
 
-    public bool MatchedWith(Type type, DateTime dateTime)
+    public bool MatchedWith(Type type, DateOnly dateTime)
     {
         WorkItemDeadline other = Create(type, dateTime);
         return Equals(other);

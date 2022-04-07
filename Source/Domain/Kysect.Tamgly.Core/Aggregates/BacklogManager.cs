@@ -13,12 +13,12 @@ public class BacklogManager
         _itemManager = itemManager;
     }
 
-    public DailyWorkItemBacklog GetDailyBacklog(DateTime time)
+    public DailyWorkItemBacklog GetDailyBacklog(DateOnly time)
     {
         return DailyWorkItemBacklog.Create(_itemManager.GetWorkItems(), time);
     }
 
-    public WeeklyWorkItemBacklog GetWeeklyBacklog(DateTime time)
+    public WeeklyWorkItemBacklog GetWeeklyBacklog(DateOnly time)
     {
         return WeeklyWorkItemBacklog.Create(_itemManager.GetWorkItems(), time);
     }

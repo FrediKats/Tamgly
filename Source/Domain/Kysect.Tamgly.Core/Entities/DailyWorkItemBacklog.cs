@@ -14,7 +14,7 @@ public class DailyWorkItemBacklog
         CurrentWeek = currentWeek;
     }
 
-    public static DailyWorkItemBacklog Create(IReadOnlyCollection<WorkItem> workItems, DateTime time)
+    public static DailyWorkItemBacklog Create(IReadOnlyCollection<WorkItem> workItems, DateOnly time)
     {
         WorkItemBacklog dailyBacklog = WorkItemBacklog.Create(WorkItemDeadline.Create(WorkItemDeadline.Type.Day, time), workItems);
         WorkItemBacklog weeklyBacklog = WorkItemBacklog.Create(WorkItemDeadline.Create(WorkItemDeadline.Type.Week, time), workItems);
