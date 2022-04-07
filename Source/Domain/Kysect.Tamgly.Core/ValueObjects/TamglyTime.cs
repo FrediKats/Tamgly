@@ -3,6 +3,7 @@
 public static class TamglyTime
 {
     public static readonly DateOnly ZeroDay = new DateOnly(2021, 12, 27);
+    public static readonly DateOnly ZeroMonth = ZeroDay.AddDays(-ZeroDay.Day);
 
     public static int DaysTo(this DateOnly first, DateOnly second)
     {

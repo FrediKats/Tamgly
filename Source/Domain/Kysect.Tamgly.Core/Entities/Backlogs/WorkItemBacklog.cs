@@ -1,7 +1,7 @@
 ﻿using Kysect.Tamgly.Core.Tools;
 using Kysect.Tamgly.Core.ValueObjects;
 
-namespace Kysect.Tamgly.Core.Entities;
+namespace Kysect.Tamgly.Core.Entities.Backlogs;
 
 public class WorkItemBacklog
 {

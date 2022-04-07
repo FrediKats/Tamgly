@@ -18,7 +18,7 @@ public readonly struct WorkItemDeadline : IEquatable<WorkItemDeadline>
                 return new WorkItemDeadline(WorkItemDeadlineType.Week, TamglyWeek.FromDate(dateTime).WeekNumber);
 
             case WorkItemDeadlineType.Month:
-                throw new NotImplementedException("Will be implemented later, in WI19");
+                return new WorkItemDeadline(WorkItemDeadlineType.Month, TamglyMonth.FromDate(dateTime).MonthNumber);
             
             case WorkItemDeadlineType.NoDeadline:
             default:
