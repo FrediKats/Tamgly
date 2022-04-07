@@ -15,6 +15,7 @@ public class WorkItemManager
 
     public WorkItemManager(WorkItemManagerConfig config, ICollection<Project> projects)
     {
+        ArgumentNullException.ThrowIfNull(config);
         ArgumentNullException.ThrowIfNull(projects);
 
         _config = config;
@@ -81,7 +82,7 @@ public class WorkItemManager
             .ToList();
     }
 
-    public IReadOnlyCollection<WorkItem> GetWorkItemWithWrongEstimates()
+    public IReadOnlyCollection<WorkItem> GetWorkItemsWithWrongEstimates()
     {
         return GetWorkItems()
             .Where(HasWrongEstimate)

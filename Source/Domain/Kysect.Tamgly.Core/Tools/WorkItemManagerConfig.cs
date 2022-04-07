@@ -2,12 +2,12 @@
 
 public class WorkItemManagerConfig
 {
-    private const double DefaultAcceptableEstimateDiff = 0.8;
+    private const double DefaultAcceptableEstimatePercentDiff = 0.8;
 
     public double AcceptableEstimateDiff { get; set; }
 
     public WorkItemManagerConfig()
-        : this(DefaultAcceptableEstimateDiff)
+        : this(DefaultAcceptableEstimatePercentDiff)
     {
     }
 

@@ -8,6 +8,8 @@ public class BacklogManager
 
     public BacklogManager(WorkItemManager itemManager)
     {
+        ArgumentNullException.ThrowIfNull(itemManager);
+
         _itemManager = itemManager;
     }
 

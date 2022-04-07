@@ -14,7 +14,8 @@ public readonly struct WorkItemTrackInterval : IEquatable<WorkItemTrackInterval>
         StartTime = startTime;
         EndTime = endTime;
 
-        Validate();
+        if (EndTime is not null && EndTime < StartTime)
+            throw new TamglyException($"Interval start is greater that end. Start: {StartTime}, end: {EndTime}");
     }
 
     public WorkItemTrackInterval ChangeTime(DateTime startTime, DateTime? endTime)
@@ -28,12 +29,6 @@ public readonly struct WorkItemTrackInterval : IEquatable<WorkItemTrackInterval>
             return null;
 
         return EndTime.Value.Subtract(StartTime);
-    }
-
-    public void Validate()
-    {
-        if (EndTime is not null && EndTime < StartTime)
-            throw new TamglyException($"Interval start is greater that end. Start: {StartTime}, end: {EndTime}");
     }
 
     public bool Equals(WorkItemTrackInterval other)
