@@ -50,9 +50,9 @@ public class WorkItem : IEquatable<WorkItem>
         Intervals.Add(interval);
     }
 
-    public TimeSpan? TryGetIntervalSum()
+    public TimeSpan GetIntervalSum()
     {
-        TimeSpan? result = null;
+        TimeSpan result = TimeSpan.Zero;
 
         foreach (WorkItemTrackInterval interval in Intervals)
         {
@@ -60,10 +60,7 @@ public class WorkItem : IEquatable<WorkItem>
             if (duration is null)
                 continue;
 
-            if (result is null)
-                result = duration.Value;
-            else
-                result = result.Value.Add(duration.Value);
+            result = result.Add(duration.Value);
 
         }
 
@@ -72,12 +69,12 @@ public class WorkItem : IEquatable<WorkItem>
 
     public double? TryGetEstimateMatchPercent()
     {
-        TimeSpan? intervalSum = TryGetIntervalSum();
-        if (Estimate is null || intervalSum is null)
+        TimeSpan intervalSum = GetIntervalSum();
+        if (Estimate is null)
             return null;
 
-        double minValue = Math.Min(Estimate.Value.TotalMinutes, intervalSum.Value.TotalMinutes);
-        double maxValue = Math.Max(Estimate.Value.TotalMinutes, intervalSum.Value.TotalMinutes);
+        double minValue = Math.Min(Estimate.Value.TotalMinutes, intervalSum.TotalMinutes);
+        double maxValue = Math.Max(Estimate.Value.TotalMinutes, intervalSum.TotalMinutes);
         return minValue / maxValue;
     }
 
