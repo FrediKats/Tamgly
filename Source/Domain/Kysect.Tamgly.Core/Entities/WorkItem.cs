@@ -14,11 +14,6 @@ public class WorkItem : IEquatable<WorkItem>
     public TimeSpan? Estimate { get; private set; }
     public WorkItemDeadline Deadline { get; set; }
 
-    public static WorkItem Create(string title, string? description = null, WorkItemDeadline? deadline = null)
-    {
-        return new WorkItem(Guid.NewGuid(), title, description, WorkItemState.Open, DateTime.Now, new List<WorkItemTrackInterval>(), estimate: null, deadline: deadline ?? WorkItemDeadline.NoDeadline);
-    }
-
     public WorkItem(Guid id, string title, string? description, WorkItemState state, DateTime creationTime, ICollection<WorkItemTrackInterval> intervals, TimeSpan? estimate, WorkItemDeadline deadline)
     {
         Id = id;

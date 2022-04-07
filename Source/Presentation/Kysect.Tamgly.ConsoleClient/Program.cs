@@ -2,10 +2,12 @@
 
 using Kysect.Tamgly.Core.Aggregates;
 using Kysect.Tamgly.Core.Entities;
+using Kysect.Tamgly.Core.Tools;
 using Kysect.Tamgly.Core.ValueObjects;
 
 var workItemManager = new WorkItemManager();
-var workItem = WorkItem.Create("Support projects");
+var workItemBuilder = new WorkItemBuilder((string)"Support projects");
+WorkItem workItem = workItemBuilder.Build();
 workItemManager.AddWorkItem(workItem);
 
 var project = Project.Create("Tamgly");
