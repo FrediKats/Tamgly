@@ -11,13 +11,14 @@ public class WorkItem : IEquatable<WorkItem>
     public WorkItemState State { get; set; }
     public DateTime CreationTime { get; }
     public virtual ICollection<WorkItemTrackInterval> Intervals { get; }
+    public TimeSpan? Estimate { get; private set; }
 
     public static WorkItem Create(string title, string? description = null)
     {
-        return new WorkItem(Guid.NewGuid(), title, description, WorkItemState.Open, DateTime.Now, new List<WorkItemTrackInterval>());
+        return new WorkItem(Guid.NewGuid(), title, description, WorkItemState.Open, DateTime.Now, new List<WorkItemTrackInterval>(), estimate: null);
     }
 
-    public WorkItem(Guid id, string title, string? description, WorkItemState state, DateTime creationTime, ICollection<WorkItemTrackInterval> intervals)
+    public WorkItem(Guid id, string title, string? description, WorkItemState state, DateTime creationTime, ICollection<WorkItemTrackInterval> intervals, TimeSpan? estimate)
     {
         Id = id;
         Title = title;
@@ -25,6 +26,7 @@ public class WorkItem : IEquatable<WorkItem>
         State = state;
         CreationTime = creationTime;
         Intervals = intervals;
+        Estimate = estimate;
     }
 
     public void UpdateInfo(string title, string? description = null)
@@ -46,6 +48,34 @@ public class WorkItem : IEquatable<WorkItem>
         ArgumentNullException.ThrowIfNull(interval);
 
         Intervals.Add(interval);
+    }
+
+    public TimeSpan GetIntervalSum()
+    {
+        TimeSpan result = TimeSpan.Zero;
+
+        foreach (WorkItemTrackInterval interval in Intervals)
+        {
+            TimeSpan? duration = interval.GetDuration();
+            if (duration is null)
+                continue;
+
+            result = result.Add(duration.Value);
+
+        }
+
+        return result;
+    }
+
+    public double? TryGetEstimateMatchPercent()
+    {
+        TimeSpan intervalSum = GetIntervalSum();
+        if (Estimate is null)
+            return null;
+
+        double minValue = Math.Min(Estimate.Value.TotalMinutes, intervalSum.TotalMinutes);
+        double maxValue = Math.Max(Estimate.Value.TotalMinutes, intervalSum.TotalMinutes);
+        return minValue / maxValue;
     }
 
     public bool Equals(WorkItem? other)

@@ -6,16 +6,19 @@ namespace Kysect.Tamgly.Core.Aggregates;
 public class WorkItemManager
 {
     private readonly Project _defaultProject;
+    private readonly WorkItemManagerConfig _config;
     private readonly ICollection<Project> _projects;
 
-    public WorkItemManager() : this(new List<Project>())
+    public WorkItemManager() : this(new WorkItemManagerConfig(), new List<Project>())
     {
     }
 
-    public WorkItemManager(ICollection<Project> projects)
+    public WorkItemManager(WorkItemManagerConfig config, ICollection<Project> projects)
     {
+        ArgumentNullException.ThrowIfNull(config);
         ArgumentNullException.ThrowIfNull(projects);
 
+        _config = config;
         _projects = projects;
         _defaultProject = new Project(Guid.Empty, "Default project", new List<WorkItem>());
         _projects.Add(_defaultProject);
@@ -77,6 +80,20 @@ public class WorkItemManager
         return _projects
             .SelectMany(p => p.Items)
             .ToList();
+    }
+
+    public IReadOnlyCollection<WorkItem> GetWorkItemsWithWrongEstimates()
+    {
+        return GetWorkItems()
+            .Where(HasWrongEstimate)
+            .ToList();
+
+        bool HasWrongEstimate(WorkItem workItem)
+        {
+            double? matchPercent = workItem.TryGetEstimateMatchPercent();
+            return matchPercent is not null
+                   && matchPercent < _config.AcceptableEstimateDiff;
+        }
     }
 
     private Project GetProject(WorkItem workItem)
