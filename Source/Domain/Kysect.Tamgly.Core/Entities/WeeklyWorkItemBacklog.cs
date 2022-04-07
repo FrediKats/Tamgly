@@ -14,7 +14,7 @@ public class WeeklyWorkItemBacklog
 
     public static WeeklyWorkItemBacklog Create(IReadOnlyCollection<WorkItem> workItems, DateOnly time)
     {
-        WorkItemBacklog weeklyBacklog = WorkItemBacklog.Create(WorkItemDeadline.Create(WorkItemDeadline.Type.Week, time), workItems);
+        WorkItemBacklog weeklyBacklog = WorkItemBacklog.Create(WorkItemDeadline.Create(WorkItemDeadlineType.Week, time), workItems);
         return new WeeklyWorkItemBacklog(weeklyBacklog);
     }
 }

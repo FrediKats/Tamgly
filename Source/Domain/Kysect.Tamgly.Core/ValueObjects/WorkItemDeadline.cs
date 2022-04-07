@@ -2,45 +2,37 @@
 
 public readonly struct WorkItemDeadline : IEquatable<WorkItemDeadline>
 {
-    public enum Type
-    {
-        NoDeadline = 0,
-        Day = 1,
-        Week,
-        Month,
-    }
-
-    private readonly Type _type;
+    private readonly WorkItemDeadlineType _type;
     private readonly int? _value;
 
-    public static WorkItemDeadline NoDeadline { get; } = new WorkItemDeadline(Type.NoDeadline, null);
+    public static WorkItemDeadline NoDeadline { get; } = new WorkItemDeadline(WorkItemDeadlineType.NoDeadline, null);
 
-    public static WorkItemDeadline Create(Type type, DateOnly dateTime)
+    public static WorkItemDeadline Create(WorkItemDeadlineType type, DateOnly dateTime)
     {
         switch (type)
         {
-            case Type.Day:
-                return new WorkItemDeadline(Type.Day, TamglyTime.ZeroDay.DaysTo(dateTime));
+            case WorkItemDeadlineType.Day:
+                return new WorkItemDeadline(WorkItemDeadlineType.Day, TamglyTime.ZeroDay.DaysTo(dateTime));
 
-            case Type.Week:
-                return new WorkItemDeadline(Type.Week, TamglyWeek.FromDate(dateTime).WeekNumber);
+            case WorkItemDeadlineType.Week:
+                return new WorkItemDeadline(WorkItemDeadlineType.Week, TamglyWeek.FromDate(dateTime).WeekNumber);
 
-            case Type.Month:
+            case WorkItemDeadlineType.Month:
                 throw new NotImplementedException("Will be implemented later, in WI19");
             
-            case Type.NoDeadline:
+            case WorkItemDeadlineType.NoDeadline:
             default:
                 throw new ArgumentException($"{type} is not acceptable type for deadline.");
         }
     }
 
-    private WorkItemDeadline(Type type, int? value)
+    private WorkItemDeadline(WorkItemDeadlineType type, int? value)
     {
         _type = type;
         _value = value;
     }
 
-    public bool MatchedWith(Type type, DateOnly dateTime)
+    public bool MatchedWith(WorkItemDeadlineType type, DateOnly dateTime)
     {
         WorkItemDeadline other = Create(type, dateTime);
         return Equals(other);

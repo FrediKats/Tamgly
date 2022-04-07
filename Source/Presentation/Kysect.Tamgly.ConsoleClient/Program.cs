@@ -17,7 +17,7 @@ Console.WriteLine($"Project WI count: {project.Items.Count}");
 
 var backlogManager = new BacklogManager(workItemManager);
 DateOnly workItemDeadline = DateOnly.FromDateTime(DateTime.Today).AddDays(10);
-workItem.Deadline = WorkItemDeadline.Create(WorkItemDeadline.Type.Day, workItemDeadline);
+workItem.Deadline = WorkItemDeadline.Create(WorkItemDeadlineType.Day, workItemDeadline);
 DailyWorkItemBacklog workItemBacklog = backlogManager.GetDailyBacklog(workItemDeadline);
 Console.WriteLine($"Daily backlog WI count: {workItemBacklog.CurrentDay.Items.Count}");
 
