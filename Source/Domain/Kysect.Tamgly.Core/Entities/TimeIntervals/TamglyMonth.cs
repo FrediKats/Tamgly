@@ -1,8 +1,8 @@
 ﻿using Kysect.Tamgly.Core.Tools;
 
-namespace Kysect.Tamgly.Core.ValueObjects;
+namespace Kysect.Tamgly.Core.Entities.TimeIntervals;
 
-public struct TamglyMonth
+public struct TamglyMonth : ITimeInterval
 {
     public int Number { get; }
     public DateOnly Start { get; }

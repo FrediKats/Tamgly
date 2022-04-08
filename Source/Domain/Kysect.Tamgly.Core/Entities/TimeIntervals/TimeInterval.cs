@@ -1,8 +1,8 @@
 ﻿using Kysect.Tamgly.Core.Tools;
 
-namespace Kysect.Tamgly.Core.ValueObjects;
+namespace Kysect.Tamgly.Core.Entities.TimeIntervals;
 
-public readonly struct TimeInterval
+public readonly struct TimeInterval : ITimeInterval
 {
     public DateOnly Start { get; }
     public DateOnly End { get; }
@@ -18,8 +18,8 @@ public readonly struct TimeInterval
 
     public TimeInterval(TamglyDay day)
     {
-        Start = day.Date;
-        End = day.Date;
+        Start = day.Start;
+        End = day.Start;
     }
 
     public TimeInterval(TamglyWeek week)

@@ -1,4 +1,4 @@
-﻿using Kysect.Tamgly.Core.ValueObjects;
+﻿using Kysect.Tamgly.Core.Entities.TimeIntervals;
 
 namespace Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
 

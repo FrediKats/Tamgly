@@ -1,10 +1,10 @@
 using System;
 using Kysect.Tamgly.Core.Aggregates;
 using Kysect.Tamgly.Core.Entities.Backlogs;
+using Kysect.Tamgly.Core.Entities.TimeIntervals;
 using Kysect.Tamgly.Core.Tools;
 using Kysect.Tamgly.Core.ValueObjects;
 using NUnit.Framework;
-using static Kysect.Tamgly.Core.ValueObjects.WorkItemDeadline;
 
 namespace Kysect.Tamgly.Tests;
 
@@ -21,30 +21,30 @@ public class WorkItemBacklogTests
 
         workItemManager.AddWorkItem(
             new WorkItemBuilder("Courses")
-                .SetDeadline(Create(WorkItemDeadlineType.Day, _workItemDeadline))
+                .SetDeadline(new WorkItemDeadline(new TamglyDay(_workItemDeadline)))
                 .Build());
 
         workItemManager.AddWorkItem(
             new WorkItemBuilder("Lecture 09")
-                .SetDeadline(Create(WorkItemDeadlineType.Day, _workItemDeadline))
+                .SetDeadline(new WorkItemDeadline(new TamglyDay(_workItemDeadline)))
                 .SetEstimates(TimeSpan.FromHours(3))
                 .Build());
 
         workItemManager.AddWorkItem(
             new WorkItemBuilder("Tamgly")
-                .SetDeadline(Create(WorkItemDeadlineType.Week, _workItemDeadline))
+                .SetDeadline(new WorkItemDeadline(new TamglyWeek(_workItemDeadline)))
                 .SetEstimates(TimeSpan.FromHours(8))
                 .Build());
 
         workItemManager.AddWorkItem(
             new WorkItemBuilder("Lecture 10")
-                .SetDeadline(Create(WorkItemDeadlineType.Week, _workItemDeadline))
+                .SetDeadline(new WorkItemDeadline(new TamglyWeek(_workItemDeadline)))
                 .SetEstimates(TimeSpan.FromHours(12))
                 .Build());
 
         workItemManager.AddWorkItem(
             new WorkItemBuilder("Lab 4/5")
-                .SetDeadline(Create(WorkItemDeadlineType.Month, _workItemDeadline))
+                .SetDeadline(new WorkItemDeadline(new TamglyMonth(_workItemDeadline)))
                 .SetEstimates(TimeSpan.FromHours(25))
                 .Build());
     }

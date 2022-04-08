@@ -3,84 +3,46 @@ using Kysect.Tamgly.Core.Tools;
 
 namespace Kysect.Tamgly.Core.ValueObjects;
 
-public class WorkItemDeadline : IEquatable<WorkItemDeadline>
+public class WorkItemDeadline
 {
     public static WorkItemDeadline NoDeadline { get; } = new WorkItemDeadline();
 
-    private readonly IWorkItemDeadline? _workItemDeadline;
+    private readonly ITimeInterval? _timeInterval;
 
-    private WorkItemDeadline()
+    public WorkItemDeadline()
     {
-        _workItemDeadline = null;
+        _timeInterval = null;
     }
 
-    private WorkItemDeadline(IWorkItemDeadline workItemDeadline)
+    public WorkItemDeadline(TamglyDay day)
     {
-        _workItemDeadline = workItemDeadline;
+        _timeInterval = day;
     }
 
-    public static WorkItemDeadline Create(WorkItemDeadlineType type, DateOnly dateTime)
+    public WorkItemDeadline(TamglyWeek week)
     {
-        switch (type)
-        {
-            case WorkItemDeadlineType.Day:
-                return new WorkItemDeadline(WorkItemDeadlineDay.FromDate(dateTime));
-
-            case WorkItemDeadlineType.Week:
-                return new WorkItemDeadline(WorkItemDeadlineWeek.FromDate(dateTime));
-
-            case WorkItemDeadlineType.Month:
-                return new WorkItemDeadline(WorkItemDeadlineMonth.FromDate(dateTime));
-
-            case WorkItemDeadlineType.NoDeadline:
-            default:
-                throw new ArgumentException($"{type} is not acceptable type for deadline.");
-        }
+        _timeInterval = week;
     }
 
-    public bool MatchedWith(WorkItemDeadlineType type, DateOnly dateTime)
+    public WorkItemDeadline(TamglyMonth month)
     {
-        WorkItemDeadline other = Create(type, dateTime);
-        return Equals(other);
+        _timeInterval = month;
     }
 
     public bool MatchedWith(WorkItemDeadline other)
     {
-        return Equals(other);
+        if (_timeInterval is null)
+            return other._timeInterval is null;
+        return _timeInterval.Equals(other._timeInterval);
     }
 
     public int GetDaysBeforeDeadlineCount()
     {
-        if (_workItemDeadline is null)
+        if (_timeInterval is null)
             throw new TamglyException($"Cannot count days before deadline. Deadline type is {WorkItemDeadlineType.NoDeadline}");
 
-        DateOnly firstDay = TamglyTime.MaxOf(_workItemDeadline.Start, TamglyTime.TodayDate);
-        int daysBeforeDeadlineCount = firstDay.DaysTo(_workItemDeadline.End);
+        DateOnly firstDay = TamglyTime.MaxOf(_timeInterval.Start, TamglyTime.TodayDate);
+        int daysBeforeDeadlineCount = firstDay.DaysTo(_timeInterval.End);
         return Math.Max(daysBeforeDeadlineCount, 0);
-    }
-
-    public override int GetHashCode()
-    {
-        return (_workItemDeadline != null ? _workItemDeadline.GetHashCode() : 0);
-    }
-
-    public bool Equals(WorkItemDeadline? other)
-    {
-        if (ReferenceEquals(null, other))
-            return false;
-        if (ReferenceEquals(this, other))
-            return true;
-        return Equals(_workItemDeadline, other._workItemDeadline);
-    }
-
-    public override bool Equals(object? obj)
-    {
-        if (ReferenceEquals(null, obj))
-            return false;
-        if (ReferenceEquals(this, obj))
-            return true;
-        if (obj.GetType() != this.GetType())
-            return false;
-        return Equals((WorkItemDeadline)obj);
     }
 }

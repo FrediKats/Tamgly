@@ -1,8 +1,8 @@
 ﻿using Kysect.Tamgly.Core.Tools;
 
-namespace Kysect.Tamgly.Core.ValueObjects;
+namespace Kysect.Tamgly.Core.Entities.TimeIntervals;
 
-public readonly struct TamglyWeek
+public readonly struct TamglyWeek : ITimeInterval
 {
     public const int DayInWeek = 7;
 

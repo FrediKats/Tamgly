@@ -1,4 +1,5 @@
-﻿using Kysect.Tamgly.Core.ValueObjects;
+﻿using Kysect.Tamgly.Core.Entities.TimeIntervals;
+using Kysect.Tamgly.Core.ValueObjects;
 
 namespace Kysect.Tamgly.Core.Entities.Backlogs;
 
@@ -22,7 +23,7 @@ public class MonthlyWorkItemBacklog
     {
         ArgumentNullException.ThrowIfNull(workItems);
 
-        WorkItemBacklog weeklyBacklog = WorkItemBacklog.Create(WorkItemDeadline.Create(WorkItemDeadlineType.Month, time), workItems);
+        WorkItemBacklog weeklyBacklog = WorkItemBacklog.Create(new WorkItemDeadline(new TamglyMonth(time)), workItems);
         return new MonthlyWorkItemBacklog(weeklyBacklog);
     }
 }
