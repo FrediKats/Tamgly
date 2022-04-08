@@ -1,35 +1,40 @@
-﻿namespace Kysect.Tamgly.Core.ValueObjects;
+﻿using Kysect.Tamgly.Core.Entities.TimeIntervals;
 
-public readonly struct WorkItemDeadline : IEquatable<WorkItemDeadline>
+namespace Kysect.Tamgly.Core.ValueObjects;
+
+public class WorkItemDeadline : IEquatable<WorkItemDeadline>
 {
-    private readonly WorkItemDeadlineType _type;
-    private readonly int? _value;
+    public static WorkItemDeadline NoDeadline { get; } = new WorkItemDeadline();
 
-    public static WorkItemDeadline NoDeadline { get; } = new WorkItemDeadline(WorkItemDeadlineType.NoDeadline, null);
+    private readonly ITimeInterval? _timeInterval;
+
+    private WorkItemDeadline()
+    {
+        _timeInterval = null;
+    }
+
+    private WorkItemDeadline(ITimeInterval timeInterval)
+    {
+        _timeInterval = timeInterval;
+    }
 
     public static WorkItemDeadline Create(WorkItemDeadlineType type, DateOnly dateTime)
     {
         switch (type)
         {
             case WorkItemDeadlineType.Day:
-                return new WorkItemDeadline(WorkItemDeadlineType.Day, TamglyTime.ZeroDay.DaysTo(dateTime));
+                return new WorkItemDeadline(TamglyDay.FromDate(dateTime));
 
             case WorkItemDeadlineType.Week:
-                return new WorkItemDeadline(WorkItemDeadlineType.Week, TamglyWeek.FromDate(dateTime).WeekNumber);
+                return new WorkItemDeadline(TamglyWeek.FromDate(dateTime));
 
             case WorkItemDeadlineType.Month:
-                return new WorkItemDeadline(WorkItemDeadlineType.Month, TamglyMonth.FromDate(dateTime).MonthNumber);
-            
+                return new WorkItemDeadline(TamglyMonth.FromDate(dateTime));
+
             case WorkItemDeadlineType.NoDeadline:
             default:
                 throw new ArgumentException($"{type} is not acceptable type for deadline.");
         }
-    }
-
-    private WorkItemDeadline(WorkItemDeadlineType type, int? value)
-    {
-        _type = type;
-        _value = value;
     }
 
     public bool MatchedWith(WorkItemDeadlineType type, DateOnly dateTime)
@@ -43,18 +48,28 @@ public readonly struct WorkItemDeadline : IEquatable<WorkItemDeadline>
         return Equals(other);
     }
 
-    public bool Equals(WorkItemDeadline other)
+    public override int GetHashCode()
     {
-        return _type == other._type && _value == other._value;
+        return (_timeInterval != null ? _timeInterval.GetHashCode() : 0);
+    }
+
+    public bool Equals(WorkItemDeadline? other)
+    {
+        if (ReferenceEquals(null, other))
+            return false;
+        if (ReferenceEquals(this, other))
+            return true;
+        return Equals(_timeInterval, other._timeInterval);
     }
 
     public override bool Equals(object? obj)
     {
-        return obj is WorkItemDeadline other && Equals(other);
-    }
-
-    public override int GetHashCode()
-    {
-        return HashCode.Combine((int)_type, _value);
+        if (ReferenceEquals(null, obj))
+            return false;
+        if (ReferenceEquals(this, obj))
+            return true;
+        if (obj.GetType() != this.GetType())
+            return false;
+        return Equals((WorkItemDeadline)obj);
     }
 }
