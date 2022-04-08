@@ -29,4 +29,28 @@ public class WorkItemBacklog
 
         return new WorkItemBacklog(deadline, workItems);
     }
+
+    public TimeSpan GetTotalEstimates()
+    {
+        TimeSpan result = TimeSpan.Zero;
+
+        foreach (WorkItem workItem in Items)
+        {
+            if (workItem.Estimate != null)
+            {
+                result = result.Add(workItem.Estimate.Value);
+            }
+        }
+
+        return result;
+    }
+
+    public TimeSpan? GetAverageDailyEstimate()
+    {
+        int daysBeforeDeadlineCount = Deadline.GetDaysBeforeDeadlineCount();
+        if (daysBeforeDeadlineCount == 0)
+            return null;
+
+        return GetTotalEstimates() / daysBeforeDeadlineCount;
+    }
 }

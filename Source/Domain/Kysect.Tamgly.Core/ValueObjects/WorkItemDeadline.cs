@@ -1,4 +1,5 @@
 ﻿using Kysect.Tamgly.Core.Entities.TimeIntervals;
+using Kysect.Tamgly.Core.Tools;
 
 namespace Kysect.Tamgly.Core.ValueObjects;
 
@@ -46,6 +47,16 @@ public class WorkItemDeadline : IEquatable<WorkItemDeadline>
     public bool MatchedWith(WorkItemDeadline other)
     {
         return Equals(other);
+    }
+
+    public int GetDaysBeforeDeadlineCount()
+    {
+        if (_timeInterval is null)
+            throw new TamglyException($"Cannot count days before deadline. Deadline type is {WorkItemDeadlineType.NoDeadline}");
+
+        DateOnly firstDay = TamglyTime.MaxOf(_timeInterval.Start, TamglyTime.TodayDate);
+        int daysBeforeDeadlineCount = firstDay.DaysTo(_timeInterval.End);
+        return Math.Max(daysBeforeDeadlineCount, 0);
     }
 
     public override int GetHashCode()

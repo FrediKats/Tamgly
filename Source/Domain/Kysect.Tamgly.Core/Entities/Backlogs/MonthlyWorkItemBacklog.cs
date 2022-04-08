@@ -6,6 +6,11 @@ public class MonthlyWorkItemBacklog
 {
     public WorkItemBacklog CurrentMonth { get; }
 
+    public TimeSpan TotalEstimateForMonth => CurrentMonth.GetTotalEstimates();
+
+    public TimeSpan? MonthEstimatePerDay => CurrentMonth.GetAverageDailyEstimate();
+
+
     public MonthlyWorkItemBacklog(WorkItemBacklog currentMonth)
     {
         ArgumentNullException.ThrowIfNull(currentMonth);
