@@ -7,16 +7,16 @@ public class WorkItemDeadline : IEquatable<WorkItemDeadline>
 {
     public static WorkItemDeadline NoDeadline { get; } = new WorkItemDeadline();
 
-    private readonly ITimeInterval? _timeInterval;
+    private readonly IDeadlineInterval? _deadlineInterval;
 
     private WorkItemDeadline()
     {
-        _timeInterval = null;
+        _deadlineInterval = null;
     }
 
-    private WorkItemDeadline(ITimeInterval timeInterval)
+    private WorkItemDeadline(IDeadlineInterval deadlineInterval)
     {
-        _timeInterval = timeInterval;
+        _deadlineInterval = deadlineInterval;
     }
 
     public static WorkItemDeadline Create(WorkItemDeadlineType type, DateOnly dateTime)
@@ -51,17 +51,17 @@ public class WorkItemDeadline : IEquatable<WorkItemDeadline>
 
     public int GetDaysBeforeDeadlineCount()
     {
-        if (_timeInterval is null)
+        if (_deadlineInterval is null)
             throw new TamglyException($"Cannot count days before deadline. Deadline type is {WorkItemDeadlineType.NoDeadline}");
 
-        DateOnly firstDay = TamglyTime.MaxOf(_timeInterval.Start, TamglyTime.TodayDate);
-        int daysBeforeDeadlineCount = firstDay.DaysTo(_timeInterval.End);
+        DateOnly firstDay = TamglyTime.MaxOf(_deadlineInterval.Start, TamglyTime.TodayDate);
+        int daysBeforeDeadlineCount = firstDay.DaysTo(_deadlineInterval.End);
         return Math.Max(daysBeforeDeadlineCount, 0);
     }
 
     public override int GetHashCode()
     {
-        return (_timeInterval != null ? _timeInterval.GetHashCode() : 0);
+        return (_deadlineInterval != null ? _deadlineInterval.GetHashCode() : 0);
     }
 
     public bool Equals(WorkItemDeadline? other)
@@ -70,7 +70,7 @@ public class WorkItemDeadline : IEquatable<WorkItemDeadline>
             return false;
         if (ReferenceEquals(this, other))
             return true;
-        return Equals(_timeInterval, other._timeInterval);
+        return Equals(_deadlineInterval, other._deadlineInterval);
     }
 
     public override bool Equals(object? obj)

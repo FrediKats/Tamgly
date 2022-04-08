@@ -3,7 +3,7 @@ using Kysect.Tamgly.Core.ValueObjects;
 
 namespace Kysect.Tamgly.Core.Entities.TimeIntervals;
 
-public class TamglyWeek : ITimeInterval, IEquatable<TamglyWeek>
+public class TamglyWeek : IDeadlineInterval, IEquatable<TamglyWeek>
 {
     private const int DayInWeek = 7;
 

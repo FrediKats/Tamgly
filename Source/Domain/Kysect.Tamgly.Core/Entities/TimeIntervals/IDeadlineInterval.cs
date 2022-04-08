@@ -2,7 +2,7 @@
 
 namespace Kysect.Tamgly.Core.Entities.TimeIntervals;
 
-public interface ITimeInterval
+public interface IDeadlineInterval
 {
     WorkItemDeadlineType DeadlineType { get; }
     int Number { get; }

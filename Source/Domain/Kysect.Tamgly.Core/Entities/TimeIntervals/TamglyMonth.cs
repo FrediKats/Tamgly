@@ -3,7 +3,7 @@ using Kysect.Tamgly.Core.ValueObjects;
 
 namespace Kysect.Tamgly.Core.Entities.TimeIntervals;
 
-public class TamglyMonth : ITimeInterval, IEquatable<TamglyMonth>
+public class TamglyMonth : IDeadlineInterval, IEquatable<TamglyMonth>
 {
     public WorkItemDeadlineType DeadlineType => WorkItemDeadlineType.Month;
 
