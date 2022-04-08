@@ -1,0 +1,23 @@
+﻿using Kysect.Tamgly.Core.Tools;
+
+namespace Kysect.Tamgly.Core.ValueObjects;
+
+public readonly struct TamglyWeek
+{
+    public const int DayInWeek = 7;
+
+    public int Number { get; }
+    public DateOnly Start { get; }
+    public DateOnly End { get; }
+
+    public TamglyWeek(DateOnly date)
+    {
+        TamglyTime.EnsureDateIsSupported(date);
+
+        int weekNumber = TamglyTime.ZeroDay.DaysTo(date) / DayInWeek;
+
+        Number = weekNumber;
+        Start = TamglyTime.ZeroDay.AddDays(DayInWeek * Number);
+        End = Start.AddDays(DayInWeek).AddDays(-1);
+    }
+}

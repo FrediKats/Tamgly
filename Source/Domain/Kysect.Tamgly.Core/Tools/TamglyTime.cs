@@ -39,4 +39,10 @@ public static class TamglyTime
     {
         return date.AddDays(-date.Day).AddDays(day);
     }
+
+    public static void EnsureDateIsSupported(DateOnly date)
+    {
+        if (date < ZeroDay)
+            throw new TamglyException($"Only date after zero day is supported. Zero day: {ZeroDay}, date: {date}");
+    }
 }

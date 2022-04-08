@@ -16,6 +16,18 @@ public readonly struct TimeInterval
         End = end;
     }
 
+    public TimeInterval(TamglyDay day)
+    {
+        Start = day.Date;
+        End = day.Date;
+    }
+
+    public TimeInterval(TamglyWeek week)
+    {
+        Start = week.Start;
+        End = week.End;
+    }
+
     public bool Contains(DateOnly date)
     {
         return Start <= date && date <= End;

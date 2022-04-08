@@ -1,38 +1,31 @@
-﻿using Kysect.Tamgly.Core.Tools;
-using Kysect.Tamgly.Core.ValueObjects;
+﻿using Kysect.Tamgly.Core.ValueObjects;
 
 namespace Kysect.Tamgly.Core.Entities.TimeIntervals;
 
-public class TamglyMonth : IDeadlineInterval, IEquatable<TamglyMonth>
+public class WorkItemDeadlineMonth : IWorkItemDeadline, IEquatable<WorkItemDeadlineMonth>
 {
+    private readonly TamglyMonth _tamglyMonth;
+
     public WorkItemDeadlineType DeadlineType => WorkItemDeadlineType.Month;
 
     public int Number { get; }
     public DateOnly Start { get; }
     public DateOnly End { get; }
 
-    public TamglyMonth(int number)
+    public WorkItemDeadlineMonth(TamglyMonth tamglyMonth)
     {
-        Number = number;
-        Start = TamglyTime.ZeroMonth.AddMonths(Number);
-        End = Start.AddMonths(1);
+        _tamglyMonth = tamglyMonth;
+        Number = _tamglyMonth.Number;
+        Start = _tamglyMonth.Start;
+        End = _tamglyMonth.End;
     }
 
-    public static TamglyMonth FromDate(DateOnly dateTime)
+    public static WorkItemDeadlineMonth FromDate(DateOnly dateTime)
     {
-        var monthNumber = 0;
-        var currentTime = TamglyTime.ZeroMonth;
-
-        while (currentTime < dateTime)
-        {
-            currentTime = currentTime.AddMonths(1);
-            monthNumber++;
-        }
-
-        return new TamglyMonth(monthNumber);
+        return new WorkItemDeadlineMonth(new TamglyMonth(dateTime));
     }
 
-    public bool Equals(TamglyMonth? other)
+    public bool Equals(WorkItemDeadlineMonth? other)
     {
         if (ReferenceEquals(null, other))
             return false;
@@ -49,7 +42,7 @@ public class TamglyMonth : IDeadlineInterval, IEquatable<TamglyMonth>
             return true;
         if (obj.GetType() != this.GetType())
             return false;
-        return obj is TamglyMonth month && Equals(month);
+        return obj is WorkItemDeadlineMonth month && Equals(month);
     }
 
     public override int GetHashCode()

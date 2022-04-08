@@ -7,16 +7,16 @@ public class WorkItemDeadline : IEquatable<WorkItemDeadline>
 {
     public static WorkItemDeadline NoDeadline { get; } = new WorkItemDeadline();
 
-    private readonly IDeadlineInterval? _deadlineInterval;
+    private readonly IWorkItemDeadline? _workItemDeadline;
 
     private WorkItemDeadline()
     {
-        _deadlineInterval = null;
+        _workItemDeadline = null;
     }
 
-    private WorkItemDeadline(IDeadlineInterval deadlineInterval)
+    private WorkItemDeadline(IWorkItemDeadline workItemDeadline)
     {
-        _deadlineInterval = deadlineInterval;
+        _workItemDeadline = workItemDeadline;
     }
 
     public static WorkItemDeadline Create(WorkItemDeadlineType type, DateOnly dateTime)
@@ -24,13 +24,13 @@ public class WorkItemDeadline : IEquatable<WorkItemDeadline>
         switch (type)
         {
             case WorkItemDeadlineType.Day:
-                return new WorkItemDeadline(TamglyDay.FromDate(dateTime));
+                return new WorkItemDeadline(WorkItemDeadlineDay.FromDate(dateTime));
 
             case WorkItemDeadlineType.Week:
-                return new WorkItemDeadline(TamglyWeek.FromDate(dateTime));
+                return new WorkItemDeadline(WorkItemDeadlineWeek.FromDate(dateTime));
 
             case WorkItemDeadlineType.Month:
-                return new WorkItemDeadline(TamglyMonth.FromDate(dateTime));
+                return new WorkItemDeadline(WorkItemDeadlineMonth.FromDate(dateTime));
 
             case WorkItemDeadlineType.NoDeadline:
             default:
@@ -51,17 +51,17 @@ public class WorkItemDeadline : IEquatable<WorkItemDeadline>
 
     public int GetDaysBeforeDeadlineCount()
     {
-        if (_deadlineInterval is null)
+        if (_workItemDeadline is null)
             throw new TamglyException($"Cannot count days before deadline. Deadline type is {WorkItemDeadlineType.NoDeadline}");
 
-        DateOnly firstDay = TamglyTime.MaxOf(_deadlineInterval.Start, TamglyTime.TodayDate);
-        int daysBeforeDeadlineCount = firstDay.DaysTo(_deadlineInterval.End);
+        DateOnly firstDay = TamglyTime.MaxOf(_workItemDeadline.Start, TamglyTime.TodayDate);
+        int daysBeforeDeadlineCount = firstDay.DaysTo(_workItemDeadline.End);
         return Math.Max(daysBeforeDeadlineCount, 0);
     }
 
     public override int GetHashCode()
     {
-        return (_deadlineInterval != null ? _deadlineInterval.GetHashCode() : 0);
+        return (_workItemDeadline != null ? _workItemDeadline.GetHashCode() : 0);
     }
 
     public bool Equals(WorkItemDeadline? other)
@@ -70,7 +70,7 @@ public class WorkItemDeadline : IEquatable<WorkItemDeadline>
             return false;
         if (ReferenceEquals(this, other))
             return true;
-        return Equals(_deadlineInterval, other._deadlineInterval);
+        return Equals(_workItemDeadline, other._workItemDeadline);
     }
 
     public override bool Equals(object? obj)

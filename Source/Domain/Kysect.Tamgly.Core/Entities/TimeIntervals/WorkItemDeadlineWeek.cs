@@ -1,11 +1,10 @@
-﻿using Kysect.Tamgly.Core.Tools;
-using Kysect.Tamgly.Core.ValueObjects;
+﻿using Kysect.Tamgly.Core.ValueObjects;
 
 namespace Kysect.Tamgly.Core.Entities.TimeIntervals;
 
-public class TamglyWeek : IDeadlineInterval, IEquatable<TamglyWeek>
+public class WorkItemDeadlineWeek : IWorkItemDeadline, IEquatable<WorkItemDeadlineWeek>
 {
-    private const int DayInWeek = 7;
+    private readonly TamglyWeek _tamglyWeek;
 
     public WorkItemDeadlineType DeadlineType => WorkItemDeadlineType.Week;
 
@@ -13,20 +12,21 @@ public class TamglyWeek : IDeadlineInterval, IEquatable<TamglyWeek>
     public DateOnly Start { get; }
     public DateOnly End { get; }
 
-    public TamglyWeek(int number)
+    public WorkItemDeadlineWeek(TamglyWeek tamglyWeek)
     {
-        Number = number;
-        Start = TamglyTime.ZeroDay.AddDays(DayInWeek * Number);
-        End = Start.AddDays(DayInWeek);
+        _tamglyWeek = tamglyWeek;
+
+        Number = _tamglyWeek.Number;
+        Start = _tamglyWeek.Start;
+        End = _tamglyWeek.End;
+    }
+    
+    public static WorkItemDeadlineWeek FromDate(DateOnly dateTime)
+    {
+        return new WorkItemDeadlineWeek(new TamglyWeek(dateTime));
     }
 
-    public static TamglyWeek FromDate(DateOnly dateTime)
-    {
-        var weekCount = TamglyTime.ZeroDay.DaysTo(dateTime) / DayInWeek;
-        return new TamglyWeek(weekCount);
-    }
-
-    public bool Equals(TamglyWeek? other)
+    public bool Equals(WorkItemDeadlineWeek? other)
     {
         if (ReferenceEquals(null, other))
             return false;
@@ -41,7 +41,7 @@ public class TamglyWeek : IDeadlineInterval, IEquatable<TamglyWeek>
             return false;
         if (ReferenceEquals(this, obj))
             return true;
-        return obj is TamglyWeek week && Equals(week);
+        return obj is WorkItemDeadlineWeek week && Equals(week);
     }
 
     public override int GetHashCode()
