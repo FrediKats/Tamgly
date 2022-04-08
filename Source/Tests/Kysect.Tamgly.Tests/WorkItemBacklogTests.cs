@@ -1,9 +1,9 @@
 using System;
 using Kysect.Tamgly.Core.Aggregates;
 using Kysect.Tamgly.Core.Entities.Backlogs;
+using Kysect.Tamgly.Core.Entities.Deadlines;
 using Kysect.Tamgly.Core.Entities.TimeIntervals;
 using Kysect.Tamgly.Core.Tools;
-using Kysect.Tamgly.Core.ValueObjects;
 using NUnit.Framework;
 
 namespace Kysect.Tamgly.Tests;

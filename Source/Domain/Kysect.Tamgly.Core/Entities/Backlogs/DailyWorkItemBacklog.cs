@@ -1,5 +1,5 @@
-﻿using Kysect.Tamgly.Core.Entities.TimeIntervals;
-using Kysect.Tamgly.Core.ValueObjects;
+﻿using Kysect.Tamgly.Core.Entities.Deadlines;
+using Kysect.Tamgly.Core.Entities.TimeIntervals;
 
 namespace Kysect.Tamgly.Core.Entities.Backlogs;
 

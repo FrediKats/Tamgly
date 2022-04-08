@@ -1,9 +1,9 @@
 ﻿using Kysect.Tamgly.Core.Aggregates;
 using Kysect.Tamgly.Core.Entities;
 using Kysect.Tamgly.Core.Entities.Backlogs;
+using Kysect.Tamgly.Core.Entities.Deadlines;
 using Kysect.Tamgly.Core.Entities.TimeIntervals;
 using Kysect.Tamgly.Core.Tools;
-using Kysect.Tamgly.Core.ValueObjects;
 
 var workItemManager = new WorkItemManager();
 var workItemBuilder = new WorkItemBuilder("Support projects");

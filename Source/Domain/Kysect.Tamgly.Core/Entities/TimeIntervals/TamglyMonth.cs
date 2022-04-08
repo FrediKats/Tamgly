@@ -2,7 +2,7 @@
 
 namespace Kysect.Tamgly.Core.Entities.TimeIntervals;
 
-public struct TamglyMonth : ITimeInterval
+public readonly struct TamglyMonth : ITimeInterval
 {
     public int Number { get; }
     public DateOnly Start { get; }
