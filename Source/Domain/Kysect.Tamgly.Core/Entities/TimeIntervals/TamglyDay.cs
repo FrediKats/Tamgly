@@ -2,7 +2,7 @@
 
 namespace Kysect.Tamgly.Core.Entities.TimeIntervals;
 
-public class TamglyDay : ITimeInterval
+public class TamglyDay : ITimeInterval, IEquatable<TamglyDay>
 {
     public WorkItemDeadlineType DeadlineType => WorkItemDeadlineType.Day;
 
@@ -22,18 +22,26 @@ public class TamglyDay : ITimeInterval
         return new TamglyDay(TamglyTime.ZeroDay.DaysTo(dateTime));
     }
 
-    public bool Equals(TamglyMonth other)
+    public override int GetHashCode()
     {
+        return Number;
+    }
+
+    public bool Equals(TamglyDay? other)
+    {
+        if (ReferenceEquals(null, other))
+            return false;
+        if (ReferenceEquals(this, other))
+            return true;
         return Number == other.Number;
     }
 
     public override bool Equals(object? obj)
     {
-        return obj is TamglyMonth other && Equals(other);
-    }
-
-    public override int GetHashCode()
-    {
-        return Number;
+        if (ReferenceEquals(null, obj))
+            return false;
+        if (ReferenceEquals(this, obj))
+            return true;
+        return obj is TamglyDay day && Equals(day);
     }
 }

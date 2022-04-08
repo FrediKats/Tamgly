@@ -48,7 +48,7 @@ public class TamglyMonth : ITimeInterval, IEquatable<TamglyMonth>
             return true;
         if (obj.GetType() != this.GetType())
             return false;
-        return Equals((TamglyMonth)obj);
+        return obj is TamglyMonth month && Equals(month);
     }
 
     public override int GetHashCode()

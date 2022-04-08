@@ -40,9 +40,7 @@ public class TamglyWeek : ITimeInterval, IEquatable<TamglyWeek>
             return false;
         if (ReferenceEquals(this, obj))
             return true;
-        if (obj.GetType() != this.GetType())
-            return false;
-        return Equals((TamglyWeek)obj);
+        return obj is TamglyWeek week && Equals(week);
     }
 
     public override int GetHashCode()
