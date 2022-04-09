@@ -32,6 +32,13 @@ public class WorkItemManager
         _defaultProject.AddItem(item);
     }
 
+    public void AddWorkItem(RepetitiveParentWorkItem item)
+    {
+        ArgumentNullException.ThrowIfNull(item);
+
+        _defaultProject.AddItem(item);
+    }
+
     public void RemoveWorkItem(WorkItem item)
     {
         ArgumentNullException.ThrowIfNull(item);

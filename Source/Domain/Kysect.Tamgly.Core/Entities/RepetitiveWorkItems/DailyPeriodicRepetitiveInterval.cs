@@ -5,11 +5,10 @@ namespace Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
 
 public class DailyPeriodicRepetitiveInterval : IRepetitiveInterval
 {
-    private readonly TimeInterval _interval;
-
+    private readonly ITimeInterval _interval;
     private readonly int _period;
 
-    public DailyPeriodicRepetitiveInterval(TimeInterval interval, int period)
+    public DailyPeriodicRepetitiveInterval(ITimeInterval interval, int period)
     {
         _interval = interval;
         _period = period;
