@@ -23,11 +23,6 @@ public static class TamglyTime
         return date.AddDays(-date.Day).AddDays(1);
     }
 
-    public static DateOnly ReplaceDayWith(this DateOnly date, int day)
-    {
-        return date.AddDays(-date.Day).AddDays(day);
-    }
-
     public static void EnsureDateIsSupported(DateOnly date)
     {
         if (date < ZeroDay)

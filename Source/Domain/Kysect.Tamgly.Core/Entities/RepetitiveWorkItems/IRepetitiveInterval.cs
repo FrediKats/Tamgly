@@ -1,6 +1,8 @@
-﻿namespace Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
+﻿using Kysect.Tamgly.Core.Entities.Deadlines;
+
+namespace Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
 
 public interface IRepetitiveInterval
 {
-    IReadOnlyCollection<DateOnly> EnumeratePointOnInterval();
+    IReadOnlyCollection<WorkItemDeadline> EnumeratePointOnInterval();
 }

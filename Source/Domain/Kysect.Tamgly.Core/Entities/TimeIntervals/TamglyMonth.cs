@@ -24,6 +24,16 @@ public readonly struct TamglyMonth : IEquatable<TamglyMonth>, ITimeInterval
         End = currentTime.AddMonths(1).AddDays(-1);
     }
 
+    public TamglyMonth AddMonths(int count = 1)
+    {
+        return new TamglyMonth(Start.AddMonths(count));
+    }
+
+    public DateOnly GetDateWith(int day)
+    {
+        return Start.AddDays(-Start.Day).AddDays(day);
+    }
+
     public bool Equals(TamglyMonth other)
     {
         return Number == other.Number;

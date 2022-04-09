@@ -1,5 +1,5 @@
-﻿using Kysect.Tamgly.Core.Entities.TimeIntervals;
-using Kysect.Tamgly.Core.Tools;
+﻿using Kysect.Tamgly.Core.Entities.Deadlines;
+using Kysect.Tamgly.Core.Entities.TimeIntervals;
 
 namespace Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
 
@@ -16,17 +16,17 @@ public class DailyEachMonthRepetitiveInterval : IRepetitiveInterval
         _selectedDay = selectedDay;
     }
 
-    public IReadOnlyCollection<DateOnly> EnumeratePointOnInterval()
+    public IReadOnlyCollection<WorkItemDeadline> EnumeratePointOnInterval()
     {
-        List<DateOnly> result = new List<DateOnly>();
-        for (DateOnly currentMonthStart = TamglyTime.GetMonthStart(_interval.Start); currentMonthStart < _interval.End; currentMonthStart = currentMonthStart.AddMonths(_period))
+        var result = new List<WorkItemDeadline>();
+        for (var currentMonth = new TamglyMonth(_interval.Start); currentMonth.Start < _interval.End; currentMonth = currentMonth.AddMonths(_period))
         {
-            DateOnly currentDay = currentMonthStart.ReplaceDayWith(_selectedDay);
+            DateOnly currentDay = currentMonth.GetDateWith(_selectedDay);
 
             if (!_interval.Contains(currentDay))
                 continue;
 
-            result.Add(currentDay);
+            result.Add(new WorkItemDeadline(new TamglyDay(currentDay)));
         }
 
         return result;
