@@ -36,7 +36,7 @@ public class WorkItemDeadline
 
     public bool MatchedWith(WorkItemDeadline other)
     {
-        if (_deadlineType != other._deadlineType)
+        if (_deadlineType != other?._deadlineType)
             return false;
         if (_timeInterval is null)
             return other._timeInterval is null;

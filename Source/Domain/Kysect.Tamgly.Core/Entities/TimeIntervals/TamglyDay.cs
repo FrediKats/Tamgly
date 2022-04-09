@@ -2,7 +2,7 @@
 
 namespace Kysect.Tamgly.Core.Entities.TimeIntervals;
 
-public readonly struct TamglyDay : ITimeInterval
+public readonly struct TamglyDay : IEquatable<TamglyDay>, ITimeInterval
 {
     public int Number { get; }
     public DateOnly Start { get; }
@@ -15,5 +15,20 @@ public readonly struct TamglyDay : ITimeInterval
         Number = TamglyTime.ZeroDay.DaysTo(start);
         Start = start;
         End = start;
+    }
+
+    public bool Equals(TamglyDay other)
+    {
+        return Number == other.Number;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is TamglyDay other && Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+        return Number;
     }
 }

@@ -1,8 +1,8 @@
-using Kysect.Tamgly.Core.Tools;
+﻿using Kysect.Tamgly.Core.Tools;
 
 namespace Kysect.Tamgly.Core.Entities.TimeIntervals;
 
-public readonly struct TamglyWeek : ITimeInterval
+public readonly struct TamglyWeek : IEquatable<TamglyWeek>, ITimeInterval
 {
     public const int DayInWeek = 7;
 
@@ -34,4 +34,18 @@ public readonly struct TamglyWeek : ITimeInterval
         }
     }
 
+    public bool Equals(TamglyWeek other)
+    {
+        return Number == other.Number;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is TamglyWeek other && Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+        return Number;
+    }
 }
