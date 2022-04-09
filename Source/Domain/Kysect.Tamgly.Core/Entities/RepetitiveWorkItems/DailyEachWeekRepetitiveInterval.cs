@@ -1,5 +1,4 @@
 ﻿using Kysect.Tamgly.Core.Entities.TimeIntervals;
-using Kysect.Tamgly.Core.Tools;
 
 namespace Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
 
@@ -18,16 +17,14 @@ public class DailyEachWeekRepetitiveInterval : IRepetitiveInterval
 
     public IReadOnlyCollection<DateOnly> EnumeratePointOnInterval()
     {
-        List<DateOnly> result = new List<DateOnly>();
-        for (DateOnly currentWeekStart = TamglyTime.GetWeekStart(_interval.Start); currentWeekStart < _interval.End; currentWeekStart = currentWeekStart.AddDays(_period * 7))
+        var result = new List<DateOnly>();
+        for (var currentWeekStart = new TamglyWeek(_interval.Start); currentWeekStart.Start < _interval.End; currentWeekStart = currentWeekStart.AddWeek(_period))
         {
-            for (int dayOfWeekIndex = 0; dayOfWeekIndex < 7; dayOfWeekIndex++)
+            foreach (DateOnly currentDay in currentWeekStart.EnumerateDays())
             {
-                var currentDay = currentWeekStart.AddDays(dayOfWeekIndex);
-
                 if (!_interval.Contains(currentDay))
                     continue;
-                
+
                 if (_selectedDayOfWeek.Contains(currentDay))
                     result.Add(currentDay);
             }

@@ -18,18 +18,6 @@ public static class TamglyTime
         return first >= second ? first : second;
     }
 
-    public static DateOnly GetWeekStart(DateOnly date)
-    {
-        int firstDayDeltaFromEnum = 1;
-
-        int dayIndex = (int)date.DayOfWeek;
-        dayIndex -= firstDayDeltaFromEnum;
-        if (dayIndex < 0)
-            dayIndex += 7;
-
-        return date.AddDays(-dayIndex);
-    }
-
     public static DateOnly GetMonthStart(DateOnly date)
     {
         return date.AddDays(-date.Day).AddDays(1);

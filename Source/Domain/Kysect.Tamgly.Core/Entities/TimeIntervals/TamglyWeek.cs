@@ -1,4 +1,4 @@
-﻿using Kysect.Tamgly.Core.Tools;
+using Kysect.Tamgly.Core.Tools;
 
 namespace Kysect.Tamgly.Core.Entities.TimeIntervals;
 
@@ -20,4 +20,18 @@ public readonly struct TamglyWeek : ITimeInterval
         Start = TamglyTime.ZeroDay.AddDays(DayInWeek * Number);
         End = Start.AddDays(DayInWeek).AddDays(-1);
     }
+
+    public TamglyWeek AddWeek(int count = 1)
+    {
+        return new TamglyWeek(Start.AddDays(DayInWeek * count));
+    }
+
+    public IEnumerable<DateOnly> EnumerateDays()
+    {
+        for (int i = 0; i < DayInWeek; i++)
+        {
+            yield return Start.AddDays(i);
+        }
+    }
+
 }
