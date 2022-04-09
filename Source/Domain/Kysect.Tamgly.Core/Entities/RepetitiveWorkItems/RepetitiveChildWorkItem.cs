@@ -3,7 +3,7 @@ using Kysect.Tamgly.Core.ValueObjects;
 
 namespace Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
 
-public class RepetitiveChildWorkItem
+public class RepetitiveChildWorkItem : IWorkItem
 {
     private readonly RepetitiveParentWorkItem _parent;
 
