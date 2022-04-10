@@ -1,47 +1,34 @@
-﻿using Kysect.Tamgly.Core.ValueObjects;
+﻿using Kysect.Tamgly.Core.Tools;
 
 namespace Kysect.Tamgly.Core.Entities.TimeIntervals;
 
-public class TamglyDay : ITimeInterval, IEquatable<TamglyDay>
+public readonly struct TamglyDay : IEquatable<TamglyDay>, ITimeInterval
 {
-    public WorkItemDeadlineType DeadlineType => WorkItemDeadlineType.Day;
-
     public int Number { get; }
     public DateOnly Start { get; }
     public DateOnly End { get; }
 
-    public TamglyDay(int number)
+    public TamglyDay(DateOnly start)
     {
-        Number = number;
-        Start = TamglyTime.ZeroDay.AddDays(Number);
-        End = Start.AddDays(1);
+        TamglyTime.EnsureDateIsSupported(start);
+
+        Number = TamglyTime.ZeroDay.DaysTo(start);
+        Start = start;
+        End = start;
     }
 
-    public static TamglyDay FromDate(DateOnly dateTime)
+    public bool Equals(TamglyDay other)
     {
-        return new TamglyDay(TamglyTime.ZeroDay.DaysTo(dateTime));
-    }
-
-    public override int GetHashCode()
-    {
-        return Number;
-    }
-
-    public bool Equals(TamglyDay? other)
-    {
-        if (ReferenceEquals(null, other))
-            return false;
-        if (ReferenceEquals(this, other))
-            return true;
         return Number == other.Number;
     }
 
     public override bool Equals(object? obj)
     {
-        if (ReferenceEquals(null, obj))
-            return false;
-        if (ReferenceEquals(this, obj))
-            return true;
-        return obj is TamglyDay day && Equals(day);
+        return obj is TamglyDay other && Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+        return Number;
     }
 }

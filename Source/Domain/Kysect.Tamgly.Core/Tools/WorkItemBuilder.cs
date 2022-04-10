@@ -1,4 +1,5 @@
 ﻿using Kysect.Tamgly.Core.Entities;
+using Kysect.Tamgly.Core.Entities.Deadlines;
 using Kysect.Tamgly.Core.ValueObjects;
 
 namespace Kysect.Tamgly.Core.Tools;

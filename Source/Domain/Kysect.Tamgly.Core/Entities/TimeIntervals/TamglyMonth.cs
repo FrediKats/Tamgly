@@ -1,54 +1,37 @@
-﻿using Kysect.Tamgly.Core.ValueObjects;
+﻿using Kysect.Tamgly.Core.Tools;
 
 namespace Kysect.Tamgly.Core.Entities.TimeIntervals;
 
-public class TamglyMonth : ITimeInterval, IEquatable<TamglyMonth>
+public readonly struct TamglyMonth : IEquatable<TamglyMonth>, ITimeInterval
 {
-    public WorkItemDeadlineType DeadlineType => WorkItemDeadlineType.Month;
-
     public int Number { get; }
     public DateOnly Start { get; }
     public DateOnly End { get; }
 
-    public TamglyMonth(int number)
+    public TamglyMonth(DateOnly date)
     {
-        Number = number;
-        Start = TamglyTime.ZeroMonth.AddMonths(Number);
-        End = Start.AddMonths(1);
-    }
-
-    public static TamglyMonth FromDate(DateOnly dateTime)
-    {
-        var monthNumber = 0;
+        var monthNumber = 1;
         var currentTime = TamglyTime.ZeroMonth;
 
-        while (currentTime < dateTime)
+        while (currentTime.AddMonths(1) < date)
         {
             currentTime = currentTime.AddMonths(1);
             monthNumber++;
         }
 
-        return new TamglyMonth(monthNumber);
+        Number = monthNumber;
+        Start = currentTime;
+        End = currentTime.AddMonths(1).AddDays(-1);
     }
 
-    public bool Equals(TamglyMonth? other)
+    public bool Equals(TamglyMonth other)
     {
-        if (ReferenceEquals(null, other))
-            return false;
-        if (ReferenceEquals(this, other))
-            return true;
         return Number == other.Number;
     }
 
     public override bool Equals(object? obj)
     {
-        if (ReferenceEquals(null, obj))
-            return false;
-        if (ReferenceEquals(this, obj))
-            return true;
-        if (obj.GetType() != this.GetType())
-            return false;
-        return obj is TamglyMonth month && Equals(month);
+        return obj is TamglyMonth other && Equals(other);
     }
 
     public override int GetHashCode()

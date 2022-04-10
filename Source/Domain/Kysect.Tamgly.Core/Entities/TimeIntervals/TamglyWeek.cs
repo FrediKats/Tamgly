@@ -1,46 +1,47 @@
-﻿using Kysect.Tamgly.Core.ValueObjects;
+﻿using Kysect.Tamgly.Core.Tools;
 
 namespace Kysect.Tamgly.Core.Entities.TimeIntervals;
 
-public class TamglyWeek : ITimeInterval, IEquatable<TamglyWeek>
+public readonly struct TamglyWeek : IEquatable<TamglyWeek>, ITimeInterval
 {
-    private const int DayInWeek = 7;
-
-    public WorkItemDeadlineType DeadlineType => WorkItemDeadlineType.Week;
+    public const int DayInWeek = 7;
 
     public int Number { get; }
     public DateOnly Start { get; }
     public DateOnly End { get; }
 
-    public TamglyWeek(int number)
+    public TamglyWeek(DateOnly date)
     {
-        Number = number;
+        TamglyTime.EnsureDateIsSupported(date);
+
+        int weekNumber = TamglyTime.ZeroDay.DaysTo(date) / DayInWeek;
+
+        Number = weekNumber;
         Start = TamglyTime.ZeroDay.AddDays(DayInWeek * Number);
-        End = Start.AddDays(DayInWeek);
+        End = Start.AddDays(DayInWeek).AddDays(-1);
     }
 
-    public static TamglyWeek FromDate(DateOnly dateTime)
+    public TamglyWeek AddWeek(int count = 1)
     {
-        var weekCount = TamglyTime.ZeroDay.DaysTo(dateTime) / DayInWeek;
-        return new TamglyWeek(weekCount);
+        return new TamglyWeek(Start.AddDays(DayInWeek * count));
     }
 
-    public bool Equals(TamglyWeek? other)
+    public IEnumerable<DateOnly> EnumerateDays()
     {
-        if (ReferenceEquals(null, other))
-            return false;
-        if (ReferenceEquals(this, other))
-            return true;
+        for (int i = 0; i < DayInWeek; i++)
+        {
+            yield return Start.AddDays(i);
+        }
+    }
+
+    public bool Equals(TamglyWeek other)
+    {
         return Number == other.Number;
     }
 
     public override bool Equals(object? obj)
     {
-        if (ReferenceEquals(null, obj))
-            return false;
-        if (ReferenceEquals(this, obj))
-            return true;
-        return obj is TamglyWeek week && Equals(week);
+        return obj is TamglyWeek other && Equals(other);
     }
 
     public override int GetHashCode()
