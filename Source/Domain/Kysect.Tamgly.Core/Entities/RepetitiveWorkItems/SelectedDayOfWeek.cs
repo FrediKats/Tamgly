@@ -18,13 +18,13 @@ public static class SelectedDayOfWeekExtensions
     {
         return date.DayOfWeek switch
         {
-            DayOfWeek.Sunday => selectedDayOfWeek.HasFlag(SelectedDayOfWeek.Sunday),
             DayOfWeek.Monday => selectedDayOfWeek.HasFlag(SelectedDayOfWeek.Monday),
             DayOfWeek.Tuesday => selectedDayOfWeek.HasFlag(SelectedDayOfWeek.Tuesday),
             DayOfWeek.Wednesday => selectedDayOfWeek.HasFlag(SelectedDayOfWeek.Wednesday),
             DayOfWeek.Thursday => selectedDayOfWeek.HasFlag(SelectedDayOfWeek.Thursday),
             DayOfWeek.Friday => selectedDayOfWeek.HasFlag(SelectedDayOfWeek.Friday),
             DayOfWeek.Saturday => selectedDayOfWeek.HasFlag(SelectedDayOfWeek.Saturday),
+            DayOfWeek.Sunday => selectedDayOfWeek.HasFlag(SelectedDayOfWeek.Sunday),
             _ => throw new ArgumentOutOfRangeException($"Invalid day of week for {date}: {date.DayOfWeek}")
         };
     }
