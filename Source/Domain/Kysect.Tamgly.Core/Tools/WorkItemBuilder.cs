@@ -38,6 +38,12 @@ public class WorkItemBuilder
         return this;
     }
 
+    public WorkItemBuilder SetEstimates(TimeSpan estimates)
+    {
+        _estimate = estimates;
+        return this;
+    }
+
     public WorkItem Build()
     {
         return new WorkItem(

@@ -8,6 +8,13 @@ public class DailyWorkItemBacklog
     public WorkItemBacklog CurrentWeek { get; }
     public WorkItemBacklog CurrentMonth { get; }
 
+    public TimeSpan TotalEstimate => CurrentDay.GetTotalEstimates();
+    public TimeSpan TotalEstimateForWeek => CurrentWeek.GetTotalEstimates();
+    public TimeSpan TotalEstimateForMonth => CurrentMonth.GetTotalEstimates();
+
+    public TimeSpan? WeekEstimatePerDay => CurrentWeek.GetAverageDailyEstimate();
+    public TimeSpan? MonthEstimatePerDay => CurrentMonth.GetAverageDailyEstimate();
+
     private DailyWorkItemBacklog(WorkItemBacklog currentDay, WorkItemBacklog currentWeek, WorkItemBacklog currentMonth)
     {
         ArgumentNullException.ThrowIfNull(currentDay);
