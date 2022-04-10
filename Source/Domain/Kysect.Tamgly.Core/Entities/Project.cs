@@ -1,4 +1,5 @@
-﻿using Kysect.Tamgly.Core.Tools;
+﻿using Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
+using Kysect.Tamgly.Core.Tools;
 
 namespace Kysect.Tamgly.Core.Entities;
 
@@ -7,19 +8,21 @@ public class Project : IEquatable<Project>
     public Guid Id { get; }
     public string Title { get; }
     public ICollection<WorkItem> Items { get; }
+    public ICollection<RepetitiveParentWorkItem> RepetitiveItems { get; }
 
     public static Project Create(string title)
     {
         ArgumentNullException.ThrowIfNull(title);
 
-        return new Project(Guid.NewGuid(), title, new List<WorkItem>());
+        return new Project(Guid.NewGuid(), title, new List<WorkItem>(), new List<RepetitiveParentWorkItem>());
     }
 
-    public Project(Guid id, string title, ICollection<WorkItem> items)
+    public Project(Guid id, string title, ICollection<WorkItem> items, ICollection<RepetitiveParentWorkItem> repetitiveItems)
     {
         Id = id;
         Title = title;
         Items = items;
+        RepetitiveItems = repetitiveItems;
     }
 
     public void AddItem(WorkItem item)
@@ -29,12 +32,27 @@ public class Project : IEquatable<Project>
         Items.Add(item);
     }
 
+    public void AddItem(RepetitiveParentWorkItem item)
+    {
+        ArgumentNullException.ThrowIfNull(item);
+
+        RepetitiveItems.Add(item);
+    }
+
     public void RemoveItem(WorkItem item)
     {
         ArgumentNullException.ThrowIfNull(item);
 
         if (!Items.Remove(item))
             throw new TamglyException($"Work item with id {item.Id} was not found.");
+    }
+
+    public IReadOnlyCollection<IWorkItem> GetAllWorkItems()
+    {
+        List<IWorkItem> result = new List<IWorkItem>();
+        result.AddRange(Items);
+        result.AddRange(RepetitiveItems.SelectMany(r => r.GetChildWorkItems()));
+        return result;
     }
 
     public bool Equals(Project? other)

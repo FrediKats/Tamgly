@@ -23,7 +23,7 @@ public class WeeklyWorkItemBacklog
         CurrentMonth = currentMonth;
     }
 
-    public static WeeklyWorkItemBacklog Create(IReadOnlyCollection<WorkItem> workItems, DateOnly time)
+    public static WeeklyWorkItemBacklog Create(IReadOnlyCollection<IWorkItem> workItems, DateOnly time)
     {
         ArgumentNullException.ThrowIfNull(workItems);
 

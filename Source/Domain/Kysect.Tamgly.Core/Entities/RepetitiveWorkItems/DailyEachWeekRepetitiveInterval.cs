@@ -1,4 +1,5 @@
-﻿using Kysect.Tamgly.Core.Entities.TimeIntervals;
+﻿using Kysect.Tamgly.Core.Entities.Deadlines;
+using Kysect.Tamgly.Core.Entities.TimeIntervals;
 
 namespace Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
 
@@ -15,9 +16,9 @@ public class DailyEachWeekRepetitiveInterval : IRepetitiveInterval
         _selectedDayOfWeek = selectedDayOfWeek;
     }
 
-    public IReadOnlyCollection<DateOnly> EnumeratePointOnInterval()
+    public IReadOnlyCollection<WorkItemDeadline> EnumeratePointOnInterval()
     {
-        var result = new List<DateOnly>();
+        var result = new List<WorkItemDeadline>();
         for (var currentWeekStart = new TamglyWeek(_interval.Start); currentWeekStart.Start < _interval.End; currentWeekStart = currentWeekStart.AddWeek(_period))
         {
             foreach (DateOnly currentDay in currentWeekStart.EnumerateDays())
@@ -26,7 +27,7 @@ public class DailyEachWeekRepetitiveInterval : IRepetitiveInterval
                     continue;
 
                 if (_selectedDayOfWeek.Contains(currentDay))
-                    result.Add(currentDay);
+                    result.Add(new WorkItemDeadline(new TamglyDay(currentDay)));
             }
         }
 

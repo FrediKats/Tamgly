@@ -1,23 +1,24 @@
-﻿using Kysect.Tamgly.Core.Entities.TimeIntervals;
+﻿using Kysect.Tamgly.Core.Entities.Deadlines;
+using Kysect.Tamgly.Core.Entities.TimeIntervals;
 
 namespace Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
 
 public class DailyPeriodicRepetitiveInterval : IRepetitiveInterval
 {
-    private readonly TimeInterval _interval;
+    private readonly ITimeInterval _interval;
     private readonly int _period;
 
-    public DailyPeriodicRepetitiveInterval(TimeInterval interval, int period)
+    public DailyPeriodicRepetitiveInterval(ITimeInterval interval, int period)
     {
         _interval = interval;
         _period = period;
     }
 
-    public IReadOnlyCollection<DateOnly> EnumeratePointOnInterval()
+    public IReadOnlyCollection<WorkItemDeadline> EnumeratePointOnInterval()
     {
-        List<DateOnly> result = new List<DateOnly>();
+        var result = new List<WorkItemDeadline>();
         for (DateOnly current = _interval.Start; current < _interval.End; current = current.AddDays(_period))
-            result.Add(current);
+            result.Add(new WorkItemDeadline(new TamglyDay(current)));
 
         return result;
     }

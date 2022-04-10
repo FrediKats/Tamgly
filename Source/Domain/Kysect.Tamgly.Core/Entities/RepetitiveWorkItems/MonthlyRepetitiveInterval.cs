@@ -3,17 +3,15 @@ using Kysect.Tamgly.Core.Entities.TimeIntervals;
 
 namespace Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
 
-public class DailyEachMonthRepetitiveInterval : IRepetitiveInterval
+public class MonthlyRepetitiveInterval : IRepetitiveInterval
 {
     private readonly TimeInterval _interval;
     private readonly int _period;
-    private readonly int _selectedDay;
 
-    public DailyEachMonthRepetitiveInterval(TimeInterval interval, int period, int selectedDay)
+    public MonthlyRepetitiveInterval(TimeInterval interval, int period)
     {
         _interval = interval;
         _period = period;
-        _selectedDay = selectedDay;
     }
 
     public IReadOnlyCollection<WorkItemDeadline> EnumeratePointOnInterval()
@@ -21,12 +19,8 @@ public class DailyEachMonthRepetitiveInterval : IRepetitiveInterval
         var result = new List<WorkItemDeadline>();
         for (var currentMonth = new TamglyMonth(_interval.Start); currentMonth.Start < _interval.End; currentMonth = currentMonth.AddMonths(_period))
         {
-            DateOnly currentDay = currentMonth.GetDateWith(_selectedDay);
-
-            if (!_interval.Contains(currentDay))
-                continue;
-
-            result.Add(new WorkItemDeadline(new TamglyDay(currentDay)));
+            if (_interval.Contains(currentMonth.Start) || _interval.Contains(currentMonth.End))
+                result.Add(new WorkItemDeadline(currentMonth));
         }
 
         return result;

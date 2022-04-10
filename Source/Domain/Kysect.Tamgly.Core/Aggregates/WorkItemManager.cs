@@ -1,4 +1,5 @@
 ﻿using Kysect.Tamgly.Core.Entities;
+using Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
 using Kysect.Tamgly.Core.Tools;
 
 namespace Kysect.Tamgly.Core.Aggregates;
@@ -20,11 +21,18 @@ public class WorkItemManager
 
         _config = config;
         _projects = projects;
-        _defaultProject = new Project(Guid.Empty, "Default project", new List<WorkItem>());
+        _defaultProject = new Project(Guid.Empty, "Default project", new List<WorkItem>(), new List<RepetitiveParentWorkItem>());
         _projects.Add(_defaultProject);
     }
 
     public void AddWorkItem(WorkItem item)
+    {
+        ArgumentNullException.ThrowIfNull(item);
+
+        _defaultProject.AddItem(item);
+    }
+
+    public void AddWorkItem(RepetitiveParentWorkItem item)
     {
         ArgumentNullException.ThrowIfNull(item);
 
@@ -58,6 +66,9 @@ public class WorkItemManager
         
         foreach (WorkItem projectItem in project.Items)
             _defaultProject.AddItem(projectItem);
+
+        foreach (RepetitiveParentWorkItem projectItem in project.RepetitiveItems)
+            _defaultProject.AddItem(projectItem);
     }
 
     public void ChangeProject(WorkItem item, Project project)
@@ -75,20 +86,20 @@ public class WorkItemManager
         return _projects;
     }
 
-    public IReadOnlyCollection<WorkItem> GetWorkItems()
+    public IReadOnlyCollection<IWorkItem> GetWorkItems()
     {
         return _projects
-            .SelectMany(p => p.Items)
+            .SelectMany(p => p.GetAllWorkItems())
             .ToList();
     }
 
-    public IReadOnlyCollection<WorkItem> GetWorkItemsWithWrongEstimates()
+    public IReadOnlyCollection<IWorkItem> GetWorkItemsWithWrongEstimates()
     {
         return GetWorkItems()
             .Where(HasWrongEstimate)
             .ToList();
 
-        bool HasWrongEstimate(WorkItem workItem)
+        bool HasWrongEstimate(IWorkItem workItem)
         {
             double? matchPercent = workItem.TryGetEstimateMatchPercent();
             return matchPercent is not null
@@ -96,13 +107,13 @@ public class WorkItemManager
         }
     }
 
-    private Project GetProject(WorkItem workItem)
+    private Project GetProject(IWorkItem workItem)
     {
         return FindProject(workItem) ?? throw new TamglyException($"Work item was not matched with any project. Id: {workItem.Id}");
     }
 
     //TODO: WI32 for future optimizations
-    private Project? FindProject(WorkItem workItem)
+    private Project? FindProject(IWorkItem workItem)
     {
         return _projects.SingleOrDefault(p => p.Items.Contains(workItem));
     }

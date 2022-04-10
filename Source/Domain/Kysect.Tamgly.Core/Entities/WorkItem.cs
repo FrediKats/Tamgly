@@ -4,7 +4,7 @@ using Kysect.Tamgly.Core.ValueObjects;
 
 namespace Kysect.Tamgly.Core.Entities;
 
-public class WorkItem : IEquatable<WorkItem>
+public class WorkItem : IEquatable<WorkItem>, IWorkItem
 {
     public Guid Id { get; }
     public string Title { get; set; }
@@ -48,33 +48,7 @@ public class WorkItem : IEquatable<WorkItem>
         Intervals.Add(interval);
     }
 
-    public TimeSpan GetIntervalSum()
-    {
-        TimeSpan result = TimeSpan.Zero;
-
-        foreach (WorkItemTrackInterval interval in Intervals)
-        {
-            TimeSpan? duration = interval.GetDuration();
-            if (duration is null)
-                continue;
-
-            result = result.Add(duration.Value);
-
-        }
-
-        return result;
-    }
-
-    public double? TryGetEstimateMatchPercent()
-    {
-        TimeSpan intervalSum = GetIntervalSum();
-        if (Estimate is null)
-            return null;
-
-        double minValue = Math.Min(Estimate.Value.TotalMinutes, intervalSum.TotalMinutes);
-        double maxValue = Math.Max(Estimate.Value.TotalMinutes, intervalSum.TotalMinutes);
-        return minValue / maxValue;
-    }
+    
 
     public bool Equals(WorkItem? other)
     {
