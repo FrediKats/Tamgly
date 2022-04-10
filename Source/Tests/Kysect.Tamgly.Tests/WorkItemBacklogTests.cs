@@ -55,7 +55,7 @@ public class WorkItemBacklogTests
     }
 
     [Test]
-    public void Test1()
+    public void EnsureBacklogCalculateEstimatesCorrect()
     {
         DailyWorkItemBacklog workItemBacklog = _backlogManager.GetDailyBacklog(_workItemDeadline);
         WeeklyWorkItemBacklog weeklyBacklog = _backlogManager.GetWeeklyBacklog(_workItemDeadline);
