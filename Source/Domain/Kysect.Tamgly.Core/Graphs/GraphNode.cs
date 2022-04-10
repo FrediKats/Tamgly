@@ -8,6 +8,8 @@ public class GraphNode<T>
 
     public GraphNode(Guid id, T value, IReadOnlyCollection<GraphNode<T>> directChild)
     {
+        ArgumentNullException.ThrowIfNull(directChild);
+
         Id = id;
         Value = value;
         DirectChild = directChild;

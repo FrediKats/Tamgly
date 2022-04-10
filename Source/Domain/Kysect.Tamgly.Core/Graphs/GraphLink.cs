@@ -2,5 +2,5 @@
 
 public record struct GraphLink(Guid From, Guid To)
 {
-    public GraphLink Reverse() => new GraphLink(To, From);
+    public GraphLink Reverse() => new GraphLink(From: To, To: From);
 }

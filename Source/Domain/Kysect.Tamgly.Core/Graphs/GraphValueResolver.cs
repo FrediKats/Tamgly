@@ -2,15 +2,13 @@
 
 namespace Kysect.Tamgly.Core.Graphs;
 
-public interface IGraphValueResolver<T>
-{
-    T Resolve(Guid id);
-}
-
-public class GraphValueResolver
+public static class GraphValueResolver
 {
     public static GraphValueResolver<T> Create<T>(IReadOnlyCollection<T> values, Func<T, Guid> selector)
     {
+        ArgumentNullException.ThrowIfNull(values);
+        ArgumentNullException.ThrowIfNull(selector);
+
         return new GraphValueResolver<T>(values, selector);
     }
 }
@@ -21,6 +19,9 @@ public class GraphValueResolver<T> : IGraphValueResolver<T>
 
     public GraphValueResolver(IReadOnlyCollection<T> values, Func<T, Guid> selector)
     {
+        ArgumentNullException.ThrowIfNull(values);
+        ArgumentNullException.ThrowIfNull(selector);
+
         _map = values.ToDictionary(selector, v => v);
     }
 

@@ -12,6 +12,8 @@ public class BlockerLinkManager
 
     public BlockerLinkManager(WorkItemManager workItemManager)
     {
+        ArgumentNullException.ThrowIfNull(workItemManager);
+
         _workItemManager = workItemManager;
         _links = new List<GraphLink>();
         _blockingGraph = RefreshGraph();
@@ -27,6 +29,8 @@ public class BlockerLinkManager
 
     public bool IsBlocked(IWorkItem workItem)
     {
+        ArgumentNullException.ThrowIfNull(workItem);
+
         GraphNode<IWorkItem> graphNode = _blockedGraph.GetValue(workItem.Id);
         return graphNode.DirectChild.Any();
     }

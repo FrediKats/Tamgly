@@ -4,12 +4,14 @@ namespace Kysect.Tamgly.Core.Graphs;
 
 public class GraphBuildResult<T>
 {
-    public IReadOnlyCollection<GraphNode<T>> Roots { get; }
-
     public GraphBuildResult(IReadOnlyCollection<GraphNode<T>> roots)
     {
+        ArgumentNullException.ThrowIfNull(roots);
+
         Roots = roots;
     }
+
+    public IReadOnlyCollection<GraphNode<T>> Roots { get; }
 
     public GraphNode<T> GetValue(Guid id)
     {

@@ -2,8 +2,15 @@
 
 public static class GraphBuilder
 {
-    public static GraphBuildResult<T> Build<T>(IReadOnlyCollection<Guid> nodes, List<GraphLink> links, GraphValueResolver<T> resolver)
+    public static GraphBuildResult<T> Build<T>(
+        IReadOnlyCollection<Guid> nodes,
+        IReadOnlyCollection<GraphLink> links,
+        GraphValueResolver<T> resolver)
     {
+        ArgumentNullException.ThrowIfNull(nodes);
+        ArgumentNullException.ThrowIfNull(links);
+        ArgumentNullException.ThrowIfNull(resolver);
+
         HashSet<Guid> targetNodes = links
             .Select(l => l.To)
             .ToHashSet();
