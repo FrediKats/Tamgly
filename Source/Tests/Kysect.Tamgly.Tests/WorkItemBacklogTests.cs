@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using Kysect.Tamgly.Core.Aggregates;
+using Kysect.Tamgly.Core.Entities;
 using Kysect.Tamgly.Core.Entities.Backlogs;
 using Kysect.Tamgly.Core.Entities.Deadlines;
 using Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
@@ -14,12 +16,14 @@ public class WorkItemBacklogTests
     private readonly BacklogManager _backlogManager;
     private readonly DateOnly _workItemDeadline;
     private readonly WorkItemManager _workItemManager;
+    private readonly BlockerLinkManager _blockerLinkManager;
 
     public WorkItemBacklogTests()
     {
         _workItemManager = new WorkItemManager();
         _backlogManager = new BacklogManager(_workItemManager);
         _workItemDeadline = DateOnly.FromDateTime(new DateTime(2022, 04, 08));
+        _blockerLinkManager = new BlockerLinkManager(_workItemManager);
 
         _workItemManager.AddWorkItem(
             new WorkItemBuilder("Courses")
@@ -49,9 +53,6 @@ public class WorkItemBacklogTests
                 .SetDeadline(new WorkItemDeadline(new TamglyMonth(_workItemDeadline)))
                 .SetEstimates(TimeSpan.FromHours(25))
                 .Build());
-
-
-
     }
 
     [Test]
@@ -88,5 +89,14 @@ public class WorkItemBacklogTests
         Assert.AreEqual(TimeSpan.FromHours(20), weeklyBacklog.TotalEstimate);
         Assert.AreEqual(TimeSpan.FromHours(25), workItemBacklog.TotalEstimateForMonth);
         Assert.AreEqual(TimeSpan.FromHours(25), monthlyBacklog.TotalEstimateForMonth);
+    }
+
+    [Test]
+    public void AddBlockLink_EnsureLinkExists()
+    {
+        IWorkItem first = _workItemManager.GetWorkItems().ElementAt(1);
+        IWorkItem second = _workItemManager.GetWorkItems().ElementAt(2);
+        _blockerLinkManager.AddLink(first.Id, second.Id);
+        Assert.AreEqual(true, _blockerLinkManager.IsBlocked(second));
     }
 }
