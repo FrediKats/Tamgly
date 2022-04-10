@@ -15,6 +15,7 @@ public class RepetitiveChildWorkItem : IWorkItem
     public ICollection<WorkItemTrackInterval> Intervals { get; }
     public TimeSpan? Estimate => _parent.Estimate;
     public WorkItemDeadline Deadline { get; set; }
+    public Person AssignedTo { get; set; }
 
     public RepetitiveChildWorkItem(RepetitiveParentWorkItem parent, WorkItemDeadline deadline)
     {
@@ -23,5 +24,6 @@ public class RepetitiveChildWorkItem : IWorkItem
         State = WorkItemState.Open;
         Intervals = new List<WorkItemTrackInterval>();
         Deadline = deadline;
+        AssignedTo = _parent.AssignedTo;
     }
 }

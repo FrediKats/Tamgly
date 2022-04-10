@@ -13,6 +13,7 @@ public interface IWorkItem
     ICollection<WorkItemTrackInterval> Intervals { get; }
     TimeSpan? Estimate { get; }
     WorkItemDeadline Deadline { get; }
+    Person AssignedTo { get; }
 }
 
 public static class WorkItemExtensions

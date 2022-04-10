@@ -15,16 +15,16 @@ public class BacklogManager
 
     public DailyWorkItemBacklog GetDailyBacklog(DateOnly time)
     {
-        return DailyWorkItemBacklog.Create(_itemManager.GetWorkItems(), time);
+        return DailyWorkItemBacklog.Create(_itemManager.GetSelfWorkItems(), time);
     }
 
     public WeeklyWorkItemBacklog GetWeeklyBacklog(DateOnly time)
     {
-        return WeeklyWorkItemBacklog.Create(_itemManager.GetWorkItems(), time);
+        return WeeklyWorkItemBacklog.Create(_itemManager.GetSelfWorkItems(), time);
     }
 
     public MonthlyWorkItemBacklog GetMonthlyBacklog(DateOnly time)
     {
-        return MonthlyWorkItemBacklog.Create(_itemManager.GetWorkItems(), time);
+        return MonthlyWorkItemBacklog.Create(_itemManager.GetSelfWorkItems(), time);
     }
 }

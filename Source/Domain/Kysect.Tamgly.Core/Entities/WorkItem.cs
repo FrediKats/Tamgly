@@ -14,8 +14,9 @@ public class WorkItem : IEquatable<WorkItem>, IWorkItem
     public virtual ICollection<WorkItemTrackInterval> Intervals { get; }
     public TimeSpan? Estimate { get; private set; }
     public WorkItemDeadline Deadline { get; set; }
+    public Person AssignedTo { get; set; }
 
-    public WorkItem(Guid id, string title, string? description, WorkItemState state, DateTime creationTime, ICollection<WorkItemTrackInterval> intervals, TimeSpan? estimate, WorkItemDeadline deadline)
+    public WorkItem(Guid id, string title, string? description, WorkItemState state, DateTime creationTime, ICollection<WorkItemTrackInterval> intervals, TimeSpan? estimate, WorkItemDeadline deadline, Person assignedTo)
     {
         Id = id;
         Title = title;
@@ -25,6 +26,7 @@ public class WorkItem : IEquatable<WorkItem>, IWorkItem
         Intervals = intervals;
         Estimate = estimate;
         Deadline = deadline;
+        AssignedTo = assignedTo;
     }
 
     public void UpdateInfo(string title, string? description = null)
@@ -47,8 +49,6 @@ public class WorkItem : IEquatable<WorkItem>, IWorkItem
 
         Intervals.Add(interval);
     }
-
-    
 
     public bool Equals(WorkItem? other)
     {

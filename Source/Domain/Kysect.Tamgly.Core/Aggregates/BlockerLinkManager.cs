@@ -37,14 +37,14 @@ public class BlockerLinkManager
 
     private GraphBuildResult<IWorkItem> RefreshGraph()
     {
-        IReadOnlyCollection<IWorkItem> workItems = _workItemManager.GetWorkItems();
+        IReadOnlyCollection<IWorkItem> workItems = _workItemManager.GetSelfWorkItems();
         var graphValueResolver = new GraphValueResolver<IWorkItem>(workItems, w => w.Id);
         return GraphBuilder.Build(workItems.Select(w => w.Id).ToList(), _links, graphValueResolver);
     }
 
     private GraphBuildResult<IWorkItem> RefreshReverseGraph()
     {
-        IReadOnlyCollection<IWorkItem> workItems = _workItemManager.GetWorkItems();
+        IReadOnlyCollection<IWorkItem> workItems = _workItemManager.GetSelfWorkItems();
         var graphValueResolver = new GraphValueResolver<IWorkItem>(workItems, w => w.Id);
         return GraphBuilder.Build(
             workItems.Select(w => w.Id).ToList(),

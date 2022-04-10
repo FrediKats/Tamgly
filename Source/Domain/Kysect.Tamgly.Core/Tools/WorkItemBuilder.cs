@@ -14,6 +14,7 @@ public class WorkItemBuilder
     private ICollection<WorkItemTrackInterval> _intervals;
     private TimeSpan? _estimate;
     private WorkItemDeadline _deadline;
+    private Person _assignedTo;
 
     public WorkItemBuilder(string title)
     {
@@ -25,6 +26,7 @@ public class WorkItemBuilder
         _intervals = new List<WorkItemTrackInterval>();
         _estimate = null;
         _deadline = WorkItemDeadline.NoDeadline;
+        _assignedTo = Person.Me;
     }
 
     public WorkItemBuilder SetDescription(string description)
@@ -45,6 +47,12 @@ public class WorkItemBuilder
         return this;
     }
 
+    public WorkItemBuilder SetAssigning(Person person)
+    {
+        _assignedTo = person;
+        return this;
+    }
+
     public WorkItem Build()
     {
         return new WorkItem(
@@ -55,6 +63,7 @@ public class WorkItemBuilder
             _creationTime,
             _intervals,
             _estimate,
-            _deadline);
+            _deadline,
+            _assignedTo);
     }
 }
