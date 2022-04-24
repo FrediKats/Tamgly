@@ -1,4 +1,4 @@
-﻿namespace Kysect.Tamgly.Core.Graphs;
+﻿namespace Kysect.Tamgly.Graphs;
 
 public record struct GraphLink(Guid From, Guid To)
 {

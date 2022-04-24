@@ -1,6 +1,4 @@
-﻿using Kysect.Tamgly.Core.Tools;
-
-namespace Kysect.Tamgly.Core.Graphs;
+﻿namespace Kysect.Tamgly.Graphs;
 
 public static class GraphValueResolver
 {
@@ -30,6 +28,6 @@ public class GraphValueResolver<T> : IGraphValueResolver<T>
         if (_map.TryGetValue(id, out var result))
             return result;
 
-        throw new TamglyException($"Graph node with id {id} was not found");
+        throw new ArgumentException($"Graph node with id {id} was not found");
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Kysect.Tamgly.Core.Entities;
-using Kysect.Tamgly.Core.Graphs;
+using Kysect.Tamgly.Graphs;
 
 namespace Kysect.Tamgly.Core.Aggregates;
 

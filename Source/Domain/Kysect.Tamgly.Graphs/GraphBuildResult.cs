@@ -1,6 +1,4 @@
-﻿using Kysect.Tamgly.Core.Tools;
-
-namespace Kysect.Tamgly.Core.Graphs;
+﻿namespace Kysect.Tamgly.Graphs;
 
 public class GraphBuildResult<T>
 {
@@ -19,6 +17,6 @@ public class GraphBuildResult<T>
             .Select(root => root.Find(id))
             .FirstOrDefault(value => value is not null);
 
-        return found ?? throw new TamglyException($"Work item with id {id} was not found");
+        return found ?? throw new ArgumentException($"Work item with id {id} was not found");
     }
 }

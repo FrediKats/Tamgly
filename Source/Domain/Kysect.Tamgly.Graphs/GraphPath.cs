@@ -1,4 +1,4 @@
-﻿namespace Kysect.Tamgly.Core.Graphs;
+﻿namespace Kysect.Tamgly.Graphs;
 
 public class GraphPath<T>
 {
