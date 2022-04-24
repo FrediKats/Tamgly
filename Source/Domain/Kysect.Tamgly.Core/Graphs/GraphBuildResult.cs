@@ -15,13 +15,10 @@ public class GraphBuildResult<T>
 
     public GraphNode<T> GetValue(Guid id)
     {
-        foreach (GraphNode<T> graphNode in Roots)
-        {
-            GraphNode<T>? founded = graphNode.Find(id);
-            if (founded is not null)
-                return founded;
-        }
+        GraphNode<T>? found = Roots
+            .Select(root => root.Find(id))
+            .FirstOrDefault(value => value is not null);
 
-        throw new TamglyException($"Work item with id {id} was not found");
+        return found ?? throw new TamglyException($"Work item with id {id} was not found");
     }
 }

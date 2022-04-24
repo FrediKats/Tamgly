@@ -29,18 +29,20 @@ public static class GraphBuilder
         return new GraphBuildResult<T>(result);
     }
 
-    private static GraphNode<T> BuildNode<T>(Guid id, ILookup<Guid, Guid> nodeLinks, GraphValueResolver<T> resolver)
+    private static GraphNode<T> BuildNode<T>(Guid id, ILookup<Guid, Guid> nodeLinks, IGraphValueResolver<T> resolver)
     {
-        IReadOnlyCollection<GraphNode<T>> child;
-        if (!nodeLinks.Contains(id))
-            child = Array.Empty<GraphNode<T>>();
-        else
-        {
-            child = nodeLinks[id]
-                .Select(childId => BuildNode(childId, nodeLinks, resolver))
-                .ToList();
-        }
-
-        return new GraphNode<T>(id,  resolver.Resolve(id), child);
+        IReadOnlyCollection<GraphNode<T>> children = nodeLinks.Contains(id)
+            ? BuildChildren(nodeLinks[id], nodeLinks, resolver)
+            : Array.Empty<GraphNode<T>>();
+        return new GraphNode<T>(id, resolver.Resolve(id), children);
+    }
+    private static IReadOnlyCollection<GraphNode<T>> BuildChildren<T>(
+        IEnumerable<Guid> identifiers,
+        ILookup<Guid, Guid> nodeLinks,
+        IGraphValueResolver<T> resolver)
+    {
+        return identifiers
+            .Select(childId => BuildNode(childId, nodeLinks, resolver))
+            .ToList();
     }
 }
