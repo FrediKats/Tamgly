@@ -2,28 +2,28 @@
 
 public class GraphNode<T>
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; }
     public T Value { get; }
-    public IReadOnlyCollection<GraphNode<T>> DirectChild { get; set; }
+    public IReadOnlyCollection<GraphNode<T>> DirectChildren { get; }
 
-    public GraphNode(Guid id, T value, IReadOnlyCollection<GraphNode<T>> directChild)
+    public GraphNode(Guid id, T value, IReadOnlyCollection<GraphNode<T>> directChildren)
     {
-        ArgumentNullException.ThrowIfNull(directChild);
+        ArgumentNullException.ThrowIfNull(directChildren);
 
         Id = id;
         Value = value;
-        DirectChild = directChild;
+        DirectChildren = directChildren;
     }
 
     public IReadOnlyCollection<GraphPath<T>> EnumeratePathToLeaves()
     {
-        if (!DirectChild.Any())
+        if (!DirectChildren.Any())
         {
             return new[] { GraphPath<T>.Empty.AppendToStart(Value) };
         }
 
         List<GraphPath<T>> result = new List<GraphPath<T>>();
-        foreach (GraphNode<T> child in DirectChild)
+        foreach (GraphNode<T> child in DirectChildren)
         {
             foreach (GraphPath<T> pathToLeaf in child.EnumeratePathToLeaves())
             {
@@ -39,13 +39,8 @@ public class GraphNode<T>
         if (Id == id)
             return this;
 
-        foreach (GraphNode<T> node in DirectChild)
-        {
-            var founded = node.Find(id);
-            if (founded is not null)
-                return founded;
-        }
-
-        return null;
+        return DirectChildren
+            .Select(node => node.Find(id))
+            .FirstOrDefault(founded => founded is not null);
     }
 }
