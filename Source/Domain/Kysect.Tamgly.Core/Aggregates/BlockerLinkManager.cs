@@ -40,7 +40,7 @@ public class BlockerLinkManager
         ArgumentNullException.ThrowIfNull(workItem);
 
         GraphNode<IWorkItem> graphNode = _graphWhereParentBlockChildren.GetValue(workItem.Id);
-        return graphNode.DirectChildren.Any();
+        return graphNode.EnumerateChildren().Any();
     }
 
     private GraphBuildResult<IWorkItem> RefreshGraph(bool reverseLinks)

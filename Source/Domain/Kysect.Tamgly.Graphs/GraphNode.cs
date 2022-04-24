@@ -15,23 +15,13 @@ public class GraphNode<T>
         DirectChildren = directChildren;
     }
 
-    public IReadOnlyCollection<GraphPath<T>> EnumeratePathToLeaves()
+    public IEnumerable<GraphPath<T>> EnumerateChildren()
     {
         if (!DirectChildren.Any())
-        {
-            return new[] { GraphPath<T>.Empty.AppendToStart(Value) };
-        }
+            return Array.Empty<GraphPath<T>>();
 
-        List<GraphPath<T>> result = new List<GraphPath<T>>();
-        foreach (GraphNode<T> child in DirectChildren)
-        {
-            foreach (GraphPath<T> pathToLeaf in child.EnumeratePathToLeaves())
-            {
-                result.Add(pathToLeaf.AppendToStart(child.Value));
-            }
-        }
-
-        return result;
+        return DirectChildren
+            .SelectMany(c => c.EnumerateChildren());
     }
 
     public GraphNode<T>? Find(Guid id)
