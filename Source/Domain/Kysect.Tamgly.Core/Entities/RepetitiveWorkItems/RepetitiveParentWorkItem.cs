@@ -26,11 +26,11 @@ public class RepetitiveParentWorkItem
         Priority = priority;
     }
 
-    public IReadOnlyCollection<RepetitiveChildWorkItem> GetChildWorkItems()
+    public IReadOnlyCollection<WorkItem> GetChildWorkItems()
     {
         return RepetitiveInterval
             .EnumeratePointOnInterval()
-            .Select(d => new RepetitiveChildWorkItem(this, d))
+            .Select(d => new WorkItem(this, d))
             .ToList();
     }
 }

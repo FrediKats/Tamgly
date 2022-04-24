@@ -1,6 +1,7 @@
 ﻿using Kysect.Tamgly.Core.Entities;
 using Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
 using Kysect.Tamgly.Core.Tools;
+using Kysect.Tamgly.Core.ValueObjects;
 
 namespace Kysect.Tamgly.Core.Aggregates;
 
@@ -86,7 +87,7 @@ public class WorkItemManager
         return _projects;
     }
 
-    public IReadOnlyCollection<IWorkItem> GetSelfWorkItems()
+    public IReadOnlyCollection<WorkItem> GetSelfWorkItems()
     {
         return _projects
             .SelectMany(p => p.GetAllWorkItems())
@@ -94,20 +95,20 @@ public class WorkItemManager
             .ToList();
     }
 
-    public IReadOnlyCollection<IWorkItem> GetAllWorkItems()
+    public IReadOnlyCollection<WorkItem> GetAllWorkItems()
     {
         return _projects
             .SelectMany(p => p.GetAllWorkItems())
             .ToList();
     }
 
-    public IReadOnlyCollection<IWorkItem> GetWorkItemsWithWrongEstimates()
+    public IReadOnlyCollection<WorkItem> GetWorkItemsWithWrongEstimates()
     {
         return GetSelfWorkItems()
             .Where(HasWrongEstimate)
             .ToList();
 
-        bool HasWrongEstimate(IWorkItem workItem)
+        bool HasWrongEstimate(WorkItem workItem)
         {
             double? matchPercent = workItem.TryGetEstimateMatchPercent();
             return matchPercent is not null
@@ -115,13 +116,13 @@ public class WorkItemManager
         }
     }
 
-    private Project GetProject(IWorkItem workItem)
+    private Project GetProject(WorkItem workItem)
     {
         return FindProject(workItem) ?? throw new TamglyException($"Work item was not matched with any project. Id: {workItem.Id}");
     }
 
     //TODO: WI32 for future optimizations
-    private Project? FindProject(IWorkItem workItem)
+    private Project? FindProject(WorkItem workItem)
     {
         return _projects.SingleOrDefault(p => p.Items.Contains(workItem));
     }

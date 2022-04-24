@@ -1,12 +1,13 @@
 ﻿using System.Diagnostics;
 using Kysect.Tamgly.Core.Entities.Deadlines;
+using Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
 using Kysect.Tamgly.Core.Tools;
 using Kysect.Tamgly.Core.ValueObjects;
 
 namespace Kysect.Tamgly.Core.Entities;
 
 [DebuggerDisplay("{ToShortString()}")]
-public class WorkItem : IEquatable<WorkItem>, IWorkItem
+public class WorkItem : IEquatable<WorkItem>
 {
     public Guid Id { get; }
     public string Title { get; set; }
@@ -44,10 +45,18 @@ public class WorkItem : IEquatable<WorkItem>, IWorkItem
         Priority = priority;
     }
 
-    public void UpdateInfo(string title, string? description = null)
+    public WorkItem(RepetitiveParentWorkItem parent, WorkItemDeadline deadline)
     {
-        Title = title;
-        Description = description;
+        Id = Guid.NewGuid();
+        Title = parent.Title;
+        Description = parent.Description;
+        State = WorkItemState.Open;
+        CreationTime = parent.CreationTime;
+        Intervals = new List<WorkItemTrackInterval>();
+        Estimate = parent.Estimate;
+        Deadline = deadline;
+        AssignedTo = parent.AssignedTo;
+        Priority = parent.Priority;
     }
 
     public void SetCompleted()
@@ -63,6 +72,39 @@ public class WorkItem : IEquatable<WorkItem>, IWorkItem
         ArgumentNullException.ThrowIfNull(interval);
 
         Intervals.Add(interval);
+    }
+
+    public TimeSpan GetIntervalSum()
+    {
+        TimeSpan result = TimeSpan.Zero;
+
+        foreach (WorkItemTrackInterval interval in Intervals)
+        {
+            TimeSpan? duration = interval.GetDuration();
+            if (duration is null)
+                continue;
+
+            result = result.Add(duration.Value);
+
+        }
+
+        return result;
+    }
+
+    public double? TryGetEstimateMatchPercent()
+    {
+        TimeSpan intervalSum = GetIntervalSum();
+        if (Estimate is null)
+            return null;
+
+        double minValue = Math.Min(Estimate.Value.TotalMinutes, intervalSum.TotalMinutes);
+        double maxValue = Math.Max(Estimate.Value.TotalMinutes, intervalSum.TotalMinutes);
+        return minValue / maxValue;
+    }
+
+    public string ToShortString()
+    {
+        return $"{GetType().Name}: {Title} ({Id.ToShortString()}), State: {State}";
     }
 
     public bool Equals(WorkItem? other)
@@ -92,8 +134,27 @@ public class WorkItem : IEquatable<WorkItem>, IWorkItem
         return Id.GetHashCode();
     }
 
-    public string ToShortString()
+    public void Deconstruct(
+        out Guid id,
+        out string title,
+        out string? description,
+        out WorkItemState state,
+        out DateTime creationTime,
+        out ICollection<WorkItemTrackInterval> intervals,
+        out TimeSpan? estimate,
+        out WorkItemDeadline deadline,
+        out Person assignedTo,
+        out WorkItemPriority? priority)
     {
-        return $"{GetType().Name}: {Title} ({Id.ToShortString()}), State: {State}";
+        id = Id;
+        title = Title;
+        description = Description;
+        state = State;
+        creationTime = CreationTime;
+        intervals = Intervals;
+        estimate = Estimate;
+        deadline = Deadline;
+        assignedTo = AssignedTo;
+        priority = Priority;
     }
 }

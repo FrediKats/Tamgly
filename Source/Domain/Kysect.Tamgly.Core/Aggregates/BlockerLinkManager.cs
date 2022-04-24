@@ -11,12 +11,12 @@ public class BlockerLinkManager
     /// <summary>
     /// Graph where children is WI's that block their parent.
     /// </summary>
-    private GraphBuildResult<IWorkItem> _graphWhereChildrenBlockParent;
+    private GraphBuildResult<WorkItem> _graphWhereChildrenBlockParent;
 
     /// <summary>
     /// Graph where children is WI's that blocked by their parent
     /// </summary>
-    private GraphBuildResult<IWorkItem> _graphWhereParentBlockChildren;
+    private GraphBuildResult<WorkItem> _graphWhereParentBlockChildren;
 
     public BlockerLinkManager(WorkItemManager workItemManager)
     {
@@ -35,22 +35,22 @@ public class BlockerLinkManager
         _graphWhereParentBlockChildren = RefreshGraph(true);
     }
 
-    public bool IsBlocked(IWorkItem workItem)
+    public bool IsBlocked(WorkItem workItem)
     {
         ArgumentNullException.ThrowIfNull(workItem);
 
-        GraphNode<IWorkItem> graphNode = _graphWhereParentBlockChildren.GetValue(workItem.Id);
+        GraphNode<WorkItem> graphNode = _graphWhereParentBlockChildren.GetValue(workItem.Id);
         return graphNode.EnumerateChildren().Any();
     }
 
-    private GraphBuildResult<IWorkItem> RefreshGraph(bool reverseLinks)
+    private GraphBuildResult<WorkItem> RefreshGraph(bool reverseLinks)
     {
         List<GraphLink> selectedLinks = reverseLinks
             ? _links.Select(l => l.Reversed()).ToList()
             : _links;
 
-        IReadOnlyCollection<IWorkItem> workItems = _workItemManager.GetSelfWorkItems();
-        var graphValueResolver = new GraphValueResolver<IWorkItem>(workItems, w => w.Id);
+        IReadOnlyCollection<WorkItem> workItems = _workItemManager.GetSelfWorkItems();
+        var graphValueResolver = new GraphValueResolver<WorkItem>(workItems, w => w.Id);
         return GraphBuilder.Build(workItems.Select(w => w.Id).ToList(), selectedLinks, graphValueResolver);
     }
 }

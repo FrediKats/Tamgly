@@ -6,9 +6,9 @@ namespace Kysect.Tamgly.Core.Entities.Backlogs;
 public class WorkItemBacklog
 {
     public WorkItemDeadline Deadline { get; }
-    public ICollection<IWorkItem> Items { get; }
+    public ICollection<WorkItem> Items { get; }
 
-    public WorkItemBacklog(WorkItemDeadline deadline, ICollection<IWorkItem> items)
+    public WorkItemBacklog(WorkItemDeadline deadline, ICollection<WorkItem> items)
     {
         ArgumentNullException.ThrowIfNull(items);
         
@@ -19,11 +19,11 @@ public class WorkItemBacklog
             throw new TamglyException("Try to create daily backlog with wrong deadline");
     }
 
-    public static WorkItemBacklog Create(WorkItemDeadline deadline, IReadOnlyCollection<IWorkItem> items)
+    public static WorkItemBacklog Create(WorkItemDeadline deadline, IReadOnlyCollection<WorkItem> items)
     {
         ArgumentNullException.ThrowIfNull(items);
 
-        List<IWorkItem> workItems = items
+        List<WorkItem> workItems = items
             .Where(i => i.Deadline.MatchedWith(deadline))
             .ToList();
 
@@ -34,7 +34,7 @@ public class WorkItemBacklog
     {
         TimeSpan result = TimeSpan.Zero;
 
-        foreach (IWorkItem workItem in Items)
+        foreach (WorkItem workItem in Items)
         {
             if (workItem.Estimate != null)
             {

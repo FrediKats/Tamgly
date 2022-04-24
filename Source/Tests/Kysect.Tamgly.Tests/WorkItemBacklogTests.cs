@@ -94,8 +94,8 @@ public class WorkItemBacklogTests
     [Test]
     public void AddBlockLink_EnsureLinkExists()
     {
-        IWorkItem first = _workItemManager.GetSelfWorkItems().ElementAt(1);
-        IWorkItem second = _workItemManager.GetSelfWorkItems().ElementAt(2);
+        WorkItem first = _workItemManager.GetSelfWorkItems().ElementAt(1);
+        WorkItem second = _workItemManager.GetSelfWorkItems().ElementAt(2);
         _blockerLinkManager.AddLink(first.Id, second.Id);
         Assert.AreEqual(true, _blockerLinkManager.IsBlocked(second));
     }
