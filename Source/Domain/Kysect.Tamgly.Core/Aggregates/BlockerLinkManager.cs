@@ -49,7 +49,7 @@ public class BlockerLinkManager
             ? _links.Select(l => l.Reversed()).ToList()
             : _links;
 
-        IReadOnlyCollection<IWorkItem> workItems = _workItemManager.GetWorkItems();
+        IReadOnlyCollection<IWorkItem> workItems = _workItemManager.GetSelfWorkItems();
         var graphValueResolver = new GraphValueResolver<IWorkItem>(workItems, w => w.Id);
         return GraphBuilder.Build(workItems.Select(w => w.Id).ToList(), selectedLinks, graphValueResolver);
     }

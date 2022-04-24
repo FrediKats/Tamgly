@@ -94,9 +94,31 @@ public class WorkItemBacklogTests
     [Test]
     public void AddBlockLink_EnsureLinkExists()
     {
-        IWorkItem first = _workItemManager.GetWorkItems().ElementAt(1);
-        IWorkItem second = _workItemManager.GetWorkItems().ElementAt(2);
+        IWorkItem first = _workItemManager.GetSelfWorkItems().ElementAt(1);
+        IWorkItem second = _workItemManager.GetSelfWorkItems().ElementAt(2);
         _blockerLinkManager.AddLink(first.Id, second.Id);
         Assert.AreEqual(true, _blockerLinkManager.IsBlocked(second));
+    }
+
+    [Test]
+    public void AddWorkItemToNotMe_EnsureCountIsValid()
+    {
+        int allWorkItemsCount = _workItemManager.GetAllWorkItems().Count;
+        int myWorkItemsCount = _workItemManager.GetSelfWorkItems().Count;
+
+        Assert.AreEqual(allWorkItemsCount, myWorkItemsCount);
+
+        Person myNewJunior = new Person(Guid.NewGuid(), "Mr. Junior");
+        _workItemManager.AddWorkItem(
+            new WorkItemBuilder("Courses")
+                .SetDeadline(new WorkItemDeadline(new TamglyDay(_workItemDeadline)))
+                .SetAssigning(myNewJunior)
+                .Build());
+
+        int newAllWorkItemsCount = _workItemManager.GetAllWorkItems().Count;
+        int newMyWorkItemsCount = _workItemManager.GetSelfWorkItems().Count;
+
+        Assert.AreEqual(myWorkItemsCount, newMyWorkItemsCount);
+        Assert.AreEqual(allWorkItemsCount + 1, newAllWorkItemsCount);
     }
 }

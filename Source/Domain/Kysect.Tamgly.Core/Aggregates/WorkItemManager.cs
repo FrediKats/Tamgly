@@ -86,7 +86,15 @@ public class WorkItemManager
         return _projects;
     }
 
-    public IReadOnlyCollection<IWorkItem> GetWorkItems()
+    public IReadOnlyCollection<IWorkItem> GetSelfWorkItems()
+    {
+        return _projects
+            .SelectMany(p => p.GetAllWorkItems())
+            .Where(w => w.AssignedTo.IsMe())
+            .ToList();
+    }
+
+    public IReadOnlyCollection<IWorkItem> GetAllWorkItems()
     {
         return _projects
             .SelectMany(p => p.GetAllWorkItems())
@@ -95,7 +103,7 @@ public class WorkItemManager
 
     public IReadOnlyCollection<IWorkItem> GetWorkItemsWithWrongEstimates()
     {
-        return GetWorkItems()
+        return GetSelfWorkItems()
             .Where(HasWrongEstimate)
             .ToList();
 
