@@ -1,8 +1,11 @@
-﻿using Kysect.Tamgly.Core.Entities.Deadlines;
+﻿using System.Diagnostics;
+using Kysect.Tamgly.Core.Entities.Deadlines;
+using Kysect.Tamgly.Core.Tools;
 using Kysect.Tamgly.Core.ValueObjects;
 
 namespace Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
 
+[DebuggerDisplay("{ToShortString()}")]
 public class RepetitiveChildWorkItem : IWorkItem
 {
     private readonly RepetitiveParentWorkItem _parent;
@@ -27,5 +30,10 @@ public class RepetitiveChildWorkItem : IWorkItem
         Deadline = deadline;
         AssignedTo = _parent.AssignedTo;
         Priority = parent.Priority;
+    }
+
+    public string ToShortString()
+    {
+        return $"{GetType().Name}: {Title} ({Id.ToShortString()}), State: {State}";
     }
 }

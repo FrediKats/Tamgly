@@ -1,9 +1,11 @@
-﻿using Kysect.Tamgly.Core.Entities.Deadlines;
+﻿using System.Diagnostics;
+using Kysect.Tamgly.Core.Entities.Deadlines;
 using Kysect.Tamgly.Core.Tools;
 using Kysect.Tamgly.Core.ValueObjects;
 
 namespace Kysect.Tamgly.Core.Entities;
 
+[DebuggerDisplay("{ToShortString()}")]
 public class WorkItem : IEquatable<WorkItem>, IWorkItem
 {
     public Guid Id { get; }
@@ -88,5 +90,10 @@ public class WorkItem : IEquatable<WorkItem>, IWorkItem
     public override int GetHashCode()
     {
         return Id.GetHashCode();
+    }
+
+    public string ToShortString()
+    {
+        return $"{GetType().Name}: {Title} ({Id.ToShortString()}), State: {State}";
     }
 }
