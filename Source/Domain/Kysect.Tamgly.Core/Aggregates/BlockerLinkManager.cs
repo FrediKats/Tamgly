@@ -24,15 +24,15 @@ public class BlockerLinkManager
 
         _workItemManager = workItemManager;
         _links = new List<GraphLink>();
-        _graphWhereChildrenBlockParent = RefreshGraph(true);
-        _graphWhereParentBlockChildren = RefreshGraph(false);
+        _graphWhereChildrenBlockParent = RefreshGraph(false);
+        _graphWhereParentBlockChildren = RefreshGraph(true);
     }
 
     public void AddLink(Guid from, Guid to)
     {
         _links.Add(new GraphLink(from, to));
-        _graphWhereChildrenBlockParent = RefreshGraph(true);
-        _graphWhereParentBlockChildren = RefreshGraph(false);
+        _graphWhereChildrenBlockParent = RefreshGraph(false);
+        _graphWhereParentBlockChildren = RefreshGraph(true);
     }
 
     public bool IsBlocked(IWorkItem workItem)
