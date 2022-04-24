@@ -15,13 +15,14 @@ public class GraphNode<T>
         DirectChildren = directChildren;
     }
 
-    public IEnumerable<GraphPath<T>> EnumerateChildren()
+    public IEnumerable<GraphNode<T>> EnumerateChildren()
     {
         if (!DirectChildren.Any())
-            return Array.Empty<GraphPath<T>>();
+            return Array.Empty<GraphNode<T>>();
 
         return DirectChildren
-            .SelectMany(c => c.EnumerateChildren());
+            .Concat(DirectChildren.SelectMany(c => c.EnumerateChildren()))
+            .ToList();
     }
 
     public GraphNode<T>? Find(Guid id)
