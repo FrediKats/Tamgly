@@ -30,7 +30,7 @@ public class RepetitiveParentWorkItem
     {
         return RepetitiveInterval
             .EnumeratePointOnInterval()
-            .Select(d => new WorkItem(this, d))
+            .Select(d => WorkItem.CreateFromRepetitive(this, d))
             .ToList();
     }
 }

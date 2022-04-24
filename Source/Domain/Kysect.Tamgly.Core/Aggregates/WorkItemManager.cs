@@ -48,6 +48,16 @@ public class WorkItemManager
         project.RemoveItem(item);
     }
 
+    public void UpdateWorkItem(WorkItem item)
+    {
+        Project? project = FindProject(item);
+        if (project is null)
+            return;
+
+        project.RemoveItem(item);
+        project.AddItem(item);
+    }
+
     public void AddProject(Project project)
     {
         ArgumentNullException.ThrowIfNull(project);
