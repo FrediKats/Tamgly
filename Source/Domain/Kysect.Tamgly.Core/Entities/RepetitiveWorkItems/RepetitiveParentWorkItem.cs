@@ -1,4 +1,6 @@
-﻿namespace Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
+﻿using Kysect.Tamgly.Core.ValueObjects;
+
+namespace Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
 
 public class RepetitiveParentWorkItem
 {
@@ -9,8 +11,10 @@ public class RepetitiveParentWorkItem
     public TimeSpan? Estimate { get; private set; }
     public IRepetitiveInterval RepetitiveInterval { get; set; }
     public Person AssignedTo { get; }
+    public WorkItemPriority? Priority { get; }
 
-    public RepetitiveParentWorkItem(Guid id, string title, string? description, DateTime creationTime, TimeSpan? estimate, IRepetitiveInterval repetitiveInterval, Person assignedTo)
+
+    public RepetitiveParentWorkItem(Guid id, string title, string? description, DateTime creationTime, TimeSpan? estimate, IRepetitiveInterval repetitiveInterval, Person assignedTo, WorkItemPriority? priority)
     {
         Id = id;
         Title = title;
@@ -19,6 +23,7 @@ public class RepetitiveParentWorkItem
         Estimate = estimate;
         RepetitiveInterval = repetitiveInterval;
         AssignedTo = assignedTo;
+        Priority = priority;
     }
 
     public IReadOnlyCollection<RepetitiveChildWorkItem> GetChildWorkItems()

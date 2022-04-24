@@ -15,6 +15,7 @@ public class WorkItemBuilder
     private TimeSpan? _estimate;
     private WorkItemDeadline _deadline;
     private Person _assignedTo;
+    private WorkItemPriority? _priority;
 
     public WorkItemBuilder(string title)
     {
@@ -27,6 +28,7 @@ public class WorkItemBuilder
         _estimate = null;
         _deadline = WorkItemDeadline.NoDeadline;
         _assignedTo = Person.Me;
+        _priority = null;
     }
 
     public WorkItemBuilder SetDescription(string description)
@@ -53,6 +55,12 @@ public class WorkItemBuilder
         return this;
     }
 
+    public WorkItemBuilder SetPriority(WorkItemPriority? priority)
+    {
+        _priority = priority;
+        return this;
+    }
+
     public WorkItem Build()
     {
         return new WorkItem(
@@ -64,6 +72,7 @@ public class WorkItemBuilder
             _intervals,
             _estimate,
             _deadline,
-            _assignedTo);
+            _assignedTo,
+            _priority);
     }
 }

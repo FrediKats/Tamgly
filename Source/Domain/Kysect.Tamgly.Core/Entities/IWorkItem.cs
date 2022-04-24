@@ -14,6 +14,7 @@ public interface IWorkItem
     TimeSpan? Estimate { get; }
     WorkItemDeadline Deadline { get; }
     Person AssignedTo { get; }
+    WorkItemPriority? Priority { get; }
 }
 
 public static class WorkItemExtensions

@@ -1,5 +1,6 @@
 ﻿using Kysect.Tamgly.Core.Entities;
 using Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
+using Kysect.Tamgly.Core.ValueObjects;
 
 namespace Kysect.Tamgly.Core.Tools;
 
@@ -12,6 +13,7 @@ public class RepetitiveParentWorkItemBuilder
     private DateTime _creationTime;
     private TimeSpan? _estimate;
     private Person _assignedTo;
+    private WorkItemPriority? _priority;
 
     public RepetitiveParentWorkItemBuilder(string title, IRepetitiveInterval repetitiveInterval)
     {
@@ -22,6 +24,7 @@ public class RepetitiveParentWorkItemBuilder
         _creationTime = DateTime.Today;
         _estimate = null;
         _assignedTo = Person.Me;
+        _priority = null;
     }
 
     public RepetitiveParentWorkItemBuilder SetDescription(string description)
@@ -42,6 +45,12 @@ public class RepetitiveParentWorkItemBuilder
         return this;
     }
 
+    public RepetitiveParentWorkItemBuilder SetPriority(WorkItemPriority? priority)
+    {
+        _priority = priority;
+        return this;
+    }
+
     public RepetitiveParentWorkItem Build()
     {
         return new RepetitiveParentWorkItem(
@@ -51,6 +60,7 @@ public class RepetitiveParentWorkItemBuilder
             _creationTime,
             _estimate,
             _repetitiveInterval,
-            _assignedTo);
+            _assignedTo,
+            _priority);
     }
 }
