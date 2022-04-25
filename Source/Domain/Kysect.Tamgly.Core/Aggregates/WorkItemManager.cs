@@ -1,6 +1,7 @@
 ﻿using Kysect.Tamgly.Core.Entities;
 using Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
 using Kysect.Tamgly.Core.Tools;
+using Kysect.Tamgly.Core.ValueObjects;
 using Serilog;
 
 namespace Kysect.Tamgly.Core.Aggregates;
@@ -22,17 +23,20 @@ public class WorkItemManager : IWorkItemManager
 
         _config = config;
         _projects = projects;
-        _defaultProject = new Project(Guid.Empty, "Default project", new List<WorkItem>(), new List<RepetitiveParentWorkItem>());
+        _defaultProject = new Project(Guid.Empty, "Default project", new List<WorkItem>(), new List<RepetitiveParentWorkItem>(), WorkingHours.Empty);
         _projects.Add(_defaultProject);
     }
 
-    public void AddWorkItem(WorkItem item)
+    public void AddWorkItem(WorkItem item, Project? project = null)
     {
         ArgumentNullException.ThrowIfNull(item);
 
         Log.Debug($"Add WI {item.Id.ToShortString()} to WIManager");
 
         _defaultProject.AddItem(item);
+        
+        if (project is not null)
+            ChangeProject(item, project);
     }
 
     public void AddWorkItem(RepetitiveParentWorkItem item)
