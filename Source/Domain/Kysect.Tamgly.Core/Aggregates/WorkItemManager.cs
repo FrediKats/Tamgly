@@ -2,6 +2,7 @@
 using Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
 using Kysect.Tamgly.Core.Tools;
 using Kysect.Tamgly.Core.ValueObjects;
+using Serilog;
 
 namespace Kysect.Tamgly.Core.Aggregates;
 
@@ -30,12 +31,16 @@ public class WorkItemManager
     {
         ArgumentNullException.ThrowIfNull(item);
 
+        Log.Debug($"Add WI {item.Id.ToShortString()} to WIManager");
+
         _defaultProject.AddItem(item);
     }
 
     public void AddWorkItem(RepetitiveParentWorkItem item)
     {
         ArgumentNullException.ThrowIfNull(item);
+
+        Log.Debug($"Add repetitive WI {item.Id.ToShortString()} to WIManager");
 
         _defaultProject.AddItem(item);
     }
@@ -50,6 +55,8 @@ public class WorkItemManager
 
     public void UpdateWorkItem(WorkItem item)
     {
+        Log.Debug($"Update WI in WIManager: {item.ToShortString()}");
+
         Project? project = FindProject(item);
         if (project is null)
             return;
@@ -61,6 +68,8 @@ public class WorkItemManager
     public void AddProject(Project project)
     {
         ArgumentNullException.ThrowIfNull(project);
+
+        Log.Debug($"Add new project {project.ToShortString()} to WIManager");
 
         _projects.Add(project);
     }
@@ -86,6 +95,8 @@ public class WorkItemManager
     {
         ArgumentNullException.ThrowIfNull(item);
         ArgumentNullException.ThrowIfNull(project);
+
+        Log.Debug($"Change project for {item.ToShortString()} to {project.ToShortString()}");
 
         Project oldProject = GetProject(item);
         oldProject.RemoveItem(item);

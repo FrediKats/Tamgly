@@ -55,6 +55,11 @@ public class Project : IEquatable<Project>
         return result;
     }
 
+    public string ToShortString()
+    {
+        return $"{Title} ({Id.ToShortString()})";
+    }
+
     public bool Equals(Project? other)
     {
         if (ReferenceEquals(null, other))

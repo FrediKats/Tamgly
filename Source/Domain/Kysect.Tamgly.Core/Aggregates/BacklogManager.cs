@@ -1,4 +1,6 @@
-﻿using Kysect.Tamgly.Core.Entities.Backlogs;
+﻿using Kysect.Tamgly.Core.Entities;
+using Kysect.Tamgly.Core.Entities.Backlogs;
+using Serilog;
 
 namespace Kysect.Tamgly.Core.Aggregates;
 
@@ -15,16 +17,28 @@ public class BacklogManager
 
     public DailyWorkItemBacklog GetDailyBacklog(DateOnly time)
     {
-        return DailyWorkItemBacklog.Create(_itemManager.GetSelfWorkItems(), time);
+        IReadOnlyCollection<WorkItem> workItems = _itemManager.GetSelfWorkItems();
+        
+        Log.Debug($"Create daily backlog for {time}. Work items count: {workItems.Count}");
+
+        return DailyWorkItemBacklog.Create(workItems, time);
     }
 
     public WeeklyWorkItemBacklog GetWeeklyBacklog(DateOnly time)
     {
-        return WeeklyWorkItemBacklog.Create(_itemManager.GetSelfWorkItems(), time);
+        IReadOnlyCollection<WorkItem> workItems = _itemManager.GetSelfWorkItems();
+
+        Log.Debug($"Create daily backlog for {time}. Work items count: {workItems.Count}");
+
+        return WeeklyWorkItemBacklog.Create(workItems, time);
     }
 
     public MonthlyWorkItemBacklog GetMonthlyBacklog(DateOnly time)
     {
-        return MonthlyWorkItemBacklog.Create(_itemManager.GetSelfWorkItems(), time);
+        IReadOnlyCollection<WorkItem> workItems = _itemManager.GetSelfWorkItems();
+
+        Log.Debug($"Create daily backlog for {time}. Work items count: {workItems.Count}");
+
+        return MonthlyWorkItemBacklog.Create(workItems, time);
     }
 }

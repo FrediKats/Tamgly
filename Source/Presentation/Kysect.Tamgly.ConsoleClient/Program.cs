@@ -4,6 +4,13 @@ using Kysect.Tamgly.Core.Entities.Backlogs;
 using Kysect.Tamgly.Core.Entities.Deadlines;
 using Kysect.Tamgly.Core.Entities.TimeIntervals;
 using Kysect.Tamgly.Core.Tools;
+using Serilog;
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Verbose()
+    .WriteTo.Console()
+    .WriteTo.File("log.log")
+    .CreateLogger();
 
 var workItemManager = new WorkItemManager();
 var workItemBuilder = new WorkItemBuilder("Support projects");

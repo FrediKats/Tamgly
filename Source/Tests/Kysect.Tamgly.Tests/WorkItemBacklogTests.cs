@@ -8,6 +8,7 @@ using Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
 using Kysect.Tamgly.Core.Entities.TimeIntervals;
 using Kysect.Tamgly.Core.Tools;
 using NUnit.Framework;
+using Serilog;
 
 namespace Kysect.Tamgly.Tests;
 
@@ -20,6 +21,11 @@ public class WorkItemBacklogTests
 
     public WorkItemBacklogTests()
     {
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Debug()
+            .WriteTo.Console()
+            .CreateLogger();
+
         _workItemManager = new WorkItemManager();
         _backlogManager = new BacklogManager(_workItemManager);
         _workItemDeadline = DateOnly.FromDateTime(new DateTime(2022, 04, 08));

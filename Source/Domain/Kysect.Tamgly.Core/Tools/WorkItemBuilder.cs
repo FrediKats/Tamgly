@@ -1,6 +1,7 @@
 ﻿using Kysect.Tamgly.Core.Entities;
 using Kysect.Tamgly.Core.Entities.Deadlines;
 using Kysect.Tamgly.Core.ValueObjects;
+using Serilog;
 
 namespace Kysect.Tamgly.Core.Tools;
 
@@ -63,7 +64,7 @@ public class WorkItemBuilder
 
     public WorkItem Build()
     {
-        return new WorkItem(
+        var workItem = new WorkItem(
             _id,
             _title,
             _description,
@@ -74,5 +75,8 @@ public class WorkItemBuilder
             _deadline,
             _assignedTo,
             _priority);
+
+        Log.Information($"Build new WI: {workItem.ToShortString()}");
+        return workItem;
     }
 }

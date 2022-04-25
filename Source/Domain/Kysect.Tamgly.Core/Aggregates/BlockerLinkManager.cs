@@ -1,5 +1,6 @@
 ﻿using Kysect.Tamgly.Core.Entities;
 using Kysect.Tamgly.Graphs;
+using Serilog;
 
 namespace Kysect.Tamgly.Core.Aggregates;
 
@@ -23,14 +24,19 @@ public class BlockerLinkManager
         ArgumentNullException.ThrowIfNull(workItemManager);
 
         _workItemManager = workItemManager;
+
         _links = new List<GraphLink>();
+        
         _graphWhereChildrenBlockParent = RefreshGraph(false);
         _graphWhereParentBlockChildren = RefreshGraph(true);
     }
 
     public void AddLink(Guid from, Guid to)
     {
+        Log.Verbose($"Add new dependency link: {from} {to}");
+
         _links.Add(new GraphLink(from, to));
+
         _graphWhereChildrenBlockParent = RefreshGraph(false);
         _graphWhereParentBlockChildren = RefreshGraph(true);
     }
