@@ -15,9 +15,11 @@ namespace Kysect.Tamgly.Tests;
 
 public class WorkItemBacklogTests
 {
+    private static readonly DateOnly FromDateTime = DateOnly.FromDateTime(new DateTime(2022, 04, 08));
+    
+    private readonly WorkItemManager _workItemManager;
     private readonly BacklogManager _backlogManager;
     private readonly DateOnly _workItemDeadline;
-    private readonly WorkItemManager _workItemManager;
     private readonly BlockerLinkManager _blockerLinkManager;
 
     public WorkItemBacklogTests()
@@ -28,9 +30,9 @@ public class WorkItemBacklogTests
             .CreateLogger();
 
         _workItemManager = new WorkItemManager();
-        _backlogManager = new BacklogManager(_workItemManager);
-        _workItemDeadline = DateOnly.FromDateTime(new DateTime(2022, 04, 08));
+        _workItemDeadline = FromDateTime;
         _blockerLinkManager = new BlockerLinkManager(_workItemManager);
+        _backlogManager = new BacklogManager(_workItemManager);
 
         _workItemManager.AddWorkItem(
             new WorkItemBuilder("Courses")
@@ -86,7 +88,7 @@ public class WorkItemBacklogTests
                 .SetEstimates(TimeSpan.FromHours(1))
                 .Build());
 
-        var backlogManager = new BacklogManager(_workItemManager);
+        var backlogManager = new BacklogManager(new PrioritizedWorkItemManager(_workItemManager, _blockerLinkManager));
         DailyWorkItemBacklog workItemBacklog = backlogManager.GetDailyBacklog(_workItemDeadline);
         DailyWorkItemBacklog tomorrowWorkItemBacklog = backlogManager.GetDailyBacklog(_workItemDeadline.AddDays(1));
         WeeklyWorkItemBacklog weeklyBacklog = backlogManager.GetWeeklyBacklog(_workItemDeadline);
@@ -138,5 +140,23 @@ public class WorkItemBacklogTests
         WorkItem second = _workItemManager.GetSelfWorkItems().ElementAt(1);
         _blockerLinkManager.AddLink(first.Id, second.Id);
         Assert.AreEqual(WorkItemPriority.P1, _blockerLinkManager.CalculateTotalPriority(first));
+    }
+
+    [Test]
+    public void AddBlockLink_AffectBacklogListOrder()
+    {
+        DailyWorkItemBacklog workItemBacklog = _backlogManager.GetDailyBacklog(_workItemDeadline);
+        
+        WorkItem first = workItemBacklog.CurrentDay.Items.ElementAt(0);
+        WorkItem second = workItemBacklog.CurrentDay.Items.ElementAt(1);
+        Assert.Greater(first.Priority, second.Priority);
+
+        //_blockerLinkManager.AddLink(first.Id, second.Id);
+        
+        var backlogManager = new BacklogManager(new PrioritizedWorkItemManager(_workItemManager, _blockerLinkManager));
+        workItemBacklog = backlogManager.GetDailyBacklog(_workItemDeadline);
+        first = workItemBacklog.CurrentDay.Items.ElementAt(0);
+        second = workItemBacklog.CurrentDay.Items.ElementAt(1);
+        Assert.Less(first.Priority, second.Priority);
     }
 }
