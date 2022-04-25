@@ -1,4 +1,4 @@
-﻿namespace Kysect.Tamgly.ConsoleClient;
+﻿namespace Kysect.Tamgly.Common.Extensions;
 
 public static class StringExtensions
 {

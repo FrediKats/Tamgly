@@ -1,4 +1,4 @@
-﻿namespace Kysect.Tamgly.Core.Tools;
+﻿namespace Kysect.Tamgly.Common.Extensions;
 
 public static class EnumerableExtensions
 {
