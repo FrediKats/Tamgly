@@ -47,7 +47,7 @@ public class Project : IEquatable<Project>
             throw new TamglyException($"Work item with id {item.Id} was not found.");
     }
 
-    public IReadOnlyCollection<WorkItem> GetAllWorkItems()
+    public IReadOnlyCollection<WorkItem> GetAllWorkItemWithRepetitive()
     {
         List<WorkItem> result = new List<WorkItem>();
         result.AddRange(Items);

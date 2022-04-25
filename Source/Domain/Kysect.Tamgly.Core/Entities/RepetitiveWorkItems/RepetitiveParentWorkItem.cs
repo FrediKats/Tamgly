@@ -4,6 +4,7 @@ namespace Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
 
 public class RepetitiveParentWorkItem
 {
+    private IReadOnlyCollection<WorkItem> _childrenWorkItems;
     public Guid Id { get; }
     public string Title { get; set; }
     public string? Description { get; set; }
@@ -24,13 +25,15 @@ public class RepetitiveParentWorkItem
         RepetitiveInterval = repetitiveInterval;
         AssignedTo = assignedTo;
         Priority = priority;
+
+        _childrenWorkItems = RepetitiveInterval
+            .EnumeratePointOnInterval()
+            .Select(d => WorkItem.CreateFromRepetitive(this, d))
+            .ToList();
     }
 
     public IReadOnlyCollection<WorkItem> GetChildWorkItems()
     {
-        return RepetitiveInterval
-            .EnumeratePointOnInterval()
-            .Select(d => WorkItem.CreateFromRepetitive(this, d))
-            .ToList();
+        return _childrenWorkItems;
     }
 }
