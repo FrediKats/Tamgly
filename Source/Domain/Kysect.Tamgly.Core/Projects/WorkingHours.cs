@@ -1,10 +1,6 @@
-﻿using Kysect.Tamgly.Common.Extensions;
-using Kysect.Tamgly.Core.Entities;
-using Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
-using Kysect.Tamgly.Core.Entities.TimeIntervals;
-using Kysect.Tamgly.Core.Tools;
+﻿using Kysect.Tamgly.Common;
 
-namespace Kysect.Tamgly.Core.ValueObjects;
+namespace Kysect.Tamgly.Core;
 
 public struct WorkingHours
 {

@@ -1,9 +1,6 @@
-﻿using Kysect.Tamgly.Core.Entities;
-using Kysect.Tamgly.Core.Entities.Deadlines;
-using Kysect.Tamgly.Core.ValueObjects;
-using Serilog;
+﻿using Serilog;
 
-namespace Kysect.Tamgly.Core.Tools;
+namespace Kysect.Tamgly.Core;
 
 public class WorkItemBuilder
 {

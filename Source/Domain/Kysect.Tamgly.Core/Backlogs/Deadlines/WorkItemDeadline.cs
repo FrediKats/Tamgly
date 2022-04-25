@@ -1,7 +1,4 @@
-﻿using Kysect.Tamgly.Core.Entities.TimeIntervals;
-using Kysect.Tamgly.Core.Tools;
-
-namespace Kysect.Tamgly.Core.Entities.Deadlines;
+﻿namespace Kysect.Tamgly.Core;
 
 public class WorkItemDeadline
 {

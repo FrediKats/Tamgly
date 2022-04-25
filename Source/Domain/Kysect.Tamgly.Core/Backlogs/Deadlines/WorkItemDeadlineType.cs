@@ -1,4 +1,4 @@
-﻿namespace Kysect.Tamgly.Core.Entities.Deadlines;
+﻿namespace Kysect.Tamgly.Core;
 
 public enum WorkItemDeadlineType
 {

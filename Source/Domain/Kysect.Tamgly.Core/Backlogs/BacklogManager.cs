@@ -1,8 +1,6 @@
-﻿using Kysect.Tamgly.Core.Entities;
-using Kysect.Tamgly.Core.Entities.Backlogs;
-using Serilog;
+﻿using Serilog;
 
-namespace Kysect.Tamgly.Core.Aggregates;
+namespace Kysect.Tamgly.Core;
 
 public class BacklogManager
 {

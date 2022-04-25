@@ -1,4 +1,4 @@
-﻿namespace Kysect.Tamgly.Core.Tools;
+﻿namespace Kysect.Tamgly.Core;
 
 public static class TamglyTime
 {

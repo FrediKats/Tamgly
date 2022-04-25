@@ -1,4 +1,4 @@
-﻿namespace Kysect.Tamgly.Common.Extensions;
+﻿namespace Kysect.Tamgly.Common;
 
 public static class GuidExtensions
 {

@@ -1,6 +1,4 @@
-﻿using Kysect.Tamgly.Core.Tools;
-
-namespace Kysect.Tamgly.Core.Entities.TimeIntervals;
+﻿namespace Kysect.Tamgly.Core;
 
 public readonly struct TimeInterval : ITimeInterval
 {

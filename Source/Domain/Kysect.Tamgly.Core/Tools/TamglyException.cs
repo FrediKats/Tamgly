@@ -1,4 +1,4 @@
-﻿namespace Kysect.Tamgly.Core.Tools;
+﻿namespace Kysect.Tamgly.Core;
 
 public class TamglyException : Exception
 {

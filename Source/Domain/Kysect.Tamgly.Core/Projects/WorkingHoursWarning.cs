@@ -1,6 +1,4 @@
-﻿using Kysect.Tamgly.Core.Entities.TimeIntervals;
-
-namespace Kysect.Tamgly.Core.ValueObjects;
+﻿namespace Kysect.Tamgly.Core;
 
 public readonly struct WorkingHoursWarning
 {

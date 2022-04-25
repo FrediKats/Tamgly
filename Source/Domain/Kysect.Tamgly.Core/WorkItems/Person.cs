@@ -1,4 +1,4 @@
-﻿namespace Kysect.Tamgly.Core.Entities;
+﻿namespace Kysect.Tamgly.Core;
 
 public record Person(Guid Id, string Name)
 {

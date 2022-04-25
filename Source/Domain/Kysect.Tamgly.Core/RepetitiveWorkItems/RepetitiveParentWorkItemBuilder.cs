@@ -1,8 +1,4 @@
-﻿using Kysect.Tamgly.Core.Entities;
-using Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
-using Kysect.Tamgly.Core.ValueObjects;
-
-namespace Kysect.Tamgly.Core.Tools;
+﻿namespace Kysect.Tamgly.Core;
 
 public class RepetitiveParentWorkItemBuilder
 {

@@ -1,6 +1,4 @@
-﻿using Kysect.Tamgly.Core.Entities.Deadlines;
-
-namespace Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
+﻿namespace Kysect.Tamgly.Core;
 
 public interface IRepetitiveInterval
 {

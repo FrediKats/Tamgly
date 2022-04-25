@@ -1,4 +1,4 @@
-﻿namespace Kysect.Tamgly.Core.Entities.TimeIntervals;
+﻿namespace Kysect.Tamgly.Core;
 
 public interface ITimeInterval
 {

@@ -1,6 +1,4 @@
-﻿using Kysect.Tamgly.Core.Tools;
-
-namespace Kysect.Tamgly.Core.Entities;
+﻿namespace Kysect.Tamgly.Core;
 
 public readonly struct WorkItemTrackInterval : IEquatable<WorkItemTrackInterval>
 {

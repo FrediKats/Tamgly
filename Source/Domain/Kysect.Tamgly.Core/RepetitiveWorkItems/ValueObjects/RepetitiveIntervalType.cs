@@ -1,4 +1,4 @@
-﻿namespace Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
+﻿namespace Kysect.Tamgly.Core;
 
 public enum RepetitiveIntervalType
 {

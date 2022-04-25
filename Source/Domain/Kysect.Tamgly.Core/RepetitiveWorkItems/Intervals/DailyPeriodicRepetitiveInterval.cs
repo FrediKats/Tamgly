@@ -1,7 +1,4 @@
-﻿using Kysect.Tamgly.Core.Entities.Deadlines;
-using Kysect.Tamgly.Core.Entities.TimeIntervals;
-
-namespace Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
+﻿namespace Kysect.Tamgly.Core;
 
 public class DailyPeriodicRepetitiveInterval : IRepetitiveInterval
 {

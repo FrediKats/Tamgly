@@ -1,6 +1,4 @@
-﻿using Kysect.Tamgly.Core.ValueObjects;
-
-namespace Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
+﻿namespace Kysect.Tamgly.Core;
 
 public class RepetitiveParentWorkItem
 {

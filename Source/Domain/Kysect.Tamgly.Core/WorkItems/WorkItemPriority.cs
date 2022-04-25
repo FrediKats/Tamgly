@@ -1,4 +1,4 @@
-﻿namespace Kysect.Tamgly.Core.ValueObjects;
+﻿namespace Kysect.Tamgly.Core;
 
 public enum WorkItemPriority
 {

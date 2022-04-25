@@ -1,8 +1,4 @@
-﻿using Kysect.Tamgly.Core.Entities;
-using Kysect.Tamgly.Core.Entities.TimeIntervals;
-using Kysect.Tamgly.Core.ValueObjects;
-
-namespace Kysect.Tamgly.Core.Aggregates;
+﻿namespace Kysect.Tamgly.Core;
 
 public class ProjectWorkHoursValidator
 {

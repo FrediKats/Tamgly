@@ -1,7 +1,4 @@
-﻿using Kysect.Tamgly.Core.Entities.Deadlines;
-using Kysect.Tamgly.Core.Tools;
-
-namespace Kysect.Tamgly.Core.Entities.Backlogs;
+﻿namespace Kysect.Tamgly.Core;
 
 public class WorkItemBacklog
 {
