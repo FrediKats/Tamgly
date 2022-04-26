@@ -1,6 +1,4 @@
-﻿using Kysect.Tamgly.Common;
-
-namespace Kysect.Tamgly.Core;
+﻿namespace Kysect.Tamgly.Core;
 
 public readonly struct TamglyDay : IEquatable<TamglyDay>, ITimeInterval
 {
