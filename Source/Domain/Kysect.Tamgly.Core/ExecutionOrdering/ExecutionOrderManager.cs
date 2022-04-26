@@ -4,41 +4,21 @@ namespace Kysect.Tamgly.Core;
 
 public class ExecutionOrderManager : IExecutionOrderManager
 {
-    public void Order(List<WorkItem> workItems, SelectedDayOfWeek selectedDayOfWeek, TimeSpan limitPerDay)
+    public IReadOnlyCollection<DailyAssignments> Order(List<WorkItem> workItems, SelectedDayOfWeek selectedDayOfWeek, TimeSpan limitPerDay)
     {
         workItems = workItems.Where(wi => wi.State == WorkItemState.Open).ToList();
-        ILookup<WorkItemDeadlineType, WorkItem> lookup = workItems.ToLookup(wi => wi.Deadline.DeadlineType);
-        List<WorkItem> wiForDay = lookup[WorkItemDeadlineType.Day].OrderBy(wi => wi.Deadline).ToList();
-        ITimeInterval? firstWiDeadline = wiForDay.First().Deadline.TimeInterval;
-        ITimeInterval? lastWiDeadline = wiForDay.Last().Deadline.TimeInterval;
-
-        if (firstWiDeadline is null)
-            throw new TamglyException($"WI {wiForDay.First().ToShortString()} has incorrect deadline.");
-
-        if (lastWiDeadline is null)
-            throw new TamglyException($"WI {wiForDay.Last().ToShortString()} has incorrect deadline.");
-
-        var firstDay = firstWiDeadline.To<TamglyDay>();
-        var lastDay = lastWiDeadline.To<TamglyDay>();
+       
+        var currentDay = new TamglyDay(workItems.GetEarliestStart());
+        var lastDay = new TamglyDay(workItems.GetEarliestEnd());
 
         var executionOrderContext = new ExecutionOrderQueue();
         var executionOrderBuilder = new ExecutionOrderBuilder(DateOnly.FromDateTime(DateTime.Now), selectedDayOfWeek, limitPerDay);
 
-        TamglyDay currentDay = firstDay;
         do
         {
-            var workItemPriorities = new[]
-            {
-                WorkItemPriority.P1,
-                WorkItemPriority.P2,
-                WorkItemPriority.P3,
-                WorkItemPriority.P4,
-                WorkItemPriority.P5
-            };
-
             var dailyWorkItemBacklog = DailyWorkItemBacklog.Create(workItems, currentDay.Value);
 
-            foreach (WorkItemPriority workItemPriority in workItemPriorities)
+            foreach (WorkItemPriority workItemPriority in Enum.GetValues<WorkItemPriority>())
             {
                 ProcessBacklog(dailyWorkItemBacklog.CurrentDay.Items, currentDay, executionOrderBuilder, executionOrderContext, workItemPriority);
                 ProcessBacklog(dailyWorkItemBacklog.CurrentWeek.Items, currentDay, executionOrderBuilder, executionOrderContext, workItemPriority);
@@ -47,6 +27,8 @@ public class ExecutionOrderManager : IExecutionOrderManager
             }
 
         } while (currentDay.Value <= lastDay.Value || executionOrderContext.Any());
+
+        return executionOrderBuilder.Build();
     }
 
     private void ProcessBacklog(

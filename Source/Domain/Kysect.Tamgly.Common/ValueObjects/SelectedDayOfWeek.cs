@@ -1,4 +1,4 @@
-﻿namespace Kysect.Tamgly.Core;
+﻿namespace Kysect.Tamgly.Common;
 
 [Flags]
 public enum SelectedDayOfWeek

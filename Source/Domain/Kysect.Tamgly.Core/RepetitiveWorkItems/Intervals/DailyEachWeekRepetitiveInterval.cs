@@ -1,4 +1,6 @@
-﻿namespace Kysect.Tamgly.Core;
+﻿using Kysect.Tamgly.Common;
+
+namespace Kysect.Tamgly.Core;
 
 public class DailyEachWeekRepetitiveInterval : IRepetitiveInterval
 {

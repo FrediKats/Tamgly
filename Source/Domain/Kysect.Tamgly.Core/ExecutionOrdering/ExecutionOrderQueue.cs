@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace Kysect.Tamgly.Core;
+﻿namespace Kysect.Tamgly.Core;
 
 public class ExecutionOrderQueue
 {
