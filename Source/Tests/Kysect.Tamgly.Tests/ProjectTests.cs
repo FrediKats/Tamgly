@@ -16,7 +16,7 @@ public class ProjectTests
     public ProjectTests()
     {
         Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Debug()
+            .MinimumLevel.Verbose()
             .WriteTo.Console()
             .CreateLogger();
 

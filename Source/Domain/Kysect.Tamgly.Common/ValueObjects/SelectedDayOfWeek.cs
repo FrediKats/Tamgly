@@ -31,4 +31,12 @@ public static class SelectedDayOfWeekExtensions
             _ => throw new ArgumentOutOfRangeException($"Invalid day of week for {date}: {date.DayOfWeek}")
         };
     }
+
+    public static DateOnly NextDayInRange(this DateOnly date, SelectedDayOfWeek selectedDayOfWeek)
+    {
+        while (!selectedDayOfWeek.Contains(date))
+            date = date.AddDays(1);
+
+        return date;
+    }
 }

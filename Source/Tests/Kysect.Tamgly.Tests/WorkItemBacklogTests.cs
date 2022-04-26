@@ -18,7 +18,7 @@ public class WorkItemBacklogTests
     public WorkItemBacklogTests()
     {
         Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Debug()
+            .MinimumLevel.Verbose()
             .WriteTo.Console()
             .CreateLogger();
 

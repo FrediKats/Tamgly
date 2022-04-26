@@ -1,4 +1,5 @@
 ﻿using Kysect.Tamgly.Common;
+using Serilog;
 
 namespace Kysect.Tamgly.Core;
 
@@ -15,8 +16,8 @@ public class ExecutionOrderManager : IExecutionOrderManager
     {
         workItems = workItems.Where(wi => wi.State == WorkItemState.Open).ToList();
        
-        var currentDay = new TamglyDay(workItems.GetEarliestStart());
-        var lastDay = new TamglyDay(workItems.GetEarliestEnd());
+        var currentDay = new TamglyDay(DateOnlyExtensions.Min(workItems.GetEarliestEnd(), _currentDay));
+        var lastDay = new TamglyDay(DateOnlyExtensions.Max(workItems.GetEarliestEnd(), _currentDay));
 
         var elementsWithoutDeadline = new ExecutionOrderQueue();
         var outdatedQueue = new ExecutionOrderQueue();
@@ -27,16 +28,22 @@ public class ExecutionOrderManager : IExecutionOrderManager
             .ToList()
             .ForEach(elementsWithoutDeadline.Add);
 
+        var dailyWorkItemBacklog = DailyWorkItemBacklog.Create(workItems, currentDay.Value);
+
         do
         {
-            var dailyWorkItemBacklog = DailyWorkItemBacklog.Create(workItems, currentDay.Value);
-
+            Log.Verbose($"Try to order items for {currentDay}");
             foreach (WorkItemPriority workItemPriority in Enum.GetValues<WorkItemPriority>())
             {
+                Log.Verbose($"Try to add daily items with priority {workItemPriority} to order");
                 ProcessBacklog(dailyWorkItemBacklog.CurrentDay.Items, currentDay, executionOrderBuilder, outdatedQueue, workItemPriority);
+                Log.Verbose($"Try to add weekly items with priority {workItemPriority} to order");
                 ProcessBacklog(dailyWorkItemBacklog.CurrentWeek.Items, currentDay, executionOrderBuilder, outdatedQueue, workItemPriority);
+                Log.Verbose($"Try to add monthly items with priority {workItemPriority} to order");
                 ProcessBacklog(dailyWorkItemBacklog.CurrentMonth.Items, currentDay, executionOrderBuilder, outdatedQueue, workItemPriority);
+                Log.Verbose($"Try to add items with priority {workItemPriority} from outdated items to order");
                 ProcessQueue(currentDay, executionOrderBuilder, outdatedQueue, workItemPriority);
+                Log.Verbose($"Try to add items without deadline with priority {workItemPriority} to order");
                 ProcessQueue(currentDay, executionOrderBuilder, elementsWithoutDeadline, workItemPriority);
             }
 
@@ -64,14 +71,22 @@ public class ExecutionOrderManager : IExecutionOrderManager
             if (workItem.Priority.Value != priority)
                 continue;
 
+            if (executionOrderBuilder.IsAdded(workItem))
+                continue;
+
+            if (executionOrderQueue.IsAdded(workItem))
+                continue;
+
             ExecutionOrderItem assignments = executionOrderBuilder.GetDailyAssignmentsWithFreeTime(workItem.Estimate.Value);
-            if (assignments.Date > currentDay.Value)
+            if (assignments.Date <= currentDay.Value)
             {
-                executionOrderQueue.Add(workItem);
+                Log.Verbose($"WI {workItem.ToShortString()} add to order {assignments.Date}");
+                assignments.Add(workItem);
             }
             else
             {
-                assignments.WorkItems.Add(workItem);
+                Log.Verbose($"WI {workItem.ToShortString()} cannot be added to order {assignments.Date}. Item will be added to queue");
+                executionOrderQueue.Add(workItem);
             }
         }
     }
@@ -84,7 +99,7 @@ public class ExecutionOrderManager : IExecutionOrderManager
     {
         do
         {
-            if (!executionOrderQueue.TryPeek(priority, out var workItem))
+            if (!executionOrderQueue.TryPeek(priority, out WorkItem? workItem))
                 return;
 
             if (workItem is null || workItem.Estimate is null)
@@ -94,8 +109,10 @@ public class ExecutionOrderManager : IExecutionOrderManager
             if (assignments.Date > currentDay.Value)
                 return;
 
-            workItem = executionOrderQueue.Dequeue(priority);
-            assignments.WorkItems.Add(workItem);
+            Log.Verbose($"WI {workItem.ToShortString()} add to order {assignments.Date}");
+            if (workItem != executionOrderQueue.Dequeue(priority))
+                throw new TamglyException($"ExecutionOrderQueue return unexpected WI");
+            assignments.Add(workItem);
         } while (true);
     }
 }

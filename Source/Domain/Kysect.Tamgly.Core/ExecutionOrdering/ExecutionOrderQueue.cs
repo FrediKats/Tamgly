@@ -41,7 +41,14 @@ public class ExecutionOrderQueue
 
     public WorkItem Dequeue(WorkItemPriority priority)
     {
-        return GetOrCreateQueue(priority).Dequeue();
+        return _workItems[priority].Dequeue();
+    }
+
+    public bool IsAdded(WorkItem workItem)
+    {
+        return _workItems
+            .SelectMany(wis => wis.Value)
+            .Any(wi => wi.Id == workItem.Id);
     }
 
     private Queue<WorkItem> GetOrCreateQueue(WorkItemPriority priority)

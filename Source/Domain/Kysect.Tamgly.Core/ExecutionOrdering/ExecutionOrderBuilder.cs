@@ -42,26 +42,24 @@ public class ExecutionOrderBuilder
         if (lastAssignment.TotalEstimates() + estimates > _workingHoursPerDay)
         {
             Log.Debug($"Cannot add WI with estimate {estimates} to daily assignments {lastAssignment.Date}. Not enough free time");
-            return CreateNewDailyAssignment(_currentDay.AddDays(1));
+            _currentDay = _currentDay.AddDays(1);
+            return CreateNewDailyAssignment(_currentDay);
         }
 
         return lastAssignment;
     }
 
+    public bool IsAdded(WorkItem workItem)
+    {
+        return _assignedWorkItems.SelectMany(a => a.WorkItems).Any(wi => wi.Id == workItem.Id);
+    }
+
     private ExecutionOrderItem CreateNewDailyAssignment(DateOnly searchFrom)
     {
         Log.Debug($"Try to find date for creating daily assignments. Start date: {searchFrom}, ");
-        _currentDay = GetNextDayFromSelectedDayOfWeek(searchFrom);
+        _currentDay = searchFrom.NextDayInRange(_selectedDayOfWeek);
         var dailyAssignments = new ExecutionOrderItem(_currentDay, new List<WorkItem>());
         _assignedWorkItems.Add(dailyAssignments);
         return dailyAssignments;
-    }
-
-    private DateOnly GetNextDayFromSelectedDayOfWeek(DateOnly searchFrom)
-    {
-        while (!_selectedDayOfWeek.Contains(searchFrom))
-            searchFrom = searchFrom.AddDays(1);
-
-        return searchFrom;
     }
 }

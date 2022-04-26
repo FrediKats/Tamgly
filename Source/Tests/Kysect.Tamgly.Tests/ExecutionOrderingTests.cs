@@ -1,4 +1,4 @@
-﻿using Kysect.Tamgly.Core;
+using Kysect.Tamgly.Core;
 using NUnit.Framework;
 using Serilog;
 using System;
@@ -14,13 +14,13 @@ public class ExecutionOrderingTests
     public ExecutionOrderingTests()
     {
         Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Debug()
+            .MinimumLevel.Verbose()
             .WriteTo.Console()
             .CreateLogger();
     }
 
     [Test]
-    public void AddToMuchTaskToProject_ShouldReturnWarnings()
+    public void CreateExecutionOrder_ShouldReturnCorrectCountOfDays()
     {
         var executionOrderManager = new ExecutionOrderManager(FromDateTime);
 

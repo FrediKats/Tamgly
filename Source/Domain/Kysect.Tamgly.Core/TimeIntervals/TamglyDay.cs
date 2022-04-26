@@ -1,4 +1,6 @@
-﻿namespace Kysect.Tamgly.Core;
+﻿using Kysect.Tamgly.Common;
+
+namespace Kysect.Tamgly.Core;
 
 public readonly struct TamglyDay : IEquatable<TamglyDay>, ITimeInterval
 {
@@ -40,5 +42,10 @@ public readonly struct TamglyDay : IEquatable<TamglyDay>, ITimeInterval
     public override int GetHashCode()
     {
         return Number;
+    }
+
+    public override string ToString()
+    {
+        return Value.ToString();
     }
 }
