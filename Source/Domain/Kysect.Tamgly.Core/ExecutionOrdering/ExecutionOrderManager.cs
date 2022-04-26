@@ -18,8 +18,14 @@ public class ExecutionOrderManager : IExecutionOrderManager
         var currentDay = new TamglyDay(workItems.GetEarliestStart());
         var lastDay = new TamglyDay(workItems.GetEarliestEnd());
 
-        var executionOrderContext = new ExecutionOrderQueue();
+        var elementsWithoutDeadline = new ExecutionOrderQueue();
+        var outdatedQueue = new ExecutionOrderQueue();
         var executionOrderBuilder = new ExecutionOrderBuilder(_currentDay, selectedDayOfWeek, limitPerDay);
+
+        workItems
+            .Where(wi => wi.Deadline.DeadlineType == WorkItemDeadlineType.NoDeadline)
+            .ToList()
+            .ForEach(elementsWithoutDeadline.Add);
 
         do
         {
@@ -27,14 +33,15 @@ public class ExecutionOrderManager : IExecutionOrderManager
 
             foreach (WorkItemPriority workItemPriority in Enum.GetValues<WorkItemPriority>())
             {
-                ProcessBacklog(dailyWorkItemBacklog.CurrentDay.Items, currentDay, executionOrderBuilder, executionOrderContext, workItemPriority);
-                ProcessBacklog(dailyWorkItemBacklog.CurrentWeek.Items, currentDay, executionOrderBuilder, executionOrderContext, workItemPriority);
-                ProcessBacklog(dailyWorkItemBacklog.CurrentMonth.Items, currentDay, executionOrderBuilder, executionOrderContext, workItemPriority);
-                ProcessQueue(currentDay, executionOrderBuilder, executionOrderContext, workItemPriority);
+                ProcessBacklog(dailyWorkItemBacklog.CurrentDay.Items, currentDay, executionOrderBuilder, outdatedQueue, workItemPriority);
+                ProcessBacklog(dailyWorkItemBacklog.CurrentWeek.Items, currentDay, executionOrderBuilder, outdatedQueue, workItemPriority);
+                ProcessBacklog(dailyWorkItemBacklog.CurrentMonth.Items, currentDay, executionOrderBuilder, outdatedQueue, workItemPriority);
+                ProcessQueue(currentDay, executionOrderBuilder, outdatedQueue, workItemPriority);
+                ProcessQueue(currentDay, executionOrderBuilder, elementsWithoutDeadline, workItemPriority);
             }
 
             currentDay = currentDay.AddDays();
-        } while (currentDay.Value <= lastDay.Value || executionOrderContext.Any());
+        } while (currentDay.Value <= lastDay.Value || outdatedQueue.Any());
 
         return executionOrderBuilder.Build();
     }
