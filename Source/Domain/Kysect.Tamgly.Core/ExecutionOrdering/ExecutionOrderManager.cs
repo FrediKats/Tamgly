@@ -4,7 +4,14 @@ namespace Kysect.Tamgly.Core;
 
 public class ExecutionOrderManager : IExecutionOrderManager
 {
-    public IReadOnlyCollection<DailyAssignments> Order(List<WorkItem> workItems, SelectedDayOfWeek selectedDayOfWeek, TimeSpan limitPerDay)
+    private readonly DateOnly _currentDay;
+
+    public ExecutionOrderManager(DateOnly currentDay)
+    {
+        _currentDay = currentDay;
+    }
+
+    public ExecutionOrder Order(IReadOnlyCollection<WorkItem> workItems, SelectedDayOfWeek selectedDayOfWeek, TimeSpan limitPerDay)
     {
         workItems = workItems.Where(wi => wi.State == WorkItemState.Open).ToList();
        
@@ -12,7 +19,7 @@ public class ExecutionOrderManager : IExecutionOrderManager
         var lastDay = new TamglyDay(workItems.GetEarliestEnd());
 
         var executionOrderContext = new ExecutionOrderQueue();
-        var executionOrderBuilder = new ExecutionOrderBuilder(DateOnly.FromDateTime(DateTime.Now), selectedDayOfWeek, limitPerDay);
+        var executionOrderBuilder = new ExecutionOrderBuilder(_currentDay, selectedDayOfWeek, limitPerDay);
 
         do
         {
@@ -26,6 +33,7 @@ public class ExecutionOrderManager : IExecutionOrderManager
                 ProcessQueue(currentDay, executionOrderBuilder, executionOrderContext, workItemPriority);
             }
 
+            currentDay = currentDay.AddDays();
         } while (currentDay.Value <= lastDay.Value || executionOrderContext.Any());
 
         return executionOrderBuilder.Build();
@@ -49,7 +57,7 @@ public class ExecutionOrderManager : IExecutionOrderManager
             if (workItem.Priority.Value != priority)
                 continue;
 
-            DailyAssignments assignments = executionOrderBuilder.GetDailyAssignmentsWithFreeTime(workItem.Estimate.Value);
+            ExecutionOrderItem assignments = executionOrderBuilder.GetDailyAssignmentsWithFreeTime(workItem.Estimate.Value);
             if (assignments.Date > currentDay.Value)
             {
                 executionOrderQueue.Add(workItem);
@@ -75,10 +83,11 @@ public class ExecutionOrderManager : IExecutionOrderManager
             if (workItem is null || workItem.Estimate is null)
                 throw new TamglyException($"Invalid return result from ExecutionOrderQueue");
 
-            DailyAssignments assignments = executionOrderBuilder.GetDailyAssignmentsWithFreeTime(workItem.Estimate.Value);
+            ExecutionOrderItem assignments = executionOrderBuilder.GetDailyAssignmentsWithFreeTime(workItem.Estimate.Value);
             if (assignments.Date > currentDay.Value)
                 return;
 
+            workItem = executionOrderQueue.Dequeue(priority);
             assignments.WorkItems.Add(workItem);
         } while (true);
     }

@@ -39,6 +39,11 @@ public class ExecutionOrderQueue
         return GetOrCreateQueue(priority).TryPeek(out result);
     }
 
+    public WorkItem Dequeue(WorkItemPriority priority)
+    {
+        return GetOrCreateQueue(priority).Dequeue();
+    }
+
     private Queue<WorkItem> GetOrCreateQueue(WorkItemPriority priority)
     {
         if (!_workItems.ContainsKey(priority))

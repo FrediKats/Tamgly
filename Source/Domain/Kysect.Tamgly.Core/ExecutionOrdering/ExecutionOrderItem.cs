@@ -2,7 +2,7 @@
 
 namespace Kysect.Tamgly.Core;
 
-public record DailyAssignments(DateOnly Date, List<WorkItem> WorkItems)
+public record ExecutionOrderItem(DateOnly Date, List<WorkItem> WorkItems)
 {
     public TimeSpan TotalEstimates()
     {

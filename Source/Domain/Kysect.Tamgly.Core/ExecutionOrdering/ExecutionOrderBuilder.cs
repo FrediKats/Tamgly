@@ -9,7 +9,7 @@ public class ExecutionOrderBuilder
 
     private readonly SelectedDayOfWeek _selectedDayOfWeek;
     private readonly TimeSpan _workingHoursPerDay;
-    private readonly List<DailyAssignments> _assignedWorkItems;
+    private readonly List<ExecutionOrderItem> _assignedWorkItems;
 
     public ExecutionOrderBuilder(DateOnly currentDay, SelectedDayOfWeek selectedDayOfWeek, TimeSpan workingHoursPerDay)
     {
@@ -19,15 +19,15 @@ public class ExecutionOrderBuilder
         _currentDay = currentDay;
         _selectedDayOfWeek = selectedDayOfWeek;
         _workingHoursPerDay = workingHoursPerDay;
-        _assignedWorkItems = new List<DailyAssignments>();
+        _assignedWorkItems = new List<ExecutionOrderItem>();
     }
 
-    public IReadOnlyCollection<DailyAssignments> Build()
+    public ExecutionOrder Build()
     {
-        return _assignedWorkItems;
+        return new ExecutionOrder(_assignedWorkItems);
     }
 
-    public DailyAssignments GetDailyAssignmentsWithFreeTime(TimeSpan estimates)
+    public ExecutionOrderItem GetDailyAssignmentsWithFreeTime(TimeSpan estimates)
     {
         if (estimates > _workingHoursPerDay)
             throw new TamglyException($"Cannot find time for Work item. Estimates is bigger that time for a one day.");
@@ -38,7 +38,7 @@ public class ExecutionOrderBuilder
             return CreateNewDailyAssignment(_currentDay);
         }
 
-        DailyAssignments lastAssignment = _assignedWorkItems.Last();
+        ExecutionOrderItem lastAssignment = _assignedWorkItems.Last();
         if (lastAssignment.TotalEstimates() + estimates > _workingHoursPerDay)
         {
             Log.Debug($"Cannot add WI with estimate {estimates} to daily assignments {lastAssignment.Date}. Not enough free time");
@@ -48,11 +48,11 @@ public class ExecutionOrderBuilder
         return lastAssignment;
     }
 
-    private DailyAssignments CreateNewDailyAssignment(DateOnly searchFrom)
+    private ExecutionOrderItem CreateNewDailyAssignment(DateOnly searchFrom)
     {
         Log.Debug($"Try to find date for creating daily assignments. Start date: {searchFrom}, ");
         _currentDay = GetNextDayFromSelectedDayOfWeek(searchFrom);
-        var dailyAssignments = new DailyAssignments(_currentDay, new List<WorkItem>());
+        var dailyAssignments = new ExecutionOrderItem(_currentDay, new List<WorkItem>());
         _assignedWorkItems.Add(dailyAssignments);
         return dailyAssignments;
     }

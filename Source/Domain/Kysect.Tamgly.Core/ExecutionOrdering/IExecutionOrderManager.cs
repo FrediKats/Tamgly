@@ -4,5 +4,5 @@ namespace Kysect.Tamgly.Core;
 
 public interface IExecutionOrderManager
 {
-    IReadOnlyCollection<DailyAssignments> Order(List<WorkItem> workItems, SelectedDayOfWeek selectedDayOfWeek, TimeSpan limitPerDay);
+    ExecutionOrder Order(IReadOnlyCollection<WorkItem> workItems, SelectedDayOfWeek selectedDayOfWeek, TimeSpan limitPerDay);
 }
