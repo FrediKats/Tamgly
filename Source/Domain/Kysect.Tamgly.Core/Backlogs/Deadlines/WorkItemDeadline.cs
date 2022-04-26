@@ -3,40 +3,39 @@
 public class WorkItemDeadline
 {
     public static WorkItemDeadline NoDeadline { get; } = new WorkItemDeadline();
-    
-    private readonly WorkItemDeadlineType _deadlineType;
 
     public ITimeInterval? TimeInterval { get; }
+    public WorkItemDeadlineType DeadlineType { get; }
 
     public WorkItemDeadline()
     {
         TimeInterval = null;
-        _deadlineType = WorkItemDeadlineType.NoDeadline;
+        DeadlineType = WorkItemDeadlineType.NoDeadline;
     }
 
     public WorkItemDeadline(TamglyDay day)
     {
         TimeInterval = day;
-        _deadlineType = WorkItemDeadlineType.Day;
+        DeadlineType = WorkItemDeadlineType.Day;
     }
 
     public WorkItemDeadline(TamglyWeek week)
     {
         TimeInterval = week;
-        _deadlineType = WorkItemDeadlineType.Week;
+        DeadlineType = WorkItemDeadlineType.Week;
     }
 
     public WorkItemDeadline(TamglyMonth month)
     {
         TimeInterval = month;
-        _deadlineType = WorkItemDeadlineType.Month;
+        DeadlineType = WorkItemDeadlineType.Month;
     }
 
     public bool MatchedWith(WorkItemDeadline other)
     {
         ArgumentNullException.ThrowIfNull(other);
 
-        if (_deadlineType != other._deadlineType)
+        if (DeadlineType != other.DeadlineType)
             return false;
         if (TimeInterval is null)
             return other.TimeInterval is null;
