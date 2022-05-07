@@ -1,4 +1,5 @@
 ﻿using Kysect.Tamgly.Core.Entities;
+using Kysect.Tamgly.Core.ValueObjects;
 using Kysect.Tamgly.Graphs;
 using Serilog;
 
@@ -47,6 +48,24 @@ public class BlockerLinkManager
 
         GraphNode<WorkItem> graphNode = _graphWhereParentBlockChildren.GetValue(workItem.Id);
         return graphNode.EnumerateChildren().Any();
+    }
+
+    public WorkItemPriority? CalculateTotalPriority(WorkItem workItem)
+    {
+        ArgumentNullException.ThrowIfNull(workItem);
+        GraphNode<WorkItem> graphNode = _graphWhereChildrenBlockParent.GetValue(workItem.Id);
+        WorkItemPriority? childrenMaxPriority = graphNode
+            .EnumerateChildren()
+            .Where(c => c.Value.Priority is not null)
+            .Max(c => c.Value.Priority);
+
+        if (childrenMaxPriority is null)
+            return workItem.Priority;
+
+        if (workItem.Priority is not null)
+            return childrenMaxPriority;
+
+        return workItem.Priority > childrenMaxPriority ? workItem.Priority : childrenMaxPriority;
     }
 
     private GraphBuildResult<WorkItem> RefreshGraph(bool reverseLinks)

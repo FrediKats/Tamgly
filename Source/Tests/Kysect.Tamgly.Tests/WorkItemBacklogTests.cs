@@ -7,6 +7,7 @@ using Kysect.Tamgly.Core.Entities.Deadlines;
 using Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
 using Kysect.Tamgly.Core.Entities.TimeIntervals;
 using Kysect.Tamgly.Core.Tools;
+using Kysect.Tamgly.Core.ValueObjects;
 using NUnit.Framework;
 using Serilog;
 
@@ -34,12 +35,14 @@ public class WorkItemBacklogTests
         _workItemManager.AddWorkItem(
             new WorkItemBuilder("Courses")
                 .SetDeadline(new WorkItemDeadline(new TamglyDay(_workItemDeadline)))
+                .SetPriority(WorkItemPriority.P3)
                 .Build());
 
         _workItemManager.AddWorkItem(
             new WorkItemBuilder("Lecture 09")
                 .SetDeadline(new WorkItemDeadline(new TamglyDay(_workItemDeadline)))
                 .SetEstimates(TimeSpan.FromHours(3))
+                .SetPriority(WorkItemPriority.P1)
                 .Build());
 
         _workItemManager.AddWorkItem(
@@ -126,5 +129,14 @@ public class WorkItemBacklogTests
 
         Assert.AreEqual(myWorkItemsCount, newMyWorkItemsCount);
         Assert.AreEqual(allWorkItemsCount + 1, newAllWorkItemsCount);
+    }
+
+    [Test]
+    public void AddBlockLink_CorrectTotalPriority()
+    {
+        WorkItem first = _workItemManager.GetSelfWorkItems().ElementAt(0);
+        WorkItem second = _workItemManager.GetSelfWorkItems().ElementAt(1);
+        _blockerLinkManager.AddLink(first.Id, second.Id);
+        Assert.AreEqual(WorkItemPriority.P1, _blockerLinkManager.CalculateTotalPriority(first));
     }
 }
