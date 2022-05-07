@@ -13,10 +13,9 @@ public class DailyPeriodicRepetitiveInterval : IRepetitiveInterval
 
     public IReadOnlyCollection<WorkItemDeadline> EnumeratePointOnInterval()
     {
-        var result = new List<WorkItemDeadline>();
-        for (DateOnly current = _interval.Start; current < _interval.End; current = current.AddDays(_period))
-            result.Add(new WorkItemDeadline(new TamglyDay(current)));
-
-        return result;
+        return TamglyDay
+            .EnumerateDays(_interval, _period)
+            .Select(d => new WorkItemDeadline(d))
+            .ToList();
     }
 }

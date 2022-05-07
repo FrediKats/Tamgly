@@ -1,18 +1,32 @@
-﻿namespace Kysect.Tamgly.Core;
+﻿using Kysect.Tamgly.Common;
+
+namespace Kysect.Tamgly.Core;
 
 public readonly struct TamglyDay : IEquatable<TamglyDay>, ITimeInterval
 {
     public int Number { get; }
-    public DateOnly Start { get; }
-    public DateOnly End { get; }
+    public DateOnly Value { get; }
+
+    DateOnly ITimeInterval.Start => Value;
+    DateOnly ITimeInterval.End => Value;
 
     public TamglyDay(DateOnly start)
     {
         TamglyTime.EnsureDateIsSupported(start);
 
         Number = TamglyTime.ZeroDay.DaysTo(start);
-        Start = start;
-        End = start;
+        Value = start;
+    }
+
+    public static IEnumerable<TamglyDay> EnumerateDays(ITimeInterval interval, int period = 1)
+    {
+        for (var current = new TamglyDay(interval.Start); current.Value < interval.End; current = current.AddDays(period))
+            yield return current;
+    }
+
+    public TamglyDay AddDays(int count = 1)
+    {
+        return new TamglyDay(Value.AddDays(count));
     }
 
     public bool Equals(TamglyDay other)
@@ -28,5 +42,10 @@ public readonly struct TamglyDay : IEquatable<TamglyDay>, ITimeInterval
     public override int GetHashCode()
     {
         return Number;
+    }
+
+    public override string ToString()
+    {
+        return Value.ToString();
     }
 }

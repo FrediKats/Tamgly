@@ -26,7 +26,7 @@ public struct WorkingHours
             return null;
 
         if (SelectedDays is not null
-            && !SelectedDays.Value.Contains(day.Start))
+            && !SelectedDays.Value.Contains(day.Value))
         {
             return new WorkingHoursWarning(day, TimeSpan.Zero, totalEstimates.Value);
         }

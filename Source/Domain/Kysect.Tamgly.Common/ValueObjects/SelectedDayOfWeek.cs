@@ -1,15 +1,18 @@
-﻿namespace Kysect.Tamgly.Core;
+﻿namespace Kysect.Tamgly.Common;
 
 [Flags]
 public enum SelectedDayOfWeek
 {
-    Monday = 2 << 0,
-    Tuesday = 2 << 1,
-    Wednesday = 2 << 2,
-    Thursday = 2 << 3,
-    Friday = 2 << 4,
-    Saturday = 2 << 5,
-    Sunday = 2 << 6,
+    None = 0,
+    Monday = 1,
+    Tuesday = 2 << 0,
+    Wednesday = 2 << 1,
+    Thursday = 2 << 2,
+    Friday = 2 << 3,
+    Saturday = 2 << 4,
+    Sunday = 2 << 5,
+
+    All = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday,
 }
 
 public static class SelectedDayOfWeekExtensions
@@ -27,5 +30,13 @@ public static class SelectedDayOfWeekExtensions
             DayOfWeek.Sunday => selectedDayOfWeek.HasFlag(SelectedDayOfWeek.Sunday),
             _ => throw new ArgumentOutOfRangeException($"Invalid day of week for {date}: {date.DayOfWeek}")
         };
+    }
+
+    public static DateOnly NextDayInRange(this DateOnly date, SelectedDayOfWeek selectedDayOfWeek)
+    {
+        while (!selectedDayOfWeek.Contains(date))
+            date = date.AddDays(1);
+
+        return date;
     }
 }
