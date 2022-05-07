@@ -1,5 +1,6 @@
 ﻿using Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
 using Kysect.Tamgly.Core.Tools;
+using Kysect.Tamgly.Core.ValueObjects;
 
 namespace Kysect.Tamgly.Core.Entities;
 
@@ -9,20 +10,22 @@ public class Project : IEquatable<Project>
     public string Title { get; }
     public ICollection<WorkItem> Items { get; }
     public ICollection<RepetitiveParentWorkItem> RepetitiveItems { get; }
+    public WorkingHours WorkingHours { get; }
 
-    public static Project Create(string title)
+    public static Project Create(string title, WorkingHours? workingHours = null)
     {
         ArgumentNullException.ThrowIfNull(title);
 
-        return new Project(Guid.NewGuid(), title, new List<WorkItem>(), new List<RepetitiveParentWorkItem>());
+        return new Project(Guid.NewGuid(), title, new List<WorkItem>(), new List<RepetitiveParentWorkItem>(), workingHours ?? WorkingHours.Empty);
     }
 
-    public Project(Guid id, string title, ICollection<WorkItem> items, ICollection<RepetitiveParentWorkItem> repetitiveItems)
+    public Project(Guid id, string title, ICollection<WorkItem> items, ICollection<RepetitiveParentWorkItem> repetitiveItems, WorkingHours workingHours)
     {
         Id = id;
         Title = title;
         Items = items;
         RepetitiveItems = repetitiveItems;
+        WorkingHours = workingHours;
     }
 
     public void AddItem(WorkItem item)
