@@ -23,6 +23,13 @@ public class CreateWorkItemCommand : Command<CreateWorkItemCommand.Settings>
         public WorkItemPriority? Priority { get; set; }
     }
 
+    private readonly WorkItemManager _itemManager;
+
+    public CreateWorkItemCommand(WorkItemManager itemManager)
+    {
+        _itemManager = itemManager;
+    }
+
     public override ValidationResult Validate(CommandContext context, Settings settings)
     {
         if (settings.Title is null)
@@ -68,7 +75,6 @@ public class CreateWorkItemCommand : Command<CreateWorkItemCommand.Settings>
             }
         }
 
-        var workItemManager = new WorkItemManager();
         WorkItemBuilder workItemBuilder = new WorkItemBuilder(settings.Title)
             .SetDescription(settings.Description)
             .SetEstimates(settings.Estimate)
@@ -76,7 +82,7 @@ public class CreateWorkItemCommand : Command<CreateWorkItemCommand.Settings>
             .SetPriority(settings.Priority);
 
         WorkItem workItem = workItemBuilder.Build();
-        workItemManager.AddWorkItem(workItem);
+        _itemManager.AddWorkItem(workItem);
         
         return 0;
     }
