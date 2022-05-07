@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integrations", "Integration
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kysect.Tamgly.Graphs", "Domain\Kysect.Tamgly.Graphs\Kysect.Tamgly.Graphs.csproj", "{63CA7820-1D1A-4887-991A-0C857EFF0FC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kysect.Tamgly.Common", "Domain\Kysect.Tamgly.Common\Kysect.Tamgly.Common.csproj", "{FE6398F8-016D-44E3-B42B-6B2DA526D198}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kysect.Tamgly.Common", "Domain\Kysect.Tamgly.Common\Kysect.Tamgly.Common.csproj", "{FE6398F8-016D-44E3-B42B-6B2DA526D198}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
