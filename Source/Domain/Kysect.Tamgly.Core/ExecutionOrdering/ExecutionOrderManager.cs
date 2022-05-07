@@ -6,13 +6,17 @@ namespace Kysect.Tamgly.Core;
 public class ExecutionOrderManager : IExecutionOrderManager
 {
     private readonly DateOnly _currentDay;
+    private readonly SelectedDayOfWeek _selectedDayOfWeek;
+    private readonly TimeSpan _limitPerDay;
 
-    public ExecutionOrderManager(DateOnly currentDay)
+    public ExecutionOrderManager(DateOnly currentDay, SelectedDayOfWeek selectedDayOfWeek, TimeSpan limitPerDay)
     {
         _currentDay = currentDay;
+        _selectedDayOfWeek = selectedDayOfWeek;
+        _limitPerDay = limitPerDay;
     }
 
-    public ExecutionOrder Order(IReadOnlyCollection<WorkItem> workItems, SelectedDayOfWeek selectedDayOfWeek, TimeSpan limitPerDay)
+    public ExecutionOrder Order(IReadOnlyCollection<WorkItem> workItems)
     {
         workItems = workItems.Where(wi => wi.State == WorkItemState.Open).ToList();
        
@@ -21,7 +25,7 @@ public class ExecutionOrderManager : IExecutionOrderManager
 
         var elementsWithoutDeadline = new ExecutionOrderQueue();
         var outdatedQueue = new ExecutionOrderQueue();
-        var executionOrderBuilder = new ExecutionOrderBuilder(_currentDay, selectedDayOfWeek, limitPerDay);
+        var executionOrderBuilder = new ExecutionOrderBuilder(_currentDay, _selectedDayOfWeek, _limitPerDay);
 
         workItems
             .Where(wi => wi.Deadline.DeadlineType == WorkItemDeadlineType.NoDeadline)
@@ -51,6 +55,13 @@ public class ExecutionOrderManager : IExecutionOrderManager
         } while (currentDay.Value <= lastDay.Value || outdatedQueue.Any());
 
         return executionOrderBuilder.Build();
+    }
+
+    public IReadOnlyCollection<ExecutionOrderDiff> GetDiffAfterAddingWorkItem(IReadOnlyCollection<WorkItem> workItems, WorkItem workItemForAdding)
+    {
+        ExecutionOrder before = Order(workItems);
+        ExecutionOrder after = Order(workItems.Append(workItemForAdding).ToList());
+        return GetDiff(before, after);
     }
 
     private void ProcessBacklog(
@@ -114,5 +125,29 @@ public class ExecutionOrderManager : IExecutionOrderManager
                 throw new TamglyException($"ExecutionOrderQueue return unexpected WI");
             assignments.Add(workItem);
         } while (true);
+    }
+
+    private IReadOnlyCollection<ExecutionOrderDiff> GetDiff(ExecutionOrder before, ExecutionOrder after)
+    {
+        var mapToExecutionDate = new Dictionary<Guid, DateOnly>();
+        var result = new List<ExecutionOrderDiff>();
+
+        before.Items
+            .ForEach(i => i.WorkItems
+                .ForEach(wi => mapToExecutionDate[wi.Id] = i.Date));
+
+
+        after.Items
+            .ForEach(i => i.WorkItems
+                .ForEach(wi =>
+                {
+                    if (mapToExecutionDate.TryGetValue(wi.Id, out var dateBefore))
+                    {
+                        if (i.Date != dateBefore)
+                            result.Add(new ExecutionOrderDiff(wi, dateBefore, i.Date));
+                    }
+                }));
+
+        return result;
     }
 }
