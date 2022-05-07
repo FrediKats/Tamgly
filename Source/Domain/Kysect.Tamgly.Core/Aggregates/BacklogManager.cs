@@ -6,9 +6,9 @@ namespace Kysect.Tamgly.Core.Aggregates;
 
 public class BacklogManager
 {
-    private readonly WorkItemManager _itemManager;
+    private readonly IWorkItemManager _itemManager;
 
-    public BacklogManager(WorkItemManager itemManager)
+    public BacklogManager(IWorkItemManager itemManager)
     {
         ArgumentNullException.ThrowIfNull(itemManager);
 

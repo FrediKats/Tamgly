@@ -1,12 +1,11 @@
 ﻿using Kysect.Tamgly.Core.Entities;
 using Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
 using Kysect.Tamgly.Core.Tools;
-using Kysect.Tamgly.Core.ValueObjects;
 using Serilog;
 
 namespace Kysect.Tamgly.Core.Aggregates;
 
-public class WorkItemManager
+public class WorkItemManager : IWorkItemManager
 {
     private readonly Project _defaultProject;
     private readonly WorkItemManagerConfig _config;
@@ -111,7 +110,7 @@ public class WorkItemManager
     public IReadOnlyCollection<WorkItem> GetSelfWorkItems()
     {
         return _projects
-            .SelectMany(p => p.GetAllWorkItems())
+            .SelectMany(p => p.GetAllWorkItemWithRepetitive())
             .Where(w => w.AssignedTo.IsMe())
             .ToList();
     }
@@ -119,7 +118,7 @@ public class WorkItemManager
     public IReadOnlyCollection<WorkItem> GetAllWorkItems()
     {
         return _projects
-            .SelectMany(p => p.GetAllWorkItems())
+            .SelectMany(p => p.GetAllWorkItemWithRepetitive())
             .ToList();
     }
 

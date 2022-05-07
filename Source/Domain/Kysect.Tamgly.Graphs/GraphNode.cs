@@ -34,4 +34,9 @@ public class GraphNode<T>
             .Select(node => node.Find(id))
             .FirstOrDefault(founded => founded is not null);
     }
+
+    public override string ToString()
+    {
+        return $"Node {Value}, Direct children count: {DirectChildren.Count}";
+    }
 }
