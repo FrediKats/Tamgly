@@ -1,10 +1,7 @@
-﻿using Kysect.Tamgly.Core.Entities;
-using Kysect.Tamgly.Core.Entities.RepetitiveWorkItems;
-using Kysect.Tamgly.Core.Tools;
-using Kysect.Tamgly.Core.ValueObjects;
+﻿using Kysect.Tamgly.Common;
 using Serilog;
 
-namespace Kysect.Tamgly.Core.Aggregates;
+namespace Kysect.Tamgly.Core;
 
 public class WorkItemManager : IWorkItemManager
 {

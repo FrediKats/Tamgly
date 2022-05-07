@@ -1,8 +1,8 @@
 ﻿using System.Text;
-using Kysect.Tamgly.Core.Entities;
+using Kysect.Tamgly.Common;
 using Kysect.Tamgly.Graphs;
 
-namespace Kysect.Tamgly.ConsoleClient;
+namespace Kysect.Tamgly.Core;
 
 public class GraphBuildResultPrinter
 {

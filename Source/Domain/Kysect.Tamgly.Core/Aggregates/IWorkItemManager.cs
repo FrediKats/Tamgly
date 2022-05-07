@@ -1,6 +1,4 @@
-﻿using Kysect.Tamgly.Core.Entities;
-
-namespace Kysect.Tamgly.Core.Aggregates;
+﻿namespace Kysect.Tamgly.Core;
 
 public interface IWorkItemManager
 {

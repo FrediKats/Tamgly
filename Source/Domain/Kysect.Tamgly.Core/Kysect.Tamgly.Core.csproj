@@ -7,10 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Kysect.Tamgly.Core.csproj.DotSettings" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Aggregates\" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Kysect.Tamgly.Common\Kysect.Tamgly.Common.csproj" />
     <ProjectReference Include="..\Kysect.Tamgly.Graphs\Kysect.Tamgly.Graphs.csproj" />
   </ItemGroup>
 

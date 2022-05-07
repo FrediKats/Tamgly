@@ -1,12 +1,7 @@
-﻿using Kysect.Tamgly.Core.Aggregates;
-using Kysect.Tamgly.Core.Entities.Deadlines;
-using Kysect.Tamgly.Core.Entities.TimeIntervals;
-using Kysect.Tamgly.Core.ValueObjects;
-using Serilog;
+﻿using Serilog;
 using System;
 using System.Collections.Generic;
-using Kysect.Tamgly.Core.Entities;
-using Kysect.Tamgly.Core.Tools;
+using Kysect.Tamgly.Core;
 using NUnit.Framework;
 
 namespace Kysect.Tamgly.Tests;
@@ -15,11 +10,8 @@ public class ProjectTests
 {
     private static readonly DateOnly FromDateTime = DateOnly.FromDateTime(new DateTime(2022, 04, 08));
 
-
     private readonly WorkItemManager _workItemManager;
-    private readonly BacklogManager _backlogManager;
     private readonly DateOnly _workItemDeadline;
-    private readonly BlockerLinkManager _blockerLinkManager;
 
     public ProjectTests()
     {
@@ -30,8 +22,6 @@ public class ProjectTests
 
         _workItemManager = new WorkItemManager();
         _workItemDeadline = FromDateTime;
-        _blockerLinkManager = new BlockerLinkManager(_workItemManager);
-        _backlogManager = new BacklogManager(_workItemManager);
 
         _workItemManager.AddWorkItem(
             new WorkItemBuilder("Courses")
