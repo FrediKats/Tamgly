@@ -35,7 +35,7 @@ public class WorkItemBuilder
         return this;
     }
 
-    public WorkItemBuilder SetDeadline(WorkItemDeadline? deadline)
+    public WorkItemBuilder SetDeadline(WorkItemDeadline deadline)
     {
         _deadline = deadline;
         return this;

@@ -4,7 +4,8 @@ public class ExecutionOrderQueue
 {
     private readonly Dictionary<WorkItemPriority, Queue<WorkItem>> _workItems;
 
-    public ExecutionOrderQueue() : this(new Dictionary<WorkItemPriority, Queue<WorkItem>>())
+    public ExecutionOrderQueue()
+        : this(new Dictionary<WorkItemPriority, Queue<WorkItem>>())
     {
     }
 

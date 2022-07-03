@@ -11,17 +11,17 @@ public static class GraphBuilder
         ArgumentNullException.ThrowIfNull(links);
         ArgumentNullException.ThrowIfNull(resolver);
 
-        HashSet<Guid> targetNodes = links
+        var targetNodes = links
             .Select(l => l.To)
             .ToHashSet();
 
-        List<Guid> rootNodes = nodes
+        var rootNodes = nodes
             .Where(l => !targetNodes.Contains(l))
             .ToList();
 
         ILookup<Guid, Guid> nodeLinks = links.ToLookup(l => l.From, l => l.To);
 
-        List<GraphNode<T>> result = new List<GraphNode<T>>();
+        var result = new List<GraphNode<T>>();
 
         foreach (Guid rootNode in rootNodes)
             result.Add(BuildNode(rootNode, nodeLinks, resolver));
@@ -36,6 +36,7 @@ public static class GraphBuilder
             : Array.Empty<GraphNode<T>>();
         return new GraphNode<T>(id, resolver.Resolve(id), children);
     }
+
     private static IReadOnlyCollection<GraphNode<T>> BuildChildren<T>(
         IEnumerable<Guid> identifiers,
         ILookup<Guid, Guid> nodeLinks,

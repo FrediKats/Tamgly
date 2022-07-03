@@ -8,8 +8,8 @@ public readonly struct TamglyMonth : IEquatable<TamglyMonth>, ITimeInterval
 
     public TamglyMonth(DateOnly date)
     {
-        var monthNumber = 1;
-        var currentTime = TamglyTime.ZeroMonth;
+        int monthNumber = 1;
+        DateOnly currentTime = TamglyTime.ZeroMonth;
 
         while (currentTime.AddMonths(1) < date)
         {

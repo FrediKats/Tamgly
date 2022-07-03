@@ -8,7 +8,6 @@ public class MonthlyWorkItemBacklog
 
     public TimeSpan? MonthEstimatePerDay => CurrentMonth.GetAverageDailyEstimate();
 
-
     public MonthlyWorkItemBacklog(WorkItemBacklog currentMonth)
     {
         ArgumentNullException.ThrowIfNull(currentMonth);

@@ -1,8 +1,8 @@
-﻿using Serilog;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Kysect.Tamgly.Core;
 using NUnit.Framework;
+using Serilog;
 
 namespace Kysect.Tamgly.Tests;
 
@@ -28,7 +28,6 @@ public class ProjectTests
                 .SetDeadline(new WorkItemDeadline(new TamglyDay(_workItemDeadline)))
                 .SetPriority(WorkItemPriority.P3)
                 .Build());
-
     }
 
     [Test]

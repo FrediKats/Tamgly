@@ -2,9 +2,10 @@
 
 public class RepetitiveParentWorkItemBuilder
 {
+    private readonly IRepetitiveInterval _repetitiveInterval;
+
     private Guid _id;
     private string _title;
-    private readonly IRepetitiveInterval _repetitiveInterval;
     private string? _description;
     private DateTime _creationTime;
     private TimeSpan? _estimate;
@@ -34,7 +35,7 @@ public class RepetitiveParentWorkItemBuilder
         _estimate = estimates;
         return this;
     }
-    
+
     public RepetitiveParentWorkItemBuilder SetAssigning(Person person)
     {
         _assignedTo = person;

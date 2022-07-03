@@ -25,7 +25,7 @@ public class ProofOfConcept
 
         while (true)
         {
-            string? readLine = Console.ReadLine() ?? throw new ArgumentException();
+            string readLine = Console.ReadLine() ?? throw new ArgumentException();
             app.Run(readLine.Split());
         }
     }
