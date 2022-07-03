@@ -17,7 +17,7 @@ public class GraphBuildResultPrinter
 
     public void GenerateTreeInternal(GraphNode<WorkItem> graphNode, int level, StringBuilder stringBuilder)
     {
-        var space = StringExtensions.FromChar('\t', level);
+        string space = StringExtensions.FromChar('\t', level);
         stringBuilder.Append(space).Append(graphNode.Value.ToShortString()).AppendLine();
         foreach (GraphNode<WorkItem> child in graphNode.DirectChildren)
         {

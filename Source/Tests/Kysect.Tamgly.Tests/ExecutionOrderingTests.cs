@@ -1,10 +1,10 @@
-﻿using Kysect.Tamgly.Core;
-using NUnit.Framework;
-using Serilog;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Kysect.Tamgly.Core;
+using NUnit.Framework;
 using Kysect.Tamgly.Common;
+using Serilog;
 
 namespace Kysect.Tamgly.Tests;
 
@@ -26,7 +26,7 @@ public class ExecutionOrderingTests
         var executionOrderManager = new ExecutionOrderManager(FromDateTime, SelectedDayOfWeek.All, TimeSpan.FromHours(5));
 
         var workItemManager = new WorkItemManager();
-        var workItemDeadline = FromDateTime;
+        DateOnly workItemDeadline = FromDateTime;
 
         workItemManager.AddWorkItem(
             new WorkItemBuilder("Courses")
@@ -52,7 +52,7 @@ public class ExecutionOrderingTests
         IReadOnlyCollection<WorkItem> workItems = workItemManager.GetAllWorkItems();
 
         ExecutionOrder executionOrder = executionOrderManager.Order(workItems);
-        
+
         Assert.AreEqual(2, executionOrder.Items.Count(eoi => eoi.WorkItems.Any()));
     }
 
@@ -62,7 +62,7 @@ public class ExecutionOrderingTests
         var executionOrderManager = new ExecutionOrderManager(FromDateTime, SelectedDayOfWeek.All, TimeSpan.FromHours(5));
 
         var workItemManager = new WorkItemManager();
-        var workItemDeadline = FromDateTime;
+        DateOnly workItemDeadline = FromDateTime;
 
         workItemManager.AddWorkItem(
             new WorkItemBuilder("Courses")
@@ -104,7 +104,7 @@ public class ExecutionOrderingTests
         var executionOrderManager = new ExecutionOrderManager(FromDateTime, SelectedDayOfWeek.All, TimeSpan.FromHours(5));
 
         var workItemManager = new WorkItemManager();
-        var workItemDeadline = FromDateTime;
+        DateOnly workItemDeadline = FromDateTime;
 
         workItemManager.AddWorkItem(
             new WorkItemBuilder("Courses")
@@ -136,7 +136,7 @@ public class ExecutionOrderingTests
             .Build();
 
         IReadOnlyCollection<ExecutionOrderDiff> diffAfterAddingWorkItem = executionOrderManager.GetDiffAfterAddingWorkItem(workItems, newWorkItem);
-        
+
         Assert.AreEqual(3, diffAfterAddingWorkItem.Count);
     }
 }

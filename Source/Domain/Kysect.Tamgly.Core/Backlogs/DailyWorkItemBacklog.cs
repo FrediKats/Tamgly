@@ -28,9 +28,9 @@ public class DailyWorkItemBacklog
     {
         ArgumentNullException.ThrowIfNull(workItems);
 
-        WorkItemBacklog dailyBacklog = WorkItemBacklog.Create(new WorkItemDeadline(new TamglyDay(time)), workItems);
-        WorkItemBacklog weeklyBacklog = WorkItemBacklog.Create(new WorkItemDeadline(new TamglyWeek(time)), workItems);
-        WorkItemBacklog monthlyBacklog = WorkItemBacklog.Create(new WorkItemDeadline(new TamglyMonth(time)), workItems);
+        var dailyBacklog = WorkItemBacklog.Create(new WorkItemDeadline(new TamglyDay(time)), workItems);
+        var weeklyBacklog = WorkItemBacklog.Create(new WorkItemDeadline(new TamglyWeek(time)), workItems);
+        var monthlyBacklog = WorkItemBacklog.Create(new WorkItemDeadline(new TamglyMonth(time)), workItems);
         return new DailyWorkItemBacklog(dailyBacklog, weeklyBacklog, monthlyBacklog);
     }
 }

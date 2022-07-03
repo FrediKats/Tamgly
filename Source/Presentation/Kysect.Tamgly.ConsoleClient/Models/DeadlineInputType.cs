@@ -6,5 +6,4 @@ public enum DeadlineInputType
     Day = 1,
     Week,
     Month,
-
 }

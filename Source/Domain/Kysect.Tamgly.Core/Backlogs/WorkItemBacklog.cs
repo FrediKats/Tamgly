@@ -8,7 +8,7 @@ public class WorkItemBacklog
     public WorkItemBacklog(WorkItemDeadline deadline, ICollection<WorkItem> items)
     {
         ArgumentNullException.ThrowIfNull(items);
-        
+
         Deadline = deadline;
         Items = items;
 

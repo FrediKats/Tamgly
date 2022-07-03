@@ -10,15 +10,15 @@ public class CreateWorkItemCommand : Command<CreateWorkItemCommand.Settings>
     public class Settings : CommandSettings
     {
         [CommandArgument(0, "[Title]")]
-        public string? Title { get; set; }
+        public string Title { get; set; }
         [CommandArgument(1, "[Description]")]
-        public string? Description { get; set; }
+        public string Description { get; set; }
         [CommandArgument(2, "[Estimate]")]
         public TimeSpan? Estimate { get; set; }
         [CommandArgument(3, "[DeadlineType]")]
         public DeadlineInputType? DeadlineType { get; set; }
         [CommandArgument(4, "[Deadline]")]
-        public DateOnly? Deadline{ get; set; }
+        public DateOnly? Deadline { get; set; }
         [CommandArgument(5, "[Priority]")]
         public WorkItemPriority? Priority { get; set; }
     }
@@ -38,12 +38,15 @@ public class CreateWorkItemCommand : Command<CreateWorkItemCommand.Settings>
         if (settings.DeadlineType is not null
             && settings.DeadlineType != DeadlineInputType.No
             && settings.Deadline is null)
+        {
             return ValidationResult.Error("Deadline is missed.");
+        }
 
         if ((settings.DeadlineType is null || settings.DeadlineType == DeadlineInputType.No)
             && settings.Deadline is not null)
+        {
             return ValidationResult.Error("Deadline type is invalid.");
-
+        }
 
         return base.Validate(context, settings);
     }
@@ -83,7 +86,7 @@ public class CreateWorkItemCommand : Command<CreateWorkItemCommand.Settings>
 
         WorkItem workItem = workItemBuilder.Build();
         _itemManager.AddWorkItem(workItem);
-        
+
         return 0;
     }
 }

@@ -28,7 +28,6 @@ public record ExecutionOrderItem(DateOnly Date, List<WorkItem> WorkItems)
         }
 
         return totalEstimates + workItem.Estimate.Value < timeLimit;
-
     }
 
     public void Add(WorkItem workItem)

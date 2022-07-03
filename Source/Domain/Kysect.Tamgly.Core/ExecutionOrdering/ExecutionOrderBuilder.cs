@@ -5,11 +5,11 @@ namespace Kysect.Tamgly.Core;
 
 public class ExecutionOrderBuilder
 {
-    private DateOnly _currentDay;
-
     private readonly SelectedDayOfWeek _selectedDayOfWeek;
     private readonly TimeSpan _workingHoursPerDay;
     private readonly List<ExecutionOrderItem> _assignedWorkItems;
+
+    private DateOnly _currentDay;
 
     public ExecutionOrderBuilder(DateOnly currentDay, SelectedDayOfWeek selectedDayOfWeek, TimeSpan workingHoursPerDay)
     {

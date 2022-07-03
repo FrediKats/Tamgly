@@ -1,16 +1,5 @@
 ﻿namespace Kysect.Tamgly.Graphs;
 
-public static class GraphValueResolver
-{
-    public static GraphValueResolver<T> Create<T>(IReadOnlyCollection<T> values, Func<T, Guid> selector)
-    {
-        ArgumentNullException.ThrowIfNull(values);
-        ArgumentNullException.ThrowIfNull(selector);
-
-        return new GraphValueResolver<T>(values, selector);
-    }
-}
-
 public class GraphValueResolver<T> : IGraphValueResolver<T>
 {
     private readonly Dictionary<Guid, T> _map;
@@ -25,7 +14,7 @@ public class GraphValueResolver<T> : IGraphValueResolver<T>
 
     public T Resolve(Guid id)
     {
-        if (_map.TryGetValue(id, out var result))
+        if (_map.TryGetValue(id, out T? result))
             return result;
 
         throw new ArgumentException($"Graph node with id {id} was not found");

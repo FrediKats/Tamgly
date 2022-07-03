@@ -19,7 +19,7 @@ public class ExecutionOrderManager : IExecutionOrderManager
     public ExecutionOrder Order(IReadOnlyCollection<WorkItem> workItems)
     {
         workItems = workItems.Where(wi => wi.State == WorkItemState.Open).ToList();
-       
+
         var currentDay = new TamglyDay(DateOnlyExtensions.Min(workItems.GetEarliestEnd(), _currentDay));
         var lastDay = new TamglyDay(DateOnlyExtensions.Max(workItems.GetEarliestEnd(), _currentDay));
 
@@ -52,7 +52,8 @@ public class ExecutionOrderManager : IExecutionOrderManager
             }
 
             currentDay = currentDay.AddDays();
-        } while (currentDay.Value <= lastDay.Value || outdatedQueue.Any());
+        }
+        while (currentDay.Value <= lastDay.Value || outdatedQueue.Any());
 
         return executionOrderBuilder.Build();
     }
@@ -78,7 +79,7 @@ public class ExecutionOrderManager : IExecutionOrderManager
 
             if (workItem.Priority is null)
                 continue;
-            
+
             if (workItem.Priority.Value != priority)
                 continue;
 
@@ -124,7 +125,8 @@ public class ExecutionOrderManager : IExecutionOrderManager
             if (workItem != executionOrderQueue.Dequeue(priority))
                 throw new TamglyException($"ExecutionOrderQueue return unexpected WI");
             assignments.Add(workItem);
-        } while (true);
+        }
+        while (true);
     }
 
     private IReadOnlyCollection<ExecutionOrderDiff> GetDiff(ExecutionOrder before, ExecutionOrder after)
@@ -136,12 +138,11 @@ public class ExecutionOrderManager : IExecutionOrderManager
             .ForEach(i => i.WorkItems
                 .ForEach(wi => mapToExecutionDate[wi.Id] = i.Date));
 
-
         after.Items
             .ForEach(i => i.WorkItems
                 .ForEach(wi =>
                 {
-                    if (mapToExecutionDate.TryGetValue(wi.Id, out var dateBefore))
+                    if (mapToExecutionDate.TryGetValue(wi.Id, out DateOnly dateBefore))
                     {
                         if (i.Date != dateBefore)
                             result.Add(new ExecutionOrderDiff(wi, dateBefore, i.Date));
