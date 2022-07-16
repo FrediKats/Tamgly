@@ -50,7 +50,6 @@ public record WorkItem(
                 continue;
 
             result = result.Add(duration.Value);
-
         }
 
         return result;

@@ -9,7 +9,7 @@ namespace Kysect.Tamgly.Tests;
 public class WorkItemBacklogTests
 {
     private static readonly DateOnly FromDateTime = DateOnly.FromDateTime(new DateTime(2022, 04, 08));
-    
+
     private readonly WorkItemManager _workItemManager;
     private readonly BacklogManager _backlogManager;
     private readonly DateOnly _workItemDeadline;
@@ -112,7 +112,7 @@ public class WorkItemBacklogTests
 
         Assert.AreEqual(allWorkItemsCount, myWorkItemsCount);
 
-        Person myNewJunior = new Person(Guid.NewGuid(), "Mr. Junior");
+        var myNewJunior = new Person(Guid.NewGuid(), "Mr. Junior");
         _workItemManager.AddWorkItem(
             new WorkItemBuilder("Courses")
                 .SetDeadline(new WorkItemDeadline(new TamglyDay(_workItemDeadline)))
@@ -139,7 +139,7 @@ public class WorkItemBacklogTests
     public void AddBlockLink_AffectBacklogListOrder()
     {
         DailyWorkItemBacklog workItemBacklog = _backlogManager.GetDailyBacklog(_workItemDeadline);
-        
+
         WorkItem first = workItemBacklog.CurrentDay.Items.ElementAt(0);
         WorkItem second = workItemBacklog.CurrentDay.Items.ElementAt(1);
         Assert.Greater(first.Priority, second.Priority);

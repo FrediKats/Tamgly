@@ -9,7 +9,8 @@ public class WorkItemManager : IWorkItemManager
     private readonly WorkItemManagerConfig _config;
     private readonly ICollection<Project> _projects;
 
-    public WorkItemManager() : this(new WorkItemManagerConfig(), new List<Project>())
+    public WorkItemManager()
+        : this(new WorkItemManagerConfig(), new List<Project>())
     {
     }
 
@@ -83,7 +84,7 @@ public class WorkItemManager : IWorkItemManager
 
         if (!_projects.Remove(project))
             throw new TamglyException($"Project was not found. Id: {project.Id}");
-        
+
         foreach (WorkItem projectItem in project.Items)
             _defaultProject.AddItem(projectItem);
 
@@ -142,7 +143,7 @@ public class WorkItemManager : IWorkItemManager
         return FindProject(workItem) ?? throw new TamglyException($"Work item was not matched with any project. Id: {workItem.Id}");
     }
 
-    //TODO: WI32 for future optimizations
+    // TODO: WI32 for future optimizations
     private Project? FindProject(WorkItem workItem)
     {
         return _projects.SingleOrDefault(p => p.Items.Contains(workItem));

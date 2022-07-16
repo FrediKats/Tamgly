@@ -16,7 +16,7 @@ public class BacklogManager
     public DailyWorkItemBacklog GetDailyBacklog(DateOnly time)
     {
         IReadOnlyCollection<WorkItem> workItems = _itemManager.GetSelfWorkItems();
-        
+
         Log.Debug($"Create daily backlog for {time}. Work items count: {workItems.Count}");
 
         return DailyWorkItemBacklog.Create(workItems, time);

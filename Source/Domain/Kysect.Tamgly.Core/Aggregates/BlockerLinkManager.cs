@@ -44,7 +44,7 @@ public class BlockerLinkManager
 
     public WorkItem GetWithTotalPriority(WorkItem workItem)
     {
-        return workItem with {Priority = CalculateTotalPriority(workItem)};
+        return workItem with { Priority = CalculateTotalPriority(workItem) };
     }
 
     public WorkItemPriority? CalculateTotalPriority(WorkItem workItem)

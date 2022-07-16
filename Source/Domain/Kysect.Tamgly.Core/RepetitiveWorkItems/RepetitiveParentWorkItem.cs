@@ -12,7 +12,6 @@ public class RepetitiveParentWorkItem
     public Person AssignedTo { get; }
     public WorkItemPriority? Priority { get; }
 
-
     public RepetitiveParentWorkItem(Guid id, string title, string? description, DateTime creationTime, TimeSpan? estimate, IRepetitiveInterval repetitiveInterval, Person assignedTo, WorkItemPriority? priority)
     {
         Id = id;

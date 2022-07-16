@@ -29,7 +29,7 @@ public class WorkItemBuilder
         _priority = null;
     }
 
-    public WorkItemBuilder SetDescription(string description)
+    public WorkItemBuilder SetDescription(string? description)
     {
         _description = description;
         return this;
@@ -41,7 +41,7 @@ public class WorkItemBuilder
         return this;
     }
 
-    public WorkItemBuilder SetEstimates(TimeSpan estimates)
+    public WorkItemBuilder SetEstimates(TimeSpan? estimates)
     {
         _estimate = estimates;
         return this;
