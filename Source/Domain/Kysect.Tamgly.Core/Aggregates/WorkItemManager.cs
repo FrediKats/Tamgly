@@ -124,13 +124,13 @@ public class WorkItemManager : IWorkItemManager
             .ToList();
     }
 
-    public IReadOnlyCollection<WorkItem> GetWorkItemsWithWrongEstimates()
+    public IReadOnlyCollection<WorkItem> GetMisestimatedWorkItems()
     {
         return GetSelfWorkItems()
-            .Where(HasWrongEstimate)
+            .Where(IsMisestimated)
             .ToList();
 
-        bool HasWrongEstimate(WorkItem workItem)
+        bool IsMisestimated(WorkItem workItem)
         {
             double? matchPercent = workItem.TryGetEstimateMatchPercent();
             return matchPercent is not null
