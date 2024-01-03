@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="6.12.0" />
+    <PackageReference Include="Kysect.CommonLib.DependencyInjection" Version="0.1.17" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="NUnit" Version="4.0.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
+    <PackageReference Include="coverlet.collector" Version="6.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Application\Tamgly.Application\Tamgly.Application.csproj" />
+    <ProjectReference Include="..\..\Application\Tamgly.DataAccess\Tamgly.DataAccess.csproj" />
+    <ProjectReference Include="..\..\Application\Tamgly.Mapping\Tamgly.Mapping.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Tamgly.DataAccess.EntityFrameworkAdapter\Tamgly.DataAccess.EntityFrameworkAdapter.csproj" />
+  </ItemGroup>
+
+</Project>

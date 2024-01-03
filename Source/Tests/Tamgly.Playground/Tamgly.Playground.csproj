@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    
+    
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Kysect.CommonLib.DependencyInjection" Version="0.1.17" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\Tamgly.DataAccess.EntityFrameworkAdapter\Tamgly.DataAccess.EntityFrameworkAdapter.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Tamgly.Integration.ExcelAdapter\Tamgly.Integration.ExcelAdapter.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Tamgly.Integration.MicrosoftGraphAdapter\Tamgly.Integration.MicrosoftGraphAdapter.csproj" />
+  </ItemGroup>
+
+</Project>

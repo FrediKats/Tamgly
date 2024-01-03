@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    
+    
+	  <AnalysisLevel>latest</AnalysisLevel>
+	  <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Identity" Version="1.10.3" />
+    <PackageReference Include="Microsoft.Graph" Version="5.35.0" />
+    <PackageReference Include="Microsoft.Identity.Client.Broker" Version="4.55.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Application\Tamgly.Mapping\Tamgly.Mapping.csproj" />
+    <ProjectReference Include="..\..\Application\Tamgly.WorkItemStorage.Abstractions\Tamgly.WorkItemStorage.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

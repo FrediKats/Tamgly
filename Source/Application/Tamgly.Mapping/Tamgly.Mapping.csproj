@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    
+    
+	  <AnalysisLevel>latest</AnalysisLevel>
+	  <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tamgly.Core\Tamgly.Core.csproj" />
+    <ProjectReference Include="..\Tamgly.DataAccess\Tamgly.DataAccess.csproj" />
+  </ItemGroup>
+
+</Project>
